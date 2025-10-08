@@ -1,0 +1,56 @@
+Část I: povinné,,
+,,
+Skupina,Co,Vysvětlení
+Registrační formulář,Kontrola dat na straně serveru,Všechny formulářové položky musí být kontrolovány v PHP; klientskou validaci lze obejít.
+,Kontrola dat na straně klienta,Všechny formulářové položky musí být kontrolovány pomocí HTML nebo JS
+,Povinné položky jsou jasně označeny,
+,Nesprávně vyplněná pole jsou označena a vysvětlena,
+,Po nesprávném odeslání je vrácen k opravě předvyplněn,"Všechny formulářové položky (s výjimkou hesel a souborů) jsou předvyplněny zadaným (správným či chybným) obsahem, nesprávně vyplněný obsah je jasně označen, chyba je vysvětlena."
+,Nahrání obrázku,
+,Ve formuláři existuje nejméně jedna závislost mezi vstupními poli. Tato závislost je kontrolována pomocí JavaScriptu.,"V tomto případě nepostačuje triviální ošetření validity jen samotného vstupního pole samostatně. Je třeba kontrolovat hodnoty napříč více poli. Napřílad se zkontroluje, že je heslo ve dvou polích zadáno stejně."
+,,
+,,
+Klientské technologie,100% validní HTML,"Dle validátoru na https://validator.w3.org/. Pozor, validovat je nutné všechny stránky -  i stránky přístupné jen přihlášeným (pomocí Validate by Direct Input). Validovat je nutné i chybové stránky (například při ošetřování chyb by stránka měla být také validní.)"
+,Všechna formulářová pole mají spárovaný <label>,
+,Styly jsou vyčleněny do samostatných souboru (souborů),Žádný HTML atribut style
+,Skripty jsou vyčleněny do souboru (souborů),"Žádné HTML atributy onclick, onsubmit a podobně. Definice funkcí a tříd v odděleném souboru, ve stránce maximálně jejich volání."
+,Smysluplné styly pro tisk,"Použití @media print nebo media=""print"". Styly pro tisk musí být smysluplné a modifikovat stránku pro přizpůsobení k tisku."
+,Ajax,"Použití fetch nebo XMLHttpRequest pro přenos dat na pozadí. Tato data nejsou statická, ale generovaná serverovou stranou."
+,,
+,,
+Serverové technologie,Server-side stránkování,Výpis položek je členěn na menší stránky; na jeho začátku či konci je výčet stránek s možností přejít na další/předchozí a také na n-tou stránku.
+,Existuje výpis uživatelem vložených dat,
+,Existuje možnost editace uživatelem vložených dat,Po přihlášení smí uživatel upravovat jím vložená data
+,"Data na serveru jsou do úložiště (souboru, databáze) vložena tak, jak opravdu napsal uživatel.","Pokud uživatel do formuláře napsal text <ahoj>, bude v souboru uloženo <ahoj> a ne, jak se často stává &lt;ahoj&gt;"
+,"Práce obsahuje alespoň uživatelské role v rozsahu: nepřihlášený uživatel, přihlášený uživatel a administrátor","V práci musí být jednotlivé možnosti odstupňovány podle uživatelských rolí. Například: nepřihlášení uživatelé - mohou obsah prohlížet, přihlášení uživatelé mohou přistpívat např komentáře a editovat svoje vlastní komentáře. Administrátor - spravuje veškerý obsah včetně komentářů ostatních, spravuje účty uživatelů, resetuje hesla atp. Pozor: nezbytný bod práce je také možnost povýšení jiného uživatele do role administrátora v uživatelském rozhraní - například ve správě uživatelů."
+,,
+Dokumentace,Automaticky generovaná dokumentace,"Ve zdrojovém kódu PHP jsou dokumentační komentáře, na jejich základě existuje dokumentace vygenerovaná nástrojem PHPDoc, Doxygen, PHPDocumentor.... V této dokumentaci jsou programátorem vysvětleny významy tříd, metod, funkcí, proměnných. Nejde tedy jen o dokumentaci samotnou, ale o její skutečně smysluplné použití."
+,Zadání úlohy,
+,Produktová dokumentace,"Určená pro čtení zadavatelem, obsahuje návod, ukázky UI a podobně"
+,Programátorská dokumentace,"Určená pro čtení programátorem, obsahuje popisy algoritmů, strukturu zdrojového kódu a podobně"
+,,
+,,
+Obecné principy,Datumy jsou v lidsky čitelné podobě. ,"Například stránky v češtině ukazují datum ve formátu den.měsíc.rok, v angličtině měsic.den.rok nebo měsíc/den/rok."
+,Obsah je rozumně seřazen. ,"Pokud máme seznam položek, jsou tyto seřazeny podle lidských kriterií. Například abecedně. Řazení podle toho, jak to odpovídá uložení na serverovém úložišti je nepřípustné, protože to pro uživatele obvykle nedává smysl."
+,,
+,,
+Část II: zakázané,,
+,,
+,Co,Vysvětlení - nápověda jak to dělat
+,Hesla nesmí být uložena v plaintextu,Použití password_hash nebo ekvivalentu
+,Aplikace nesmí obsahovat zranitelnosti XSS,Použití htmlspecialchars nebo ekvivalentu při každém výpisu uživatelských dat
+,Při použití databáze nesmí aplikace obsahovat zranitelnosti SQL Injection,"Použití prepared statements, mysql_real_escape_string nebo ekvivalentu při tvorbě SQL dotazů"
+,Stránkování nesmí být realizováno jen v JavaScriptu,Ze serveru smí na klienta dorazit maximálně jedna stránka výpisu
+,Kód nesmí být duplicitní,"Více podobných stránek je realizováno jedním PHP souborem
+(nikoliv: article-1.php, article-2.php, article-3.php NEBO vypis-page-1.php, vypis-page-2.php, ...)"
+,Reloadem stránky po odeslání formuláře nesmí dojít k opakovanému vložení dat,Použití mechanismu POST-Redirect-GET a ještě lépe v kombinaci s jednorázovým tokenem.
+,Zákaz použití knihoven a frameworků třetích stran,"Jak na klientské, tak na serverové straně. Např. jQuery, Bootstrap, Nette a podobně. Předmět je o základech a chceme, abyste se naučili skutečné principy fungování webu, ne nějakou abstrakci z frameworku."
+,"Obrázky, stejně jako případné další velké soubory, nejsou uloženy v databázi",Velké binární soubory se ukládají rovnou do souborového systému
+,"Práce by neměla při odevzdávání obsahovat velké množství nepoužívaného kódu - například komentované úseky, funkce kódu atp.","V práci by mělo být minimum nadbytečného kódu, který není nezbytný pro samotné fungování práce."
+,,
+Část III: další,,
+,,
+,Za semestrálku,22 bodů
+,Za odevzdání ve zkouškovém období,-3 body
+,Za každé vrácení (nesplnění požadavků),-3 bodů
+,Minimum,12 bodů
