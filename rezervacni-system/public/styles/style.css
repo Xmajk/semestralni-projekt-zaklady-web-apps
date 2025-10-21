@@ -1,0 +1,144 @@
+/*kacubo styles*/
+@import "https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css";
+@import "https://www.kacubo.cz/banik/css.css";
+@import "https://www.kacubo.cz/css/style.css";
+@import "https://www.kacubo.cz/banik/animate.css";
+
+@import "https://fonts.googleapis.com/css?family=Lato";
+@import "https://fonts.googleapis.com/css?family=Montserrat";
+
+/*variables*/
+:root{
+    --primary-kacubo: #a20d0d;
+    --primary-kacubo-focus: #a20d0d;
+    --primary-kacubo-hover: #a20d0d;
+
+    --primary-background-color: ;
+
+
+
+}
+
+/*template*/
+body {
+    width: 100%;
+    height: 100%;
+    font-family: Arial, sans-serif;
+    background-color:#f7f7f7;
+    color:#333;
+    line-height:1.5;
+}
+
+/*LOGIN*/
+login-bg-imagage1{
+
+}
+
+#login-body{
+    width: 100%;
+    height: 100%;
+    /*KACUBO background image*/
+    background: url('https://www.kacubo.cz/header/143.jpg') center/cover no-repeat;
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-attachment: fixed;
+
+    .login-page {
+        display:flex;
+        justify-content:center;
+        align-items:center;
+        padding:40px 20px;
+        min-height:calc(100vh - 120px);
+        width: 100%;
+        /*background:url('https://www.kacubo.cz/header/143.jpg') center/cover no-repeat; /* můžeš dát vlastní */
+    }
+
+    .login-page > .login-container {
+        padding:30px 40px;
+        border-radius:8px;
+        width: 100%;
+        display: flex;
+        justify-content: center;
+
+        h2{
+            margin-bottom:20px;
+            color:var(--primary-kacubo);
+            text-align:center;
+        }
+
+        label{
+            display:block;
+            margin-bottom:5px;
+            font-weight:bold;
+        }
+
+        input{
+            width:100%;
+            padding:10px;
+            margin-bottom:15px;
+            border:1px solid #ccc;
+            border-radius:4px;
+        }
+
+        input:focus{
+            border-color:var(--primary-kacubo-focus);
+            outline:none;
+        }
+
+        button{
+            width:100%;
+            padding:12px;
+            background-color:var(--primary-kacubo);
+            color:white;
+            border:none;
+            border-radius:4px;
+            font-size:1rem;
+            cursor:pointer;
+        }
+    }
+
+    .login-page > .login-container > #login-form{
+        background-color:rgba(255,255,255,0.95);
+        padding:30px 40px;
+        border-radius:8px;
+        box-shadow:0 4px 12px rgba(0,0,0,0.1);
+        width:100%;
+        max-width: 600px;
+
+        * > .chckbox-wrapper{
+            display: flex;
+            flex-direction: row;
+
+            input[type="checkbox"]{
+                cursor: pointer;
+                flex: 1;
+                align-items: flex-start;
+            }
+
+            label{
+                flex: 9;
+                align-items: center;
+            }
+        }
+    }
+
+    .login-container button:hover {background-color:#800000;}
+    .login-footer-text {
+        margin-top:15px;
+        text-align:center;
+        font-size:0.9rem;
+    }
+    .login-footer-text a {
+        color:#a20d0d;
+        text-decoration:none;
+    }
+    .login-footer-text a:hover{text-decoration:underline;}
+    .error {
+        color:red;
+        margin-bottom:10px;
+        text-align:center;
+    }
+}
+
+/*Index*/

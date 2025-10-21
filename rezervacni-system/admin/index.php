@@ -1,1 +1,4 @@
-echo "admin"
+<?php
+$error = ""
+
+?>

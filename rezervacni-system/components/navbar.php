@@ -1,7 +1,9 @@
 <?php
 
+$isLogged = false;
+$isAdmin = false;
 
-if (isset($_COOKIE['islogged'])) {
+if (false & isset($_COOKIE['islogged'])) {
   // hodnota z cookie je řetězec, takže ji převeď na boolean
   $isLogged = filter_var($_COOKIE['islogged'], FILTER_VALIDATE_BOOLEAN);
 
@@ -14,13 +16,6 @@ if (isset($_COOKIE['islogged'])) {
 }
 
 ?>
-
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-<link rel="stylesheet" href="https://www.kacubo.cz/banik/css.css">
-<link rel="stylesheet" href="https://www.kacubo.cz/css/style.css">
-<link rel="stylesheet" href="https://www.kacubo.cz/banik/animate.css">
-<link href="https://fonts.googleapis.com/css?family=Lato" rel="stylesheet" type="text/css">
-<link href="https://fonts.googleapis.com/css?family=Montserrat" rel="stylesheet" type="text/css">
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 
