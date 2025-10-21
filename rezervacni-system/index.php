@@ -19,8 +19,8 @@ array_push($events, $tmp);
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link href="/rezervacni-system/public/styles/style.css" rel="stylesheet" type="text/css">
-    <link href="/rezervacni-system/public/styles/index.css" rel="stylesheet" type="text/css">
+    <link href="public/styles/style.css" rel="stylesheet" type="text/css">
+    <link href="public/styles/index.css" rel="stylesheet" type="text/css">
     <link rel="icon" type="image/x-icon" href="https://www.kacubo.cz/favicon.ico">
     <title>Rezervace – Kacubó Kenrikai</title>
     <style>
