@@ -1,0 +1,110 @@
+:root{
+    --tbl-bg: #ffffff;
+    --tbl-text: #1f2937;
+    --tbl-muted: #6b7280;
+    --tbl-border: #e5e7eb;
+    --tbl-accent: #3b82f6;
+    --tbl-row: #f9fafb;
+    --tbl-hover: #f3f4f6;
+    --tbl-shadow: 0 1px 2px rgba(0,0,0,.06), 0 4px 12px rgba(0,0,0,.04);
+}
+
+@media (prefers-color-scheme: dark){
+    :root{
+        --tbl-bg: #0b0f14;
+        --tbl-text: #e5e7eb;
+        --tbl-muted: #9ca3af;
+        --tbl-border: #1f2937;
+        --tbl-accent: #60a5fa;
+        --tbl-row: #0f141b;
+        --tbl-hover: #121923;
+        --tbl-shadow: 0 1px 2px rgba(0,0,0,.5), 0 6px 18px rgba(0,0,0,.35);
+    }
+}
+
+/* wrapper pro horizontální scroll na malých displejích */
+.table-wrap{
+    background: var(--tbl-bg);
+    border: 1px solid var(--tbl-border);
+    border-radius: 14px;
+    box-shadow: var(--tbl-shadow);
+    overflow: auto;
+    -webkit-overflow-scrolling: touch;
+}
+
+/* hustota: compact | comfy (default comfy) */
+.table-wrap[data-density="compact"] table{ --row-h: 36px; --cell-px: 12px; --cell-py: 8px; }
+.table-wrap:not([data-density]),
+.table-wrap[data-density="comfy"] table{ --row-h: 44px; --cell-px: 16px; --cell-py: 12px; }
+
+/* základní tabulka */
+.table{
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 0;
+    min-width: 640px;
+    color: var(--tbl-text);
+    background: var(--tbl-bg);
+    font: 500 14px/1.45 ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, Inter, "Helvetica Neue", Arial, "Noto Sans", "Apple Color Emoji", "Segoe UI Emoji";
+}
+
+/* hlavička */
+.table thead th{
+    position: sticky; top: 0; z-index: 1;
+    background: linear-gradient(0deg, var(--tbl-bg), var(--tbl-bg)) padding-box,
+    linear-gradient(180deg, transparent, rgba(0,0,0,.04)) border-box;
+    color: var(--tbl-muted);
+    text-align: left;
+    font-weight: 700;
+    letter-spacing: .01em;
+    padding: var(--cell-py) var(--cell-px);
+    border-bottom: 1px solid var(--tbl-border);
+    white-space: nowrap;
+}
+
+/* první a poslední buňka – zaoblení rohů */
+.table thead th:first-child{ border-top-left-radius: 12px; }
+.table thead th:last-child{  border-top-right-radius: 12px; }
+
+/* tělo tabulky */
+.table tbody tr{
+    background: var(--tbl-bg);
+    transition: background-color .18s ease, box-shadow .18s ease;
+}
+.table tbody tr:nth-child(even){ background: var(--tbl-row); }
+.table tbody tr:hover{
+    background: var(--tbl-hover);
+}
+
+/* buňky */
+.table td{
+    padding: var(--cell-py) var(--cell-px);
+    border-bottom: 1px solid var(--tbl-border);
+    vertical-align: middle;
+    height: var(--row-h);
+}
+
+/* utility */
+.table .num{ text-align: right; font-variant-numeric: tabular-nums; }
+.table .muted{ color: var(--tbl-muted); }
+.table .nowrap{ white-space: nowrap; }
+.table .clip{
+    max-width: 28ch; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+}
+
+/* interaktivní hlavičky pro řazení (jen vzhled) */
+.table th.sortable{
+    cursor: pointer; user-select: none;
+}
+.table th.sortable:after{
+    content: "↕"; margin-left: .5rem; font-weight: 400; color: var(--tbl-muted);
+}
+.table th.sortable[aria-sort="ascending"]:after{ content: "↑"; color: var(--tbl-accent); }
+.table th.sortable[aria-sort="descending"]:after{ content: "↓"; color: var(--tbl-accent); }
+
+/* status badge (volitelné) */
+.badge{
+    display:inline-block; padding: .25rem .5rem; border:1px solid var(--tbl-border);
+    border-radius:9999px; font-size:12px; line-height:1; color:var(--tbl-text); background:var(--tbl-row);
+}
+.badge--ok{ border-color: color-mix(in oklab, var(--tbl-accent) 50%, var(--tbl-border)); }
