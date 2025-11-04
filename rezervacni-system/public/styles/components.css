@@ -8,3 +8,49 @@
     pointer-events: stroke;
     justify-content: center;
 }
+
+/*expand form*/
+.expand-btn {
+    background-color: var(--primary-kacubo);
+    color: white;
+    border: none;
+    padding: 10px 16px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 15px;
+    margin-bottom: 10px;
+    transition: background-color 0.2s;
+}
+.expand-btn:hover {
+    background-color: var(--primary-kacubo-hover);
+}
+
+/* Skrytý formulář */
+#add-user-form {
+    display: none;
+    background: #f9f9f9;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    padding: 15px;
+    margin-bottom: 20px;
+}
+
+#add-user-form input {
+    display: block;
+    margin-bottom: 10px;
+    padding: 6px 8px;
+    width: 100%;
+    max-width: 300px;
+}
+
+#add-user-form button[type="submit"] {
+    background-color: #007b55;
+    color: white;
+    border: none;
+    padding: 8px 14px;
+    border-radius: 6px;
+    cursor: pointer;
+}
+#add-user-form button[type="submit"]:hover {
+    background-color: #006347;
+}

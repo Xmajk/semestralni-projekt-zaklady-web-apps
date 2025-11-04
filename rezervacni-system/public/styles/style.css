@@ -12,7 +12,7 @@
 :root{
     --primary-kacubo: #a20d0d;
     --primary-kacubo-focus: #a20d0d;
-    --primary-kacubo-hover: #a20d0d;
+    --primary-kacubo-hover: #8c0b0b;
 
     --primary-background-color: #f7f7f7;
 
@@ -284,6 +284,56 @@ login-bg-imagage1{
             margin-bottom: 10px;
             width: 100%;
             font-size: large;
+        }
+    }
+}
+
+/*Admin - users*/
+#admin-users-body > #page-content{
+    padding: 60px 10px 0 10px ;
+    .expand-btn{
+        width: 100%;
+    }
+
+    #add-user-form{
+        .form-wrapper{
+            width: 100%;
+        }
+
+        #names-wrapper{
+            display: flex;
+            flex-direction: row;
+            flex-wrap: wrap;
+            gap: 10px;
+
+            div{
+                flex: 40%;
+                min-width: 400px;
+            }
+
+            @media (min-width: 600px) {
+                div{
+
+                }
+            }
+        }
+
+        * > input{
+          width: 100%;
+            max-width: none;
+        }
+
+        button{
+            width: 100%;
+        }
+    }
+
+    .table-wrap{
+        overflow-x: scroll;
+
+        thead{
+            position: sticky;
+            top: 0px;
         }
     }
 }

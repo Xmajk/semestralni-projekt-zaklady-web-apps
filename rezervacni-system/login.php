@@ -97,10 +97,6 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
             <input type="checkbox">
             <label>zobrazit heslo</label>
         </div>
-          <div class="chckbox-wrapper">
-              <input type="checkbox">
-              <label>pamatovat si mě</label>
-          </div>
       </div>
       <button type="submit">Přihlásit se</button>
     </form>
