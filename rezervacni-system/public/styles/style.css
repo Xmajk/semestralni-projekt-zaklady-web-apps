@@ -6,6 +6,7 @@
 
 @import "https://fonts.googleapis.com/css?family=Lato";
 @import "https://fonts.googleapis.com/css?family=Montserrat";
+@import "./components.css";
 
 /*variables*/
 :root{
@@ -261,3 +262,28 @@ login-bg-imagage1{
 }
 
 /*Admin - page*/
+
+/*Admin - index*/
+#admin-index-body > #page-content {
+    background-color: var(--primary-background-color);
+    height: 100vh;
+    width: 100vw;
+    padding: 50px 33% 0 33%;
+    #links-div{
+        padding: 20px;
+        background: var(--primary-background-color);
+        height: 100%;
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+
+        .button-link{
+            display: flex;
+            justify-content: center;
+            margin-bottom: 10px;
+            width: 100%;
+            font-size: large;
+        }
+    }
+}

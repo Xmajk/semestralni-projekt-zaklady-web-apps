@@ -1,6 +1,11 @@
 <?php
-require_once __DIR__ . "/components/objects/Event.php";
 use components\objects\Event;
+
+require_once __DIR__ . "/components/objects/Event.php";
+require_once __DIR__ . "/components/check_auth.php";
+
+check_auth_user();
+
 $events_per_page = 10;
 
 $error = "";

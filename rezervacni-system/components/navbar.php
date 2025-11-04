@@ -1,15 +1,22 @@
 <?php
 
+/*filter_var převádí string boolean na boolean datový typ z cookies
+ *
+ * zkontorluje se jestli je uživatel přihlášen a není na login.php, jinak se mu nezobrazí navbar skupina s aplikací
+ * */
+
+require_once __DIR__."/utils/links.php";
+
 $isLogged = false;
 $isAdmin = false;
 
 if (isset($_COOKIE['is_logged'])) {
-  // hodnota z cookie je řetězec, takže ji převeď na boolean
   $isLogged = filter_var($_COOKIE['is_logged'], FILTER_VALIDATE_BOOLEAN);
+
+  $isLogged = $isLogged && !str_ends_with($_SERVER["REQUEST_URI"],"login.php");
 
   if ($isLogged) {
     if (isset($_COOKIE['is_admin'])) {
-      // hodnota z cookie je řetězec, takže ji převeď na boolean
       $isAdmin = filter_var($_COOKIE['is_admin'], FILTER_VALIDATE_BOOLEAN);
     }
   } 
@@ -61,11 +68,11 @@ if (isset($_COOKIE['is_logged'])) {
               <li class="dropdown"> <a class="dropdown-toggle" data-toggle="dropdown" href="#" aria-expanded="false">Události<span class="caret"></span></a>
                 <ul class="dropdown-menu">
                   <?php if ($isAdmin): ?>
-                    <li><a href="historiekacubo.htm">Admin</a></li>
+                    <li><a href="<?= createLink("/admin/index.php")?>">Admin</a></li>
                   <?php endif; ?>
                   <li><a href="zakladniinfo.htm">Účet</a></li>
-                  <li><a href="historiekacubo.htm">Události</a></li>
-                  <li><a id="logoutBtn" class="tw-cursor-pointer">Odhlásit se</a></li>
+                  <li><a href=<?= createLink("/index.php")?>>Události</a></li>
+                  <li><a id="logoutBtn" class="tw-cursor-pointer" href=<?= createLink("/logout.php") ?>>Odhlásit se</a></li>
                 </ul>
               </li>
               
