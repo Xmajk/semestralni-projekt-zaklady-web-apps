@@ -329,11 +329,37 @@ login-bg-imagage1{
     }
 
     .table-wrap{
-        overflow-x: scroll;
+        overflow-x: auto;
 
         thead{
             position: sticky;
             top: 0px;
+        }
+    }
+
+    * > .filter-username{
+        width: 100%;
+    }
+}
+
+#admin-user-body > #page-content {
+    padding: 60px 10px 0 10px;
+
+    .expand-btn {
+        width: 100%;
+    }
+
+    #add-user-form {
+        display: block;
+        margin: 0 33% 0 33%;
+        width: auto;
+
+        input{
+            max-width: none;
+        }
+
+        button{
+            width: 100%;
         }
     }
 }
