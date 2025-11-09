@@ -363,3 +363,101 @@ login-bg-imagage1{
         }
     }
 }
+
+/* Styly pro chybové hlášky */
+.form-input-error {
+    color: #a20d0d; /* Červená barva, ladí s webem */
+    font-size: 0.875rem;
+    display: block;
+    margin-top: 4px;
+}
+
+.form-error-summary {
+    color: #a20d0d;
+    background-color: #fdd;
+    border: 1px solid #a20d0d;
+    padding: 10px 15px;
+    border-radius: 4px;
+    margin-bottom: 15px;
+}
+
+/* Zvýraznění inputu s chybou */
+input.input-error {
+    border-color: #a20d0d;
+    background-color: #fffafa;
+}
+
+input.input-error:focus {
+    border-color: #a20d0d;
+    box-shadow: 0 0 0 2px rgba(162, 13, 13, 0.2);
+    outline: none;
+}
+
+/* Oprava a nastylování pro admin switch s textem ANO/NE */
+.switch {
+    position: relative;
+    display: inline-block;
+    width: 60px; /* Zvětšeno pro text */
+    height: 26px; /* Pevná výška */
+}
+.switch input { display: none; }
+.slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #ccc;
+    transition: .4s;
+}
+.slider:before {
+    position: absolute;
+    content: "";
+    height: 18px; /* Oprava */
+    width: 18px;  /* Oprava */
+    left: 4px;
+    bottom: 4px;
+    background-color: white;
+    transition: .4s;
+}
+input:checked + .slider {
+    background-color: #a20d0d; /* Kacubo barva */
+}
+input:focus + .slider {
+    box-shadow: 0 0 1px #a20d0d;
+}
+input:checked + .slider:before {
+    transform: translateX(34px); /* Posun (60 - 18 - 4 - 4) = 34 */
+}
+/* Rounded sliders */
+.slider.round { border-radius: 26px; }
+.slider.round:before { border-radius: 50%; }
+
+/* Přidání textu "ANO" / "NE" */
+.slider:after {
+    content: 'NE';
+    color: white;
+    display: block;
+    position: absolute;
+    transform: translate(-50%,-50%);
+    top: 50%;
+    left: 70%; /* Pozice textu "NE" */
+    font-size: 10px;
+    font-weight: bold;
+    font-family: Arial, sans-serif;
+}
+input:checked + .slider:after {
+    content: 'ANO';
+    left: 30%; /* Pozice textu "ANO" */
+}
+
+/* Wrapper pro label a switch */
+#isadmin-wrapper {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+#isadmin-wrapper label {
+    margin-bottom: 0; /* Zarovnání labelu */
+}
