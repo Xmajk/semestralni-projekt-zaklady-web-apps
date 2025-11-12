@@ -8,43 +8,81 @@ require_once __DIR__ . "/../components/check_auth.php";
 session_start();
 check_auth_admin();
 
+// Načtení chyb a dat z předchozího POST požadavku a jejich smazání ze session (PRG pattern)
 $errors = $_SESSION['form_errors'] ?? [];
 $formData = $_SESSION['form_data'] ?? [];
 unset($_SESSION['form_errors'], $_SESSION['form_data']);
 
-
 if($_SERVER["REQUEST_METHOD"] == "POST"){
     $formData = [
-            'username' => $_POST["username"] ?? '',
-            'firstname' => $_POST["firstname"] ?? '',
-            'lastname' => $_POST["lastname"] ?? '',
-            'email' => $_POST["email"] ?? '',
-            'bdate' => $_POST["bdate"] ?? '',
+            'username' => trim($_POST["username"] ?? ''),
+            'firstname' => trim($_POST["firstname"] ?? ''),
+            'lastname' => trim($_POST["lastname"] ?? ''),
+            'email' => trim($_POST["email"] ?? ''),
+            'bdate' => trim($_POST["bdate"] ?? ''),
+        // is_admin checkbox je odeslán pouze pokud je zaškrtnut
             'is_admin' => isset($_POST['is_admin']) ? 1 : 0
     ];
 
-    $newUser = new User();
-    $newUser->username   = $formData["username"];
-    $newUser->firstname  = $formData["firstname"];
-    $newUser->lastname   = $formData["lastname"];
-    $newUser->email      = $formData["email"];
-    $newUser->bdate      = $formData["bdate"];
-    $newUser->is_admin   = $formData["is_admin"];
-
-    $valid_user = true;
     $errors = [];
     $password = $_POST["password"] ?? '';
-    if (empty(trim($password))) {
-        $errors['password'] = "Heslo je povinné.";
-    } else if (strlen($password) < 6) {
-        $errors['password'] = "Heslo musí mít alespoň 6 znaků.";
-    }
-    $newUser->password = hashSHA256($password);
+    $MIN_PASSWORD_LENGTH = 8;
+    $MIN_USERNAME_LENGTH = 3;
 
-    if ($valid_user && empty($errors['password'])) {
+    // SERVER-SIDE VALIDACE
+
+    // 1. Uživatelské jméno
+    if (empty($formData['username'])) {
+        $errors['username'] = "Uživatelské jméno je povinné.";
+    } else if (strlen($formData['username']) < $MIN_USERNAME_LENGTH) {
+        $errors['username'] = "Uživatelské jméno musí mít alespoň {$MIN_USERNAME_LENGTH} znaky.";
+    }
+
+    // 2. Jméno
+    if (empty($formData['firstname'])) {
+        $errors['firstname'] = "Jméno je povinné.";
+    }
+
+    // 3. Příjmení
+    if (empty($formData['lastname'])) {
+        $errors['lastname'] = "Příjmení je povinné.";
+    }
+
+    // 4. E-mail
+    if (empty($formData['email'])) {
+        $errors['email'] = "E-mail je povinný.";
+    } else if (!filter_var($formData['email'], FILTER_VALIDATE_EMAIL)) {
+        $errors['email'] = "Zadejte prosím platnou e-mailovou adresu.";
+    }
+    // Dále by bylo dobré zkontrolovat unikátnost e-mailu/uživ. jména v databázi, ale to vyžaduje kód v User.php
+
+    // 5. Datum narození
+    if (empty($formData['bdate'])) {
+        $errors['bdate'] = "Datum narození je povinné.";
+    }
+
+    // 6. Heslo
+    if (empty($password)) {
+        $errors['password'] = "Heslo je povinné.";
+    } else if (strlen($password) < $MIN_PASSWORD_LENGTH) {
+        $errors['password'] = "Heslo musí mít alespoň {$MIN_PASSWORD_LENGTH} znaků.";
+    }
+
+    // Pokud nejsou žádné chyby, ulož uživatele
+    if (empty($errors)) {
+        $newUser = new User();
+        $newUser->username   = $formData["username"];
+        $newUser->firstname  = $formData["firstname"];
+        $newUser->lastname   = $formData["lastname"];
+        $newUser->email      = $formData["email"];
+        $newUser->bdate      = $formData["bdate"];
+        $newUser->is_admin   = $formData["is_admin"];
+        $newUser->password   = hashSHA256($password);
+
         $newUser->insert();
+
     } else {
-        // Chyby, uložit do session pro další požadavek
+        // Chyby, uložit do session pro znovunačtení
         $_SESSION['form_errors'] = $errors;
         $_SESSION['form_data'] = $formData;
     }
@@ -56,12 +94,14 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
 $users = User::getAllOrdered();
 
 ?>
+
 <!DOCTYPE html>
 <html lang="cs">
 <head>
     <?php include __DIR__ . "/../components/head.php" ?>
     <link rel="stylesheet" href="/rezervacni-system/public/styles/forms.css">
     <link rel="stylesheet" href="/rezervacni-system/public/styles/toogleswitch.css">
+    <script src="<?= createScriptLink("/validation/users.js") ?>"></script>
 </head>
 <body id="admin-users-body">
 <header>
@@ -71,81 +111,81 @@ $users = User::getAllOrdered();
 
     <button class="expand-btn" onclick="toggleForm()">Přidat uživatele</button>
 
-    <form id="add-user-form" autocomplete="off" method="post" action="" style="<?php echo !empty($errors) ? 'display:block;' : ''; ?>">
-
-        <?php if (!empty($errors)): ?>
-            <div class="form-error-summary">Prosím opravte chyby ve formuláři.</div>
-        <?php endif; ?>
+    <form id="add-user-form" autocomplete="off" method="post" action="">
+        <span id="form-error" class="error">
+            <?php
+            // Zobrazení obecné chyby, pokud je k dispozici (např. v budoucnu: chyba DB)
+            if (isset($errors['general'])):
+                echo htmlspecialchars($errors['general']);
+            endif;
+            ?>
+        </span>
 
         <div id="username-wrapper" class="form-wrapper">
             <label for="form-username">Uživatelské jméno</label>
-            <input id="form-username" type="text" name="username" placeholder="Uživatelské jméno" required autocomplete="off"
-                   value="<?= htmlspecialchars($formData['username'] ?? '') ?>"
-                   class="<?= isset($errors['username']) ? 'input-error' : '' ?>">
-            <?php if (isset($errors['username'])): ?>
-                <span class="form-input-error"><?= htmlspecialchars($errors['username']) ?></span>
-            <?php endif; ?>
+            <input id="form-username" type="text" name="username" placeholder="Uživatelské jméno" required autocomplete="off" aria-describedby="error-username"
+                   value="<?= htmlspecialchars($formData['username'] ?? '') ?>">
+            <span id="error-username" class="validation-error <?= isset($errors['username']) ? 'active' : '' ?>">
+                <?= htmlspecialchars($errors['username'] ?? '') ?>
+            </span>
         </div>
 
         <div id="email-wrapper" class="form-wrapper">
             <label for="form-email">Email</label>
-            <input id="form-email" type="email" name="email" placeholder="E-mail" required
-                   value="<?= htmlspecialchars($formData['email'] ?? '') ?>"
-                   class="<?= isset($errors['email']) ? 'input-error' : '' ?>">
-            <?php if (isset($errors['email'])): ?>
-                <span class="form-input-error"><?= htmlspecialchars($errors['email']) ?></span>
-            <?php endif; ?>
+            <input id="form-email" type="email" name="email" placeholder="E-mail" required aria-describedby="error-email"
+                   value="<?= htmlspecialchars($formData['email'] ?? '') ?>">
+            <span id="error-email" class="validation-error <?= isset($errors['email']) ? 'active' : '' ?>">
+                <?= htmlspecialchars($errors['email'] ?? '') ?>
+            </span>
         </div>
 
         <div id="names-wrapper" class="form-wrapper">
             <div id="firstname-wrapper">
                 <label for="form-firstname">Jméno</label>
-                <input id="form-firstname" type="text" name="firstname" placeholder="Jméno" required
-                       value="<?= htmlspecialchars($formData['firstname'] ?? '') ?>"
-                       class="<?= isset($errors['firstname']) ? 'input-error' : '' ?>">
-                <?php if (isset($errors['firstname'])): ?>
-                    <span class="form-input-error"><?= htmlspecialchars($errors['firstname']) ?></span>
-                <?php endif; ?>
+                <input id="form-firstname" type="text" name="firstname" placeholder="Jméno" required aria-describedby="error-firstname"
+                       value="<?= htmlspecialchars($formData['firstname'] ?? '') ?>">
+                <span id="error-firstname" class="validation-error <?= isset($errors['firstname']) ? 'active' : '' ?>">
+                    <?= htmlspecialchars($errors['firstname'] ?? '') ?>
+                </span>
             </div>
-
             <div id="lastname-wrapper">
                 <label for="form-lastname">Příjmení</label>
-                <input id="form-lastname" type="text" name="lastname" placeholder="Příjmení" required
-                       value="<?= htmlspecialchars($formData['lastname'] ?? '') ?>"
-                       class="<?= isset($errors['lastname']) ? 'input-error' : '' ?>">
-                <?php if (isset($errors['lastname'])): ?>
-                    <span class="form-input-error"><?= htmlspecialchars($errors['lastname']) ?></span>
-                <?php endif; ?>
+                <input id="form-lastname" type="text" name="lastname" placeholder="Příjmení" required aria-describedby="error-lastname"
+                       value="<?= htmlspecialchars($formData['lastname'] ?? '') ?>">
+                <span id="error-lastname" class="validation-error <?= isset($errors['lastname']) ? 'active' : '' ?>">
+                    <?= htmlspecialchars($errors['lastname'] ?? '') ?>
+                </span>
             </div>
         </div>
 
         <div id="bdate-wrapper">
             <label for="form-bdate">Datum narození</label>
-            <input id="form-bdate" type="date" name="bdate" required
-                   value="<?= htmlspecialchars($formData['bdate'] ?? '') ?>"
-                   class="<?= isset($errors['bdate']) ? 'input-error' : '' ?>">
-            <?php if (isset($errors['bdate'])): ?>
-                <span class="form-input-error"><?= htmlspecialchars($errors['bdate']) ?></span>
-            <?php endif; ?>
+            <input id="form-bdate" type="date" name="bdate" required aria-describedby="error-bdate"
+                   value="<?= htmlspecialchars($formData['bdate'] ?? '') ?>">
+            <span id="error-bdate" class="validation-error <?= isset($errors['bdate']) ? 'active' : '' ?>">
+                <?= htmlspecialchars($errors['bdate'] ?? '') ?>
+            </span>
         </div>
 
         <div id="password-wrapper" class="form-wrapper">
             <label for="form-password">Heslo</label>
-            <input id="form-password" type="password" name="password" placeholder="Heslo (min. 6 znaků)" required
-                   class="<?= isset($errors['password']) ? 'input-error' : '' ?>">
-            <?php if (isset($errors['password'])): ?>
-                <span class="form-input-error"><?= htmlspecialchars($errors['password']) ?></span>
-            <?php endif; ?>
+            <input id="form-password" type="password" name="password" placeholder="Heslo" required aria-describedby="error-password">
+            <span id="error-password" class="validation-error <?= isset($errors['password']) ? 'active' : '' ?>">
+                <?= htmlspecialchars($errors['password'] ?? '') ?>
+            </span>
         </div>
 
         <div id="isadmin-wrapper" class="form-wrapper">
-            <label for="form-is-admin">Je admin?</label>
-            <label class="switch">
-                <input id="form-is-admin" type="checkbox" name="is_admin" value="1"
-                        <?php echo (!empty($formData['is_admin']) && $formData['is_admin'] == 1) ? 'checked' : ''; ?>>
-                <span class="slider round"></span>
-            </label>
+            <label for="form-isadmin">Admin práva</label>
+            <div id="switch-wrapper" style="height: 34px;">
+                <label class="switch" style="width: 60px;">
+                    <input type="checkbox" id="form-isadmin" name="is_admin" value="1"
+                            <?= ($formData['is_admin'] ?? 0) ? 'checked' : '' ?>>
+                    <span class="slider round"></span>
+                </label>
+            </div>
         </div>
+
         <button type="submit">Uložit</button>
     </form>
 

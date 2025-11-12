@@ -461,3 +461,20 @@ input:checked + .slider:after {
 #isadmin-wrapper label {
     margin-bottom: 0; /* Zarovnání labelu */
 }
+
+/* Styl pro zprávy o individuální validaci */
+.validation-error {
+    color: var(--primary-kacubo); /* Použijeme barvu Kacubo jako chybu */
+    font-size: 0.85rem;
+    display: block; /* Zajistí, že se zobrazí na novém řádku */
+    margin-top: -10px; /* Přiblížení k inputu */
+    margin-bottom: 10px;
+    height: 0; /* Standardně skryté */
+    overflow: hidden;
+    transition: all 0.2s ease-in-out;
+}
+
+.validation-error.active {
+    height: auto;
+    margin-top: 5px;
+}
