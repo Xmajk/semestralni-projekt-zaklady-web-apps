@@ -175,6 +175,77 @@ class User
         return $result;
     }
 
+    /**
+     * Aktualizuje data uživatele v databázi (bez hesla).
+     * @return bool
+     */
+    public function update() {
+        $conn = connect();
+
+        $sql = "
+        UPDATE users SET
+            firstname = ?,
+            lastname = ?,
+            bdate = ?,
+            email = ?,
+            is_admin = ?
+        WHERE id = ?
+    ";
+
+        $stmt = $conn->prepare($sql);
+
+        if (!$stmt) {
+            $conn->close();
+            return false;
+        }
+
+        $this->is_admin = (int)$this->is_admin;
+
+        $stmt->bind_param(
+            "ssssii",
+            $this->firstname,
+            $this->lastname,
+            $this->bdate,
+            $this->email,
+            $this->is_admin,
+            $this->id
+        );
+
+        $result = $stmt->execute();
+
+        $stmt->close();
+        $conn->close();
+
+        return $result;
+    }
+
+    /**
+     * Aktualizuje pouze heslo uživatele.
+     * @return bool
+     */
+    public function updatePassword() {
+        if (empty($this->password) || empty($this->id)) {
+            return false;
+        }
+
+        $conn = connect();
+        $sql = "UPDATE users SET password = ? WHERE id = ?";
+        $stmt = $conn->prepare($sql);
+
+        if (!$stmt) {
+            $conn->close();
+            return false;
+        }
+
+        $stmt->bind_param("si", $this->password, $this->id);
+        $result = $stmt->execute();
+
+        $stmt->close();
+        $conn->close();
+
+        return $result;
+    }
+
     public function validateUser(){
         return true;
     }

@@ -1,10 +1,4 @@
 <?php
-
-/*filter_var převádí string boolean na boolean datový typ z cookies
- *
- * zkontorluje se jestli je uživatel přihlášen a není na login.php, jinak se mu nezobrazí navbar skupina s aplikací
- * */
-
 require_once __DIR__."/utils/links.php";
 
 $isLogged = false;
@@ -77,7 +71,6 @@ if (isset($_COOKIE['is_logged'])) {
               </li>
               
               <?php endif; ?>
-              <!-- <li><a href="#"><span class="glyphicon glyphicon-search"></span></a></li> -->
             </ul>
           </div>
         </div>
