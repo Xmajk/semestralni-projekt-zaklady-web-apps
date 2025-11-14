@@ -1,7 +1,10 @@
 function toggleForm() {
+    alert("toohle")
     const form = document.getElementById('add-user-form');
     form.style.display = (form.style.display === 'none' || form.style.display === '') ? 'block' : 'none';
 }
+
+document.getElementById("expand-user-form").addEventListener("click",toggleForm)
 
 const filterInput = document.querySelector('.filter-username');
 const rows = document.querySelectorAll('tbody tr');

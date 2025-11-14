@@ -1,4 +1,6 @@
 <?php
+require_once __DIR__ . '/utils/links.php';
+
 function connect(){
     $servername = "localhost";
     $username = "hroudmi5";
@@ -8,7 +10,7 @@ function connect(){
     try{
         $conn = new mysqli($servername, $username, $password,$dbname);
     }catch(Exception $e){
-        die("Chyba komunikace serveru s databází");
+        redirect_to(create_error_link("Chyba databáze, kontaktujte správce"));
     }
     return $conn;
 }

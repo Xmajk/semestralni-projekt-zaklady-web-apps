@@ -16,7 +16,7 @@ check_auth_admin();
 <div id="page-content">
     <div id="links-div">
         <a class="button-link" href="users.php">uživatelé</a>
-        <a class="button-link" href="users.php">události</a>
+        <a class="button-link" href="events.php">události</a>
     </div>
 </div>
 </body>

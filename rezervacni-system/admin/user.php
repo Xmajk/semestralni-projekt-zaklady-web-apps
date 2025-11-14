@@ -5,195 +5,169 @@ require_once __DIR__ . "/../components/utils/crypto.php";
 require_once __DIR__ . "/../components/utils/links.php";
 require_once __DIR__ . "/../components/check_auth.php";
 
-session_start();
 check_auth_admin();
 
-// Načteme chyby a data formuláře ze session (pokud existují)
-$errors = $_SESSION['form_errors'] ?? [];
-$formData = $_SESSION['form_data'] ?? [];
-// Ihned je ze session smažeme (flash data)
-unset($_SESSION['form_errors'], $_SESSION['form_data']);
+$error = NULL;
 
-// Zpracování DELETE požadavku (mazání)
+// 1. Načtení ID uživatele z URL
+$user_id = $_GET["id"] ?? null;
+
+if (!$user_id) {
+    // Pokud chybí ID uživatele, přesměruj na seznam uživatelů
+    header("Location: " . createLink("/admin/users.php"));
+    exit;
+}
+
+// 2. Načtení uživatele z DB
+$user = User::getUserById($user_id);
+if (!$user) {
+    // Pokud uživatel s daným ID neexistuje
+    header("Location: " . createLink("/admin/users.php?error=user_not_found"));
+    exit;
+}
+
+
+// 3. Zpracování požadavků
 if($_SERVER["REQUEST_METHOD"] == "GET" && (isset($_GET['action']) && $_GET['action'] === 'delete' && isset($_GET['id']))){
+    // Zpracování smazání (pokud by bylo voláno odsud)
     $id = (int)$_GET['id'];
     User::deleteById($id);
     header("Location: " .createLink("/admin/users.php"));
     exit;
 }
-// Zpracování POST požadavku (aktualizace)
 else if($_SERVER["REQUEST_METHOD"] == "POST"){
-    $user_id = $_POST['user_id'] ?? null;
-    $user = User::getUserById($user_id);
+    // Zpracování AKTUALIZACE uživatele
 
-    if (!$user) {
-        // Chyba, uživatel neexistuje, přesměrovat pryč
-        header("Location: " . createLink("/admin/users.php"));
-        exit;
-    }
+    // Získání a ošetření dat z POST
+    $new_firstname  = trim($_POST["firstname"] ?? "");
+    $new_lastname   = trim($_POST["lastname"] ?? "");
+    $new_email      = trim($_POST["email"] ?? "");
+    $new_bdate      = trim($_POST["bdate"] ?? "");
+    $new_password   = trim($_POST["password"] ?? ""); // Nové heslo, může být prázdné
+    $new_is_admin   = isset($_POST["is_admin"]) ? 1 : 0; // Zjištění, zda je admin checkbox zaškrtnut
 
-    // 1. Uložit data z POSTu do $formData pro případné znovuvyplnění
-    $formData = [
-            'firstname' => $_POST["firstname"] ?? '',
-            'lastname' => $_POST["lastname"] ?? '',
-            'email' => $_POST["email"] ?? '',
-            'bdate' => $_POST["bdate"] ?? '',
-            'is_admin' => isset($_POST['is_admin']) ? 1 : 0,
-        // username se neposílá, je disabled
-        // heslo se řeší zvlášť
-    ];
-
-    // 2. Naplnit objekt User daty z formuláře
-    $user->firstname = $formData["firstname"];
-    $user->lastname  = $formData["lastname"];
-    $user->email     = $formData["email"];
-    $user->bdate     = $formData["bdate"];
-    $user->is_admin  = $formData["is_admin"];
-
-    // 3. Validace objektu (true = update)
-    $isValid = true;
-    $errors = [];
-    $passwordUpdate = false;
-
-    // 4. Validace hesla (pouze pokud bylo zadáno nové)
-    $password = $_POST["password"] ?? '';
-    if (!empty(trim($password))) {
-        if (strlen($password) < 6) {
-            $errors['password'] = "Heslo musí mít alespoň 6 znaků.";
-            $isValid = false;
-        } else {
-            // Heslo je platné, připravit k aktualizaci
-            $user->password = hashSHA256($password);
-            $passwordUpdate = true;
-        }
-    }
-
-    // 5. Zkontrolovat, zda je vše v pořádku
-    if ($isValid) {
-        // Žádné chyby, aktualizovat DB
-        $user->update(); // Aktualizuje info
-        if ($passwordUpdate) {
-            $user->updatePassword(); // Aktualizuje heslo
-        }
+    // Základní server-side validace
+    if (empty($new_firstname) || empty($new_lastname) || empty($new_email) || empty($new_bdate)) {
+        $error = "Pole Jméno, Příjmení, Email a Datum narození jsou povinná.";
     } else {
-        // Chyby, uložit do session pro další požadavek
-        $_SESSION['form_errors'] = $errors;
-        $_SESSION['form_data'] = $formData;
+        // Všechna povinná pole jsou vyplněna, pokračujeme v aktualizaci
+
+        // Aktualizuj vlastnosti objektu $user
+        $user->firstname  = $new_firstname;
+        $user->lastname   = $new_lastname;
+        $user->email      = $new_email;
+        $user->bdate      = $new_bdate;
+        $user->is_admin   = $new_is_admin;
+
+        // Aktualizace hesla POUZE pokud bylo zadáno nové
+        if (!empty($new_password)) {
+            $user->password = hashSHA256($new_password);
+        }
+        // Pokud je $new_password prázdné, $user->password zůstane původní (načtené z DB)
+
+        // Zavolání metody update (která musí být definována v User.php)
+        if ($user->update()) {
+            // Úspěšná aktualizace, přesměruj se zprávou o úspěchu
+            header("Location: " . createLink("/admin/user.php?id=" . $user->id . "&success=1"));
+            exit;
+        } else {
+            $error = "Chyba při ukládání změn do databáze.";
+        }
     }
-
-    // VŽDY přesměrovat po POSTu (PRG pattern)
-    header("Location: " . $_SERVER['REQUEST_URI']);
-    exit;
 }
 
-// Zobrazení stránky (GET požadavek)
-$user_id = $_GET["id"] ?? null;
-$user = User::getUserById($user_id);
-
-if (!$user) {
-    // Uživatel nenalezen, přesměrovat
-    header("Location: " . createLink("/admin/users.php"));
-    exit;
-}
-
-// Pokud existují flash data (z neúspěšného POSTu), přepíšeme jimi data z DB
-// To zajistí, že se ve formuláři objeví data, která uživatel odeslal (a která selhala)
-if (!empty($formData)) {
-    $user->firstname = $formData['firstname'] ?? $user->firstname;
-    $user->lastname  = $formData['lastname'] ?? $user->lastname;
-    $user->email     = $formData['email'] ?? $user->email;
-    $user->bdate     = $formData['bdate'] ?? $user->bdate;
-    $user->is_admin  = $formData['is_admin'] ?? $user->is_admin;
-}
+// Pokud kód došel sem, buď se jedná o první načtení stránky (GET),
+// nebo došlo k chybě při POSTu. V obou případech se zobrazí formulář
+// s aktuálními daty (buď čerstvě načtenými z DB, nebo upravenými z POSTu, které selhalo).
 
 ?>
 <!DOCTYPE html>
 <html lang="cs">
 <head>
     <?php include __DIR__ . "/../components/head.php" ?>
+    <link rel="stylesheet" href="<?= createStylesLink("/forms.css") ?>">
     <link rel="stylesheet" href="/rezervacni-system/public/styles/forms.css">
     <link rel="stylesheet" href="/rezervacni-system/public/styles/toogleswitch.css">
+    <script src="<?= createScriptLink("/validation/users.js") ?>"></script>
 </head>
 <body id="admin-user-body">
 <header>
     <?php include "../components/navbar.php"; ?>
 </header>
 <div id="page-content">
-    <a href="users.php"><- zpět</a>
-
-    <form id="add-user-form" autocomplete="off" method="post" action="">
-        <!-- Skryté pole pro ID uživatele, klíčové pro POST -->
-        <input type="hidden" name="user_id" value="<?= htmlspecialchars($user->id) ?>">
-
-        <?php if (!empty($errors)): ?>
-            <div class="form-error-summary">Prosím opravte chyby ve formuláři.</div>
-        <?php endif; ?>
+    <form id="add-user-form" autocomplete="off" method="post">
+        <span id="form-error" class="error">
+            <?php
+            // Zobrazení obecné chyby, pokud je k dispozici (např. v budoucnu: chyba DB)
+            if (isset($errors['general'])):
+                echo htmlspecialchars($errors['general']);
+            endif;
+            ?>
+        </span>
 
         <div id="username-wrapper" class="form-wrapper">
-            <label for="username">Uživatelské jméno</label>
-            <input type="text" name="username" placeholder="Uživatelské jméno" disabled value="<?= htmlspecialchars($user->username) ?>" required autocomplete="off">
+            <label for="form-username">Uživatelské jméno</label>
+            <input id="form-username" type="text" name="username" placeholder="Uživatelské jméno" required autocomplete="off" aria-describedby="error-username"
+                   value="<?= htmlspecialchars($user->username) ?>" disabled>
         </div>
 
         <div id="email-wrapper" class="form-wrapper">
-            <label for="email">Email</label>
-            <input type="email" name="email" placeholder="E-mail" required
-                   value="<?= htmlspecialchars($user->email ?? '') ?>"
-                   class="<?= isset($errors['email']) ? 'input-error' : '' ?>">
-            <?php if (isset($errors['email'])): ?>
-                <span class="form-input-error"><?= htmlspecialchars($errors['email']) ?></span>
-            <?php endif; ?>
+            <label for="form-email">Email</label>
+            <input id="form-email" type="email" name="email" placeholder="E-mail" required aria-describedby="error-email"
+                   value="<?= htmlspecialchars($user->email ?? '') ?>">
+            <span id="error-email" class="validation-error <?= isset($errors['email']) ? 'active' : '' ?>">
+                <?= htmlspecialchars($errors['email'] ?? '') ?>
+            </span>
         </div>
 
         <div id="names-wrapper" class="form-wrapper">
             <div id="firstname-wrapper">
-                <label for="firstname">Jméno</label>
-                <input type="text" name="firstname" placeholder="Jméno" required
-                       value="<?= htmlspecialchars($user->firstname ?? '') ?>"
-                       class="<?= isset($errors['firstname']) ? 'input-error' : '' ?>">
-                <?php if (isset($errors['firstname'])): ?>
-                    <span class="form-input-error"><?= htmlspecialchars($errors['firstname']) ?></span>
-                <?php endif; ?>
+                <label for="form-firstname">Jméno</label>
+                <input id="form-firstname" type="text" name="firstname" placeholder="Jméno" required aria-describedby="error-firstname"
+                       value="<?= htmlspecialchars($user->firstname ?? '') ?>">
+                <span id="error-firstname" class="validation-error <?= isset($errors['firstname']) ? 'active' : '' ?>">
+                    <?= htmlspecialchars($errors['firstname'] ?? '') ?>
+                </span>
             </div>
             <div id="lastname-wrapper">
-                <label for="lastname">Příjmení</label>
-                <input type="text" name="lastname" placeholder="Příjmení" required
-                       value="<?= htmlspecialchars($user->lastname ?? '') ?>"
-                       class="<?= isset($errors['lastname']) ? 'input-error' : '' ?>">
-                <?php if (isset($errors['lastname'])): ?>
-                    <span class="form-input-error"><?= htmlspecialchars($errors['lastname']) ?></span>
-                <?php endif; ?>
+                <label for="form-lastname">Příjmení</label>
+                <input id="form-lastname" type="text" name="lastname" placeholder="Příjmení" required aria-describedby="error-lastname"
+                       value="<?= htmlspecialchars($user->lastname ?? '') ?>">
+                <span id="error-lastname" class="validation-error <?= isset($errors['lastname']) ? 'active' : '' ?>">
+                    <?= htmlspecialchars($errors['lastname'] ?? '') ?>
+                </span>
             </div>
         </div>
 
         <div id="bdate-wrapper">
-            <label for="bdate">Datum narození</label>
-            <input type="date" name="bdate" required
-                   value="<?= htmlspecialchars($user->bdate ?? '') ?>"
-                   class="<?= isset($errors['bdate']) ? 'input-error' : '' ?>">
-            <?php if (isset($errors['bdate'])): ?>
-                <span class="form-input-error"><?= htmlspecialchars($errors['bdate']) ?></span>
-            <?php endif; ?>
+            <label for="form-bdate">Datum narození</label>
+            <input id="form-bdate" type="date" name="bdate" required aria-describedby="error-bdate"
+                   value="<?= htmlspecialchars($user->bdate ?? '') ?>">
+            <span id="error-bdate" class="validation-error <?= isset($errors['bdate']) ? 'active' : '' ?>">
+                <?= htmlspecialchars($errors['bdate'] ?? '') ?>
+            </span>
         </div>
 
         <div id="password-wrapper" class="form-wrapper">
-            <label for="password">Nové heslo</label>
-            <input type="password" name="password" placeholder="Nové heslo (nechte prázdné pro zachování)"
-                   class="<?= isset($errors['password']) ? 'input-error' : '' ?>">
-            <?php if (isset($errors['password'])): ?>
-                <span class="form-input-error"><?= htmlspecialchars($errors['password']) ?></span>
-            <?php endif; ?>
+            <label for="form-password">Heslo</label>
+            <input id="form-password" type="password" name="password" placeholder="Heslo" required aria-describedby="error-password">
+            <span id="error-password" class="validation-error <?= isset($errors['password']) ? 'active' : '' ?>">
+                <?= htmlspecialchars($errors['password'] ?? '') ?>
+            </span>
         </div>
 
         <div id="isadmin-wrapper" class="form-wrapper">
-            <label for="form-is-admin">Je admin?</label>
-            <label class="switch">
-                <input id="form-is-admin" type="checkbox" name="is_admin" value="1"
-                        <?php echo ($user->is_admin == 1) ? 'checked' : ''; ?>>
-                <span class="slider round"></span>
-            </label>
+            <label for="form-isadmin">Admin práva</label>
+            <div id="switch-wrapper" style="height: 34px;">
+                <label class="switch" style="width: 60px;">
+                    <input type="checkbox" id="form-isadmin" name="is_admin" value="1"
+                            <?= ($formData['is_admin'] ?? 0) ? 'checked' : '' ?>>
+                    <span class="slider round"></span>
+                </label>
+            </div>
         </div>
 
-        <button type="submit">Uložit změny</button>
+        <button type="submit">Uložit</button>
     </form>
 </div>
 </body>

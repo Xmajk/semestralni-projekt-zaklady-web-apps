@@ -286,6 +286,10 @@ login-bg-imagage1{
             font-size: large;
         }
     }
+
+    @media only screen and (max-width: 600px) {
+        padding: 50px 0 0 0 ;
+    }
 }
 
 /*Admin - users*/
@@ -347,20 +351,6 @@ login-bg-imagage1{
 
     .expand-btn {
         width: 100%;
-    }
-
-    #add-user-form {
-        display: block;
-        margin: 0 33% 0 33%;
-        width: auto;
-
-        input{
-            max-width: none;
-        }
-
-        button{
-            width: 100%;
-        }
     }
 }
 
@@ -459,17 +449,17 @@ input:checked + .slider:after {
     gap: 10px;
 }
 #isadmin-wrapper label {
-    margin-bottom: 0; /* Zarovnání labelu */
+    margin-bottom: 0;
 }
 
 /* Styl pro zprávy o individuální validaci */
 .validation-error {
-    color: var(--primary-kacubo); /* Použijeme barvu Kacubo jako chybu */
-    font-size: 0.85rem;
-    display: block; /* Zajistí, že se zobrazí na novém řádku */
-    margin-top: -10px; /* Přiblížení k inputu */
+    color: red;
+    font-size: 1.5rem;
+    display: block;
+    margin-top: -10px;
     margin-bottom: 10px;
-    height: 0; /* Standardně skryté */
+    height: 0;
     overflow: hidden;
     transition: all 0.2s ease-in-out;
 }
@@ -477,4 +467,24 @@ input:checked + .slider:after {
 .validation-error.active {
     height: auto;
     margin-top: 5px;
+}
+
+/*USER FORM*/
+#add-user-form {
+    display: block;
+    margin: 0;
+    width: auto;
+
+    * > *:disabled{
+        background: #b8bcbf;
+        pointer-events: none;
+    }
+
+    input{
+        max-width: none;
+    }
+
+    button{
+        width: 100%;
+    }
 }

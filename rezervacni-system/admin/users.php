@@ -79,7 +79,12 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
         $newUser->is_admin   = $formData["is_admin"];
         $newUser->password   = hashSHA256($password);
 
-        $newUser->insert();
+        try{
+            $newUser->insert();
+        }catch (Exception $e){
+            //CHyba při ukládání usera
+            echo $e->getMessage();
+        }
 
     } else {
         // Chyby, uložit do session pro znovunačtení
@@ -109,9 +114,9 @@ $users = User::getAllOrdered();
 </header>
 <div id="page-content">
 
-    <button class="expand-btn" onclick="toggleForm()">Přidat uživatele</button>
+    <button id="expand-user-form" class="expand-btn">Přidat uživatele</button>
 
-    <form id="add-user-form" autocomplete="off" method="post" action="">
+    <form id="add-user-form" class="novisible" autocomplete="off" method="post">
         <span id="form-error" class="error">
             <?php
             // Zobrazení obecné chyby, pokud je k dispozici (např. v budoucnu: chyba DB)
@@ -191,7 +196,7 @@ $users = User::getAllOrdered();
 
     <div>
         <label for="filter">Filtrování</label>
-        <input name="filter" class="filter-username" type="text" placeholder="Uživatelské jméno">
+        <input id="filter" name="filter" class="filter-username" type="text" placeholder="Uživatelské jméno">
     </div>
 
     <div class="table-wrap" data-density="comfy">
@@ -209,7 +214,7 @@ $users = User::getAllOrdered();
             <tbody>
             <?php foreach ($users as $user): ?>
                 <tr>
-                    <td mark="username" class="clip"><?= htmlspecialchars($user->username) ?></td>
+                    <td class="clip"><?= htmlspecialchars($user->username) ?></td>
                     <td class="muted"><?= htmlspecialchars($user->firstname) ?></td>
                     <td class="muted"><?= htmlspecialchars($user->bdate) ?></td>
 

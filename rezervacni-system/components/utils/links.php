@@ -8,10 +8,6 @@ function createLink($link)
     return $PREFIX . $link;
 }
 
-function create_error_link($message){
-    return createLink("/error.php?message=".$message);
-}
-
 function createPublicLink($link)
 {
     return createLink("/public".$link);
@@ -25,4 +21,13 @@ function createScriptLink($script)
 function createStylesLink($script)
 {
     return createPublicLink("/styles".$script);
+}
+
+function create_error_link($message){
+    return createLink("/500.php?".http_build_query(array("message" => $message),'',"&amp;"));
+}
+
+function redirect_to($link){
+    header("Location: ".$link);
+    exit();
 }
