@@ -38,10 +38,11 @@ function clearFieldError(inputElement) {
     inputElement.setCustomValidity('');
 }
 
-function dateIsLargerOrNow(date){
-    tmp = new Date()
-
-
+function validationPrice(value){
+    return value.match(/^\d+$/gm)
+}
+function validationCapacity(value){
+    return value.match(/^\d+$/gm)
 }
 
 async function validateField(inputElement) {
@@ -63,10 +64,12 @@ async function validateField(inputElement) {
                 }else if(value.length>NAME_LEN[1]){
                     inputElement.value = value.substring(0,NAME_LEN[1]);
                 }
+                break;
             case 'form-description':
                 if(value.length>DESCRIPTION_LEN[1]){
                     errorMessage = 'Popis nesmí mít více jak '+DESCRIPTION_LEN[1]+' znaků'
                 }
+                break;
             case 'form-location':
                 if(value===''){
                     errorMessage = 'Místo je povinné'
@@ -75,18 +78,34 @@ async function validateField(inputElement) {
                 }else if(value.length>PLACE_LEN[1]){
                     inputElement.value = value.substring(0,PLACE_LEN[1]);
                 }
+                break;
+            case 'form-price':
+                if(value !== '' && value.trim().toLowerCase()!=="zdarma" && !validationPrice(value)){
+                    errorMessage = "Cena musí být číslo"
+                }
+                else if(value.startsWith("0") && validationPrice(value)){
+                    inputElement.value = "zdarma";
+                }
+                break;
+            case 'form-capacity':
+                if(value !=='' && !validationCapacity(value)){
+                    errorMessage = 'Kapacita musí být číslo'
+                }
+                break;
             case 'form-start-datetime':
                 if(value===''){
                     errorMessage = 'Datum a čas konání je povinné'
                 }else if(new Date(value)<new Date()){
                     errorMessage = 'Datum a čas konání musí být v budoucnosti'
                 }
+                break;
             case 'form-registration-deadline':
                 if(value===''){
                     errorMessage = 'Datum a čas konce registrace je povinné'
                 }else if(new Date(value)<new Date()){
                     errorMessage = 'Datum a čas konce registrace musí být v budoucnosti'
                 }
+                break;
         }
     }
 
@@ -116,6 +135,7 @@ const fields = [
     document.getElementById('form-description'),
     document.getElementById('form-location'),
     document.getElementById('form-price'),
+    document.getElementById('form-capacity'),
     document.getElementById('form-start-datetime'),
     document.getElementById('form-registration-deadline')
 ].filter(el => el != null);

@@ -5,9 +5,11 @@ require_once __DIR__ . "/../components/utils/links.php";
 require_once __DIR__ . "/../components/check_auth.php";
 require_once __DIR__ . "/../components/utils/image_helper.php";
 
+session_start();
 check_auth_admin();
 
-$error = NULL;
+$errors = $_SESSION['form_errors'] ?? [];
+$formData = $_SESSION['form_data'] ?? [];
 
 // Zpracování formuláře pro přidání nové události
 if($_SERVER["REQUEST_METHOD"] == "POST"){
@@ -122,7 +124,7 @@ $events = Event::getAllOrdered();
     <form id="add-event-form" autocomplete="off" method="post" action="" enctype="multipart/form-data">
         <div id="name-wrapper" class="form-wrapper">
             <label for="form-name">Název<span class="required"></span></label>
-            <input id="form-name" type="text" name="name" placeholder="Název události" required>
+            <input id="form-name" type="text" name="name" placeholder="Název události" value="<?= $formData["name"] ?? "" ?>" required>
             <span id="error-name" class="validation-error <?= isset($errors['name']) ? 'active' : '' ?>">
                 <?= htmlspecialchars($errors['name'] ?? '') ?>
             </span>
@@ -130,7 +132,7 @@ $events = Event::getAllOrdered();
 
         <div id="description-wrapper" class="form-wrapper">
             <label for="form-description">Popis</label>
-            <textarea id="form-description" name="description" placeholder="Podrobný popis události..."></textarea>
+            <textarea id="form-description" name="description" value="<?= $formData["description"] ?? "" ?>" placeholder="Podrobný popis události..."></textarea>
             <span id="error-description" class="validation-error <?= isset($errors['description']) ? 'active' : '' ?>">
                 <?= htmlspecialchars($errors['description'] ?? '') ?>
             </span>
@@ -138,7 +140,7 @@ $events = Event::getAllOrdered();
 
         <div id="location-wrapper" class="form-wrapper">
             <label for="form-location">Místo<span class="required"></span></label>
-            <input id="form-location" type="text" name="location" placeholder="Místo konání (např. adresa nebo 'Online')" required>
+            <input id="form-location" type="text" name="location" value="<?= $formData["location"] ?? "" ?>" placeholder="Místo konání (např. adresa nebo 'Online')" required>
             <span id="error-location" class="validation-error <?= isset($errors['location']) ? 'active' : '' ?>">
                 <?= htmlspecialchars($errors['location'] ?? '') ?>
             </span>
@@ -146,7 +148,7 @@ $events = Event::getAllOrdered();
 
         <div id="price-wrapper" class="form-wrapper">
             <label for="form-price">Cena</label>
-            <input id="form-price" type="text" placeholder="Cena události" name="price" required>
+            <input id="form-price" type="text" placeholder="Cena události" name="price" value="<?= $formData["price"] ?? "" ?>">
             <span id="error-price" class="validation-error <?= isset($errors['price']) ? 'active' : '' ?>">
                 <?= htmlspecialchars($errors['price'] ?? '') ?>
             </span>
@@ -154,7 +156,7 @@ $events = Event::getAllOrdered();
 
         <div id="capacity-wrapper" class="form-wrapper">
             <label for="form-capacity">Kapacita</label>
-            <input id="form-capacity" type="text" placeholder="Kapacita" name="capacity" required>
+            <input id="form-capacity" type="text" placeholder="Kapacita" name="capacity" value="<?= $formData["capacity"] ?? "" ?>">
             <span id="error-capacity" class="validation-error <?= isset($errors['capacity']) ? 'active' : '' ?>">
                 <?= htmlspecialchars($errors['capacity'] ?? '') ?>
             </span>
@@ -162,7 +164,7 @@ $events = Event::getAllOrdered();
 
         <div id="start-datetime-wrapper" class="form-wrapper">
             <label for="form-start-datetime">Datum a čas zahájení<span class="required"></span></label>
-            <input id="form-start-datetime" type="datetime-local" name="start_datetime" required>
+            <input id="form-start-datetime" type="datetime-local" name="start_datetime" required value="<?= $formData["start_datetime"] ?? "" ?>">
             <span id="error-start-datetime" class="validation-error <?= isset($errors['start_datetime']) ? 'active' : '' ?>">
                 <?= htmlspecialchars($errors['start_datetime'] ?? '') ?>
             </span>
@@ -170,16 +172,15 @@ $events = Event::getAllOrdered();
 
         <div id="registration-deadline-wrapper" class="form-wrapper">
             <label for="form-registration-deadline">Datum a čas konce registrací<span class="required"></span></label>
-            <input id="form-registration-deadline" type="datetime-local" name="registration_deadline" required>
+            <input id="form-registration-deadline" type="datetime-local" name="registration_deadline" required value="<?= $formData["registration_deadline"] ?? "" ?>">
             <span id="error-registration-deadline" class="validation-error <?= isset($errors['registration_deadline']) ? 'active' : '' ?>">
                 <?= htmlspecialchars($errors['registration_deadline'] ?? '') ?>
             </span>
         </div>
 
-        <!-- Nové pole pro obrázek -->
         <div id="image-wrapper" class="form-wrapper">
             <label for="form-image">Obrázek události (JPG, PNG)</label>
-            <input id="form-image" type="file" name="image" accept="image/jpeg, image/png">
+            <input id="form-image" type="file" name="image" accept="image/jpeg, image/png" value="<?= $formData["image"] ?? "" ?>">
             <span id="error-image" class="validation-error <?= isset($errors['image']) ? 'active' : '' ?>">
                 <?= htmlspecialchars($errors['image'] ?? '') ?>
             </span>
