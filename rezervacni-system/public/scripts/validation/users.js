@@ -1,7 +1,3 @@
-// ===============================================
-// VALIDACE FORMULÁŘE PRO PŘIDÁNÍ UŽIVATELE (Real-time, pod inputem)
-// ===============================================
-
 document.addEventListener('DOMContentLoaded', function() {
     const form = document.getElementById('add-user-form');
     if (!form) return;
@@ -16,11 +12,9 @@ document.addEventListener('DOMContentLoaded', function() {
     ].filter(el => el != null);
 
     const errorDisplay = document.getElementById('form-error');
-    // MINIMÁLNÍ DÉLKA HESLA MUSÍ ODPOVÍDAT SERVERU (8 znaků)
     const MIN_PASSWORD_LENGTH = 8;
     const MIN_USERNAME_LENGTH = 3;
 
-    // Funkce pro zobrazení obecné chyby (pro submit)
     function displayGeneralError(message) {
         if (errorDisplay) {
             errorDisplay.textContent = message;
@@ -36,20 +30,16 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     }
 
-    // Funkce pro zobrazení chyby pod konkrétním inputem
     function displayFieldError(inputElement, message) {
         const errorId = 'error-' + inputElement.id.substring(5);
         const errorSpan = document.getElementById(errorId);
-
         if (errorSpan) {
             errorSpan.textContent = message;
             errorSpan.classList.add('active');
         }
-        // Nastavíme custom validity pro fallback (např. při submitu)
         inputElement.setCustomValidity(message);
     }
 
-    // Funkce pro vyčištění chyby pod konkrétním inputem
     function clearFieldError(inputElement) {
         const errorId = 'error-' + inputElement.id.substring(5);
         const errorSpan = document.getElementById(errorId);
@@ -66,19 +56,15 @@ document.addEventListener('DOMContentLoaded', function() {
         return emailRegex.test(email);
     }
 
-    // Centrální funkce pro validaci jednoho pole
-    function validateField(inputElement) {
-        clearFieldError(inputElement);
+    async function validateField(inputElement) {
         const value = inputElement.value.trim();
         const id = inputElement.id;
         let errorMessage = '';
 
-        // Kontrola povinnosti (HTML 'required' je fallback)
         if (inputElement.hasAttribute('required') && value === '' && id !== 'form-password') {
             errorMessage = 'Toto pole je povinné.';
         }
 
-        // Specifická kontrola podle pole
         if (errorMessage === '') {
             switch (id) {
                 case 'form-username':
@@ -86,7 +72,10 @@ document.addEventListener('DOMContentLoaded', function() {
                         errorMessage = 'Uživatelské jméno je povinné.';
                     } else if (value.length > 0 && value.length < MIN_USERNAME_LENGTH) {
                         errorMessage = `Uživatelské jméno musí mít alespoň ${MIN_USERNAME_LENGTH} znaky.`;
+                    } else if (await fetchUsernameValidation(value)){
+                        errorMessage = 'Uživatelské jméno již existuje';
                     }
+
                     break;
                 case 'form-email':
                     if (value === '') {
@@ -116,15 +105,13 @@ document.addEventListener('DOMContentLoaded', function() {
             displayFieldError(inputElement, errorMessage);
             return false;
         }
-
+        clearFieldError(inputElement);
         return true;
     }
 
-    // Funkce pro validaci všech polí (používá se při submitu)
     function validateAll() {
         let isFormValid = true;
         fields.forEach(input => {
-            // Musíme volat validateField, abychom vynutili kontrolu
             if (!validateField(input)) {
                 isFormValid = false;
             }
@@ -132,27 +119,41 @@ document.addEventListener('DOMContentLoaded', function() {
         return isFormValid;
     }
 
-    // 1. Nastavení real-time validace na událost 'input'
+    async function fetchUsernameValidation(username){
+        let errorMessage = "";
+        const searchParams = new URLSearchParams();
+        searchParams.set("username",username);
+
+        let response = await fetch(
+            URL_PREFIX+"/admin/username_exists.php?"+searchParams.toString(),
+            {
+                method:"GET",
+                redirect: "manual",
+                headers:{},
+            }
+        )
+
+        console.log(response.status);
+        console.log(await response.text());
+
+        return true;
+    }
+
     fields.forEach(input => {
-        // Kontrola při psaní
         input.addEventListener('input', () => {
             validateField(input);
-            clearGeneralError();
         });
-        // Kontrola při opuštění pole
         input.addEventListener('blur', () => {
             validateField(input);
         });
     });
 
-    // 2. Nastavení finální validace při odeslání formuláře
     form.addEventListener('submit', function(event) {
         const isFormValid = validateAll();
 
         if (!isFormValid) {
             event.preventDefault();
 
-            // Najdeme první nevalidní pole a na něj zaostříme
             const firstInvalid = fields.find(input => input.checkValidity() === false);
             if (firstInvalid) {
                 firstInvalid.focus();

@@ -1,16 +1,12 @@
 <?php
-require_once __DIR__ . "/components/utils/links.php"; // Pro funkci createLink
+require_once __DIR__ . "/components/utils/links.php";
 
-// Výchozí chybová hláška
 $errorMessage = "Došlo k neočekávané chybě. Zkuste to prosím znovu později.";
 
-// Zkontrolujeme, zda byla předána konkrétní hláška přes GET parametr
 if (isset($_GET['message']) && !empty(trim($_GET['message']))) {
-    // Bezpečnost: Sanitizujeme hlášku pro zobrazení, abychom zabránili XSS
     $errorMessage = htmlspecialchars($_GET['message']);
 }
 
-// Odkaz na hlavní stránku
 $homeLink = createLink("/index.php");
 ?>
 <!DOCTYPE html>
@@ -19,7 +15,6 @@ $homeLink = createLink("/index.php");
     <?php include __DIR__ . "/components/head.php"; ?>
     <title>Chyba - Rezervační systém</title>
     <style>
-        /* Styly pro chybovou stránku, aby zapadla do designu */
         body#error-page-body {
             background-color: var(--primary-background-color, #f7f7f7);
             display: flex;
@@ -30,23 +25,22 @@ $homeLink = createLink("/index.php");
         }
 
         .error-container {
-            /* Inspirováno .login-container ze style.css */
             text-align: center;
             background-color: rgba(255, 255, 255, 0.95);
             padding: 40px;
             border-radius: 8px;
             box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-            margin: auto; /* Centrování na stránce */
+            margin: auto;
             max-width: 700px;
             width: 90%;
-            margin-top: 120px; /* Odsazení od navigace */
+            margin-top: 120px;
         }
 
         .error-container h1 {
             color: var(--primary-kacubo, #a20d0d);
             font-size: 2.5rem;
             margin-bottom: 20px;
-            overflow: auto; /* Z main style.css */
+            overflow: auto;
         }
 
         .error-container .error-message {
@@ -57,7 +51,6 @@ $homeLink = createLink("/index.php");
         }
 
         .error-container .back-link {
-            /* Použijeme styl podobný tlačítkům */
             display: inline-block;
             padding: 12px 25px;
             background-color: var(--primary-kacubo, #a20d0d);

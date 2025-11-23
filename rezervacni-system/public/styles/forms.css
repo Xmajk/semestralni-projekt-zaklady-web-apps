@@ -1,60 +1,31 @@
 
-/**/
+/*===REQUIRED===*/
 .required:after {
     content:" *";
     color: red;
   }
 
 /**/
-.switch {
-    position: relative;
-    display: inline-block;
-    width: 100%;
-    height: 100%;
-}
 
-.switch input {
-    opacity: 0;
-    width: 0;
-    height: 0;
-}
-
-.slider {
-    position: absolute;
-    cursor: pointer;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background-color: #ccc;
-    -webkit-transition: .4s;
-    transition: .4s;
-}
-
-.slider:before {
-    position: absolute;
-    content: "";
-    height: 100%;
-    width: 50%;
-    left: 4px;
-    bottom: 4px;
-    background-color: white;
-    -webkit-transition: .4s;
-    transition: .4s;
-}
-
+/*===switch===*/
 input:checked + .slider {
-    background-color: #2196F3;
+    background-color: var(--primary-kacubo);
 }
 
 input:focus + .slider {
-    box-shadow: 0 0 1px #2196F3;
+    box-shadow: 0 0 1px var(--primary-kacubo-hover);
 }
 
 input:checked + .slider:before {
-    -webkit-transform: translateX(99%);
-    -ms-transform: translateX(99%);
-    transform: translateX(99%);
+    -webkit-transform: translateX(180%);
+    -ms-transform: translateX(180%);
+    transform: translateX(180%);
+}
+input + .slider{
+    color: black;
+}
+input:checked + .slider{
+    color: white;
 }
 
 /* Rounded sliders */
@@ -64,4 +35,137 @@ input:checked + .slider:before {
 
 .slider.round:before {
     border-radius: 50%;
+}
+
+.switch {
+    position: relative;
+    display: inline-block;
+    width: 60px; /* Zvětšeno pro text */
+    height: 26px; /* Pevná výška */
+}
+.switch input { display: none; }
+.slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #ccc;
+    transition: .4s;
+}
+.slider:before {
+    position: absolute;
+    content: "";
+    height: 18px; /* Oprava */
+    width: 18px;  /* Oprava */
+    left: 4px;
+    bottom: 4px;
+    background-color: white;
+    transition: .4s;
+}
+input:checked + .slider {
+    background-color: #a20d0d; /* Kacubo barva */
+}
+input:focus + .slider {
+    box-shadow: 0 0 1px #a20d0d;
+}
+input:checked + .slider:before {
+    transform: translateX(34px); /* Posun (60 - 18 - 4 - 4) = 34 */
+}
+/* Rounded sliders */
+.slider.round { border-radius: 26px; }
+.slider.round:before { border-radius: 50%; }
+
+/* Přidání textu "ANO" / "NE" */
+.slider:after {
+    content: 'NE';
+    color: black;
+    display: block;
+    position: absolute;
+    transform: translate(-50%,-50%);
+    top: 50%;
+    left: 70%;
+    font-size: 10px;
+    font-weight: bold;
+    font-family: Arial, sans-serif;
+}
+input:checked + .slider:after {
+    content: 'ANO';
+    color: white;
+    left: 30%;
+}
+
+/* Wrapper pro label a switch */
+#isadmin-wrapper {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+#isadmin-wrapper label {
+    margin-bottom: 0;
+}
+
+/*===FORMS===*/
+form {
+    display: none;
+    background: #f9f9f9;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    padding: 20px;
+    margin-bottom: 20px;
+    margin-left: auto;
+    margin-right: auto;
+}
+h2 {
+    text-align: center;
+    margin-top: 0;
+    color: #333;
+}
+.form-wrapper {
+    margin-bottom: 15px;
+}
+label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: bold;
+    color: #555;
+}
+input[type="text"],
+input[type="datetime-local"],
+input[type="file"],
+input[type="password"],
+input[type="date"],
+input[type="email"],
+textarea {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box; /* Zajišťuje, že padding neovlivní celkovou šířku */
+    font-size: 14px;
+}
+input[type="file"] {
+    padding: 6px;
+    background: white;
+    cursor: pointer;
+}
+textarea {
+    min-height: 120px;
+    resize: vertical;
+    font-family: inherit;
+}
+button[type="submit"] {
+    background-color: #007b55; /* Zelená barva pro uložení */
+    color: white;
+    border: none;
+    padding: 12px 20px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 16px;
+    width: 100%;
+    transition: background-color 0.2s;
+}
+button[type="submit"]:hover {
+    background-color: #006347;
 }

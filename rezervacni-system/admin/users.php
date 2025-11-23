@@ -8,7 +8,6 @@ require_once __DIR__ . "/../components/check_auth.php";
 session_start();
 check_auth_admin();
 
-// Načtení chyb a dat z předchozího POST požadavku a jejich smazání ze session (PRG pattern)
 $errors = $_SESSION['form_errors'] ?? [];
 $formData = $_SESSION['form_data'] ?? [];
 unset($_SESSION['form_errors'], $_SESSION['form_data']);
@@ -20,7 +19,6 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
             'lastname' => trim($_POST["lastname"] ?? ''),
             'email' => trim($_POST["email"] ?? ''),
             'bdate' => trim($_POST["bdate"] ?? ''),
-        // is_admin checkbox je odeslán pouze pokud je zaškrtnut
             'is_admin' => isset($_POST['is_admin']) ? 1 : 0
     ];
 
@@ -104,8 +102,6 @@ $users = User::getAllOrdered();
 <html lang="cs">
 <head>
     <?php include __DIR__ . "/../components/head.php" ?>
-    <link rel="stylesheet" href="/rezervacni-system/public/styles/forms.css">
-    <link rel="stylesheet" href="/rezervacni-system/public/styles/toogleswitch.css">
     <script src="<?= createScriptLink("/validation/users.js") ?>"></script>
 </head>
 <body id="admin-users-body">
@@ -119,7 +115,6 @@ $users = User::getAllOrdered();
     <form id="add-user-form" class="novisible" autocomplete="off" method="post">
         <span id="form-error" class="error">
             <?php
-            // Zobrazení obecné chyby, pokud je k dispozici (např. v budoucnu: chyba DB)
             if (isset($errors['general'])):
                 echo htmlspecialchars($errors['general']);
             endif;
@@ -127,7 +122,7 @@ $users = User::getAllOrdered();
         </span>
 
         <div id="username-wrapper" class="form-wrapper">
-            <label for="form-username">Uživatelské jméno</label>
+            <label for="form-username">Uživatelské jméno<span class="required"></span></label>
             <input id="form-username" type="text" name="username" placeholder="Uživatelské jméno" required autocomplete="off" aria-describedby="error-username"
                    value="<?= htmlspecialchars($formData['username'] ?? '') ?>">
             <span id="error-username" class="validation-error <?= isset($errors['username']) ? 'active' : '' ?>">
@@ -136,7 +131,7 @@ $users = User::getAllOrdered();
         </div>
 
         <div id="email-wrapper" class="form-wrapper">
-            <label for="form-email">Email</label>
+            <label for="form-email">Email<span class="required"></span></label>
             <input id="form-email" type="email" name="email" placeholder="E-mail" required aria-describedby="error-email"
                    value="<?= htmlspecialchars($formData['email'] ?? '') ?>">
             <span id="error-email" class="validation-error <?= isset($errors['email']) ? 'active' : '' ?>">
@@ -146,7 +141,7 @@ $users = User::getAllOrdered();
 
         <div id="names-wrapper" class="form-wrapper">
             <div id="firstname-wrapper">
-                <label for="form-firstname">Jméno</label>
+                <label for="form-firstname">Jméno<span class="required"></span></label>
                 <input id="form-firstname" type="text" name="firstname" placeholder="Jméno" required aria-describedby="error-firstname"
                        value="<?= htmlspecialchars($formData['firstname'] ?? '') ?>">
                 <span id="error-firstname" class="validation-error <?= isset($errors['firstname']) ? 'active' : '' ?>">
@@ -154,7 +149,7 @@ $users = User::getAllOrdered();
                 </span>
             </div>
             <div id="lastname-wrapper">
-                <label for="form-lastname">Příjmení</label>
+                <label for="form-lastname">Příjmení<span class="required"></span></label>
                 <input id="form-lastname" type="text" name="lastname" placeholder="Příjmení" required aria-describedby="error-lastname"
                        value="<?= htmlspecialchars($formData['lastname'] ?? '') ?>">
                 <span id="error-lastname" class="validation-error <?= isset($errors['lastname']) ? 'active' : '' ?>">
@@ -164,7 +159,7 @@ $users = User::getAllOrdered();
         </div>
 
         <div id="bdate-wrapper">
-            <label for="form-bdate">Datum narození</label>
+            <label for="form-bdate">Datum narození<span class="required"></span></label>
             <input id="form-bdate" type="date" name="bdate" required aria-describedby="error-bdate"
                    value="<?= htmlspecialchars($formData['bdate'] ?? '') ?>">
             <span id="error-bdate" class="validation-error <?= isset($errors['bdate']) ? 'active' : '' ?>">
@@ -173,7 +168,7 @@ $users = User::getAllOrdered();
         </div>
 
         <div id="password-wrapper" class="form-wrapper">
-            <label for="form-password">Heslo</label>
+            <label for="form-password">Heslo<span class="required"></span></label>
             <input id="form-password" type="password" name="password" placeholder="Heslo" required aria-describedby="error-password">
             <span id="error-password" class="validation-error <?= isset($errors['password']) ? 'active' : '' ?>">
                 <?= htmlspecialchars($errors['password'] ?? '') ?>
@@ -194,7 +189,7 @@ $users = User::getAllOrdered();
         <button type="submit">Uložit</button>
     </form>
 
-    <div>
+    <div class="filter-username-wrap">
         <label for="filter">Filtrování</label>
         <input id="filter" name="filter" class="filter-username" type="text" placeholder="Uživatelské jméno">
     </div>
@@ -214,7 +209,7 @@ $users = User::getAllOrdered();
             <tbody>
             <?php foreach ($users as $user): ?>
                 <tr>
-                    <td class="clip"><?= htmlspecialchars($user->username) ?></td>
+                    <td class="clip username-col"><?= htmlspecialchars($user->username) ?></td>
                     <td class="muted"><?= htmlspecialchars($user->firstname) ?></td>
                     <td class="muted"><?= htmlspecialchars($user->bdate) ?></td>
 

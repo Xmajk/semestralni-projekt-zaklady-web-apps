@@ -1,6 +1,8 @@
 <?php
 namespace components\objects;
 
+use mysql_xdevapi\Exception;
+
 require_once __DIR__."/../dbconnector.php";
 
 class User
@@ -24,6 +26,30 @@ class User
         $conn = connect();
         $result = $conn->query($sql);
         return $result->num_rows > 0;
+    }
+
+    static function check_username($username){
+        $sql = "SELECT * FROM users WHERE username = ? LIMIT 1";
+        $conn = connect();
+        $stmt = $conn->prepare($sql);
+        if ($stmt === false) {
+            $conn->close();
+            return null;
+        }
+        $stmt->bind_param("s", $username);
+        if (!$stmt->execute()) {
+            $stmt->close();
+            $conn->close();
+            throw new Exception("Db execute error");
+        }
+        $result = $stmt->get_result();
+        if (!$result || $result->num_rows === 0) {
+            $stmt->close();
+            $conn->close();
+            return false;
+        }
+        $row = $result->fetch_assoc();
+        return !is_null($row);
     }
 
     static function getUserById($id)
@@ -246,7 +272,7 @@ class User
         return $result;
     }
 
-    public function validateUser(){
+    public static function validation($user,$errors){
         return true;
     }
 

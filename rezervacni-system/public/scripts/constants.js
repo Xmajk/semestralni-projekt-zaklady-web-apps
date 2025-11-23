@@ -1,0 +1,1 @@
+const URL_PREFIX = "/~hroudmi5/rezervacni-system"

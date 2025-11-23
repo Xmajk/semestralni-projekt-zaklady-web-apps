@@ -5,81 +5,73 @@ require_once __DIR__ . "/../components/utils/crypto.php";
 require_once __DIR__ . "/../components/utils/links.php";
 require_once __DIR__ . "/../components/check_auth.php";
 
+session_start();
 check_auth_admin();
 
+$errors = $_SESSION['form_errors'] ?? [];
+$form_data = $_SESSION['form_data'] ?? [];
+unset($_SESSION['form_errors'], $_SESSION['form_data']);
 $error = NULL;
+$user_id = htmlspecialchars($_GET["id"]) ?? null;
+$is_success = (htmlspecialchars($_GET["success"]??'0') ?? '0')=='1';
 
-// 1. Načtení ID uživatele z URL
-$user_id = $_GET["id"] ?? null;
-
-if (!$user_id) {
-    // Pokud chybí ID uživatele, přesměruj na seznam uživatelů
-    header("Location: " . createLink("/admin/users.php"));
-    exit;
-}
-
-// 2. Načtení uživatele z DB
+if (!isset($user_id)) redirect_to(createLink("/admin/users.php"));
+if(!is_numeric($user_id)) redirect_to(create_error_link("uživatel nenalezen"));
 $user = User::getUserById($user_id);
-if (!$user) {
-    // Pokud uživatel s daným ID neexistuje
-    header("Location: " . createLink("/admin/users.php?error=user_not_found"));
-    exit;
+if (!isset($user)) redirect_to(create_error_link("Uživatel nenalezen"));
+
+function create_user_link(){
+    global $user_id;
+    return createLink("/admin/user.php?".http_build_query(array('id'=>$user_id),'',"&amp;"));
+}
+function create_user_updated_link(){
+    global $user_id;
+    return createLink("/admin/user.php?".http_build_query(array('id'=>$user_id,'success'=>'1'),'',"&amp;"));
 }
 
+function reload(){
+    global $form_data,$errors;
+    $_SESSION["form_errors"] = $errors;
+    $_SESSION["form_data"] = $form_data;
+    redirect_to(create_user_link());
+}
 
-// 3. Zpracování požadavků
 if($_SERVER["REQUEST_METHOD"] == "GET" && (isset($_GET['action']) && $_GET['action'] === 'delete' && isset($_GET['id']))){
-    // Zpracování smazání (pokud by bylo voláno odsud)
-    $id = (int)$_GET['id'];
-    User::deleteById($id);
-    header("Location: " .createLink("/admin/users.php"));
-    exit;
+    User::deleteById((int)$user_id);
+    redirect_to(createLink("/admin/users.php"));
 }
 else if($_SERVER["REQUEST_METHOD"] == "POST"){
-    // Zpracování AKTUALIZACE uživatele
+    $form_data = array(
+            "firstname" => trim($_POST["firstname"]??''),
+        "lastname" => trim($_POST["lastname"]??''),
+        "email" => trim($_POST["email"]??''),
+        "password" => trim($_POST["password"]??''),
+        "bdate" => trim($_POST["bdate"]??''),
+        "is_admin" => trim($_POST["is_admin"]??''),
+    );
 
-    // Získání a ošetření dat z POST
-    $new_firstname  = trim($_POST["firstname"] ?? "");
-    $new_lastname   = trim($_POST["lastname"] ?? "");
-    $new_email      = trim($_POST["email"] ?? "");
-    $new_bdate      = trim($_POST["bdate"] ?? "");
-    $new_password   = trim($_POST["password"] ?? ""); // Nové heslo, může být prázdné
-    $new_is_admin   = isset($_POST["is_admin"]) ? 1 : 0; // Zjištění, zda je admin checkbox zaškrtnut
-
-    // Základní server-side validace
-    if (empty($new_firstname) || empty($new_lastname) || empty($new_email) || empty($new_bdate)) {
-        $error = "Pole Jméno, Příjmení, Email a Datum narození jsou povinná.";
-    } else {
-        // Všechna povinná pole jsou vyplněna, pokračujeme v aktualizaci
-
-        // Aktualizuj vlastnosti objektu $user
-        $user->firstname  = $new_firstname;
-        $user->lastname   = $new_lastname;
-        $user->email      = $new_email;
-        $user->bdate      = $new_bdate;
-        $user->is_admin   = $new_is_admin;
-
-        // Aktualizace hesla POUZE pokud bylo zadáno nové
-        if (!empty($new_password)) {
-            $user->password = hashSHA256($new_password);
+    $user->firstname = $form_data["firstname"];
+    $user->lastname = $form_data["lastname"];
+    $user->email = $form_data["email"];
+    $user->bdate = $form_data["bdate"];
+    $user->is_admin = $form_data["is_admin"];
+    if(!empty($form_data["password"])){
+        if(strlen($form_data["password"]) < 6){
+            $errors["password"] = "heslo musí být dlouhé minimálně 6 znaků";
+            reload();
         }
-        // Pokud je $new_password prázdné, $user->password zůstane původní (načtené z DB)
+        $user->password=hashSHA256($form_data["password"]);
+    }
 
-        // Zavolání metody update (která musí být definována v User.php)
-        if ($user->update()) {
-            // Úspěšná aktualizace, přesměruj se zprávou o úspěchu
-            header("Location: " . createLink("/admin/user.php?id=" . $user->id . "&success=1"));
-            exit;
-        } else {
-            $error = "Chyba při ukládání změn do databáze.";
-        }
+    $errors = array();
+    if(!User::validation($user,$errors)) reload();
+
+    if($user->update()){
+        redirect_to(create_user_updated_link());
+    }else{
+        redirect_to(create_error_link("Chyba při aktualizaci dat uživatele. Kontaktujte správce"));
     }
 }
-
-// Pokud kód došel sem, buď se jedná o první načtení stránky (GET),
-// nebo došlo k chybě při POSTu. V obou případech se zobrazí formulář
-// s aktuálními daty (buď čerstvě načtenými z DB, nebo upravenými z POSTu, které selhalo).
-
 ?>
 <!DOCTYPE html>
 <html lang="cs">
@@ -98,7 +90,6 @@ else if($_SERVER["REQUEST_METHOD"] == "POST"){
     <form id="add-user-form" autocomplete="off" method="post">
         <span id="form-error" class="error">
             <?php
-            // Zobrazení obecné chyby, pokud je k dispozici (např. v budoucnu: chyba DB)
             if (isset($errors['general'])):
                 echo htmlspecialchars($errors['general']);
             endif;
@@ -106,15 +97,15 @@ else if($_SERVER["REQUEST_METHOD"] == "POST"){
         </span>
 
         <div id="username-wrapper" class="form-wrapper">
-            <label for="form-username">Uživatelské jméno</label>
+            <label for="form-username">Uživatelské jméno<span class="required"></span></label>
             <input id="form-username" type="text" name="username" placeholder="Uživatelské jméno" required autocomplete="off" aria-describedby="error-username"
                    value="<?= htmlspecialchars($user->username) ?>" disabled>
         </div>
 
         <div id="email-wrapper" class="form-wrapper">
-            <label for="form-email">Email</label>
+            <label for="form-email">Email<span class="required"></span></label>
             <input id="form-email" type="email" name="email" placeholder="E-mail" required aria-describedby="error-email"
-                   value="<?= htmlspecialchars($user->email ?? '') ?>">
+                   value="<?= htmlspecialchars($form_data->email ?? $user->email ?? '') ?>">
             <span id="error-email" class="validation-error <?= isset($errors['email']) ? 'active' : '' ?>">
                 <?= htmlspecialchars($errors['email'] ?? '') ?>
             </span>
@@ -122,17 +113,17 @@ else if($_SERVER["REQUEST_METHOD"] == "POST"){
 
         <div id="names-wrapper" class="form-wrapper">
             <div id="firstname-wrapper">
-                <label for="form-firstname">Jméno</label>
+                <label for="form-firstname">Jméno<span class="required"></span></label>
                 <input id="form-firstname" type="text" name="firstname" placeholder="Jméno" required aria-describedby="error-firstname"
-                       value="<?= htmlspecialchars($user->firstname ?? '') ?>">
+                       value="<?= htmlspecialchars( $form_data->firstname ??$user->firstname ?? '') ?>">
                 <span id="error-firstname" class="validation-error <?= isset($errors['firstname']) ? 'active' : '' ?>">
                     <?= htmlspecialchars($errors['firstname'] ?? '') ?>
                 </span>
             </div>
             <div id="lastname-wrapper">
-                <label for="form-lastname">Příjmení</label>
+                <label for="form-lastname">Příjmení<span class="required"></span></label>
                 <input id="form-lastname" type="text" name="lastname" placeholder="Příjmení" required aria-describedby="error-lastname"
-                       value="<?= htmlspecialchars($user->lastname ?? '') ?>">
+                       value="<?= htmlspecialchars($formData->lastname ?? $user->lastname ?? '') ?>">
                 <span id="error-lastname" class="validation-error <?= isset($errors['lastname']) ? 'active' : '' ?>">
                     <?= htmlspecialchars($errors['lastname'] ?? '') ?>
                 </span>
@@ -140,9 +131,9 @@ else if($_SERVER["REQUEST_METHOD"] == "POST"){
         </div>
 
         <div id="bdate-wrapper">
-            <label for="form-bdate">Datum narození</label>
+            <label for="form-bdate">Datum narození<span class="required"></span></label>
             <input id="form-bdate" type="date" name="bdate" required aria-describedby="error-bdate"
-                   value="<?= htmlspecialchars($user->bdate ?? '') ?>">
+                   value="<?= htmlspecialchars($form_data->bdate ?? $user->bdate ?? '') ?>">
             <span id="error-bdate" class="validation-error <?= isset($errors['bdate']) ? 'active' : '' ?>">
                 <?= htmlspecialchars($errors['bdate'] ?? '') ?>
             </span>
@@ -150,7 +141,7 @@ else if($_SERVER["REQUEST_METHOD"] == "POST"){
 
         <div id="password-wrapper" class="form-wrapper">
             <label for="form-password">Heslo</label>
-            <input id="form-password" type="password" name="password" placeholder="Heslo" required aria-describedby="error-password">
+            <input id="form-change-password" type="password" name="password" placeholder="Heslo" aria-describedby="error-password">
             <span id="error-password" class="validation-error <?= isset($errors['password']) ? 'active' : '' ?>">
                 <?= htmlspecialchars($errors['password'] ?? '') ?>
             </span>
@@ -161,7 +152,7 @@ else if($_SERVER["REQUEST_METHOD"] == "POST"){
             <div id="switch-wrapper" style="height: 34px;">
                 <label class="switch" style="width: 60px;">
                     <input type="checkbox" id="form-isadmin" name="is_admin" value="1"
-                            <?= ($formData['is_admin'] ?? 0) ? 'checked' : '' ?>>
+                            <?= ($form_data->is_admin ?? $user->is_admin ?? 0) ? 'checked' : '' ?>>
                     <span class="slider round"></span>
                 </label>
             </div>

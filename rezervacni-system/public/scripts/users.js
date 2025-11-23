@@ -1,7 +1,11 @@
 function toggleForm() {
-    alert("toohle")
+    let visibilityclass = "novisible"
     const form = document.getElementById('add-user-form');
-    form.style.display = (form.style.display === 'none' || form.style.display === '') ? 'block' : 'none';
+    if(form.classList.contains(visibilityclass)){
+        form.classList.remove(visibilityclass)
+    }else{
+        form.classList.add(visibilityclass)
+    }
 }
 
 document.getElementById("expand-user-form").addEventListener("click",toggleForm)
@@ -13,7 +17,7 @@ filterInput.addEventListener('input', function () {
     const filterValue = this.value.toLowerCase().trim();
 
     rows.forEach(row => {
-        const usernameCell = row.querySelector('[mark="username"]');
+        const usernameCell = row.querySelector('.username-col');
         const username = usernameCell.textContent.toLowerCase();
 
         if (username.includes(filterValue)) {

@@ -3,7 +3,7 @@ use components\objects\Event;
 require_once __DIR__ . "/../components/objects/Event.php";
 require_once __DIR__ . "/../components/utils/links.php";
 require_once __DIR__ . "/../components/check_auth.php";
-require_once __DIR__ . "/../components/utils/image_helper.php"; // Náš nový helper
+require_once __DIR__ . "/../components/utils/image_helper.php";
 
 check_auth_admin();
 
@@ -90,70 +90,7 @@ $events = Event::getAllOrdered();
 <head>
     <?php include __DIR__ . "/../components/head.php" ?>
     <link rel="stylesheet" href="<?= createStylesLink("/forms.css") ?>">
-    <link rel="stylesheet" href="<?= createStylesLink("/toogleswitch.css") ?>">
-    <link rel="stylesheet" href="<?= createStylesLink("/table.css") ?>"> <!-- Přidání stylů pro tabulku -->
     <style>
-        /* Styly pro formulář, podobné jako v users.php */
-        #add-event-form {
-            display: none; /* Skryto ve výchozím stavu */
-            background: #f9f9f9;
-            border: 1px solid #ccc;
-            border-radius: 8px;
-            padding: 20px;
-            margin-bottom: 20px;
-            max-width: 800px; /* Omezení šířky formuláře */
-            margin-left: auto;
-            margin-right: auto;
-        }
-        #add-event-form h2 {
-            text-align: center;
-            margin-top: 0;
-            color: #333;
-        }
-        #add-event-form .form-wrapper {
-            margin-bottom: 15px;
-        }
-        #add-event-form label {
-            display: block;
-            margin-bottom: 5px;
-            font-weight: bold;
-            color: #555;
-        }
-        #add-event-form input[type="text"],
-        #add-event-form input[type="datetime-local"],
-        #add-event-form input[type="file"],
-        #add-event-form textarea {
-            width: 100%;
-            padding: 10px;
-            border: 1px solid #ccc;
-            border-radius: 4px;
-            box-sizing: border-box; /* Zajišťuje, že padding neovlivní celkovou šířku */
-            font-size: 14px;
-        }
-        #add-event-form input[type="file"] {
-            padding: 6px;
-            background: white;
-            cursor: pointer;
-        }
-        #add-event-form textarea {
-            min-height: 120px;
-            resize: vertical;
-            font-family: inherit;
-        }
-        #add-event-form button[type="submit"] {
-            background-color: #007b55; /* Zelená barva pro uložení */
-            color: white;
-            border: none;
-            padding: 12px 20px;
-            border-radius: 6px;
-            cursor: pointer;
-            font-size: 16px;
-            width: 100%;
-            transition: background-color 0.2s;
-        }
-        #add-event-form button[type="submit"]:hover {
-            background-color: #006347;
-        }
 
         /* Obalovač filtru */
         .filter-wrapper {
@@ -183,40 +120,72 @@ $events = Event::getAllOrdered();
 
     <!-- !! DŮLEŽITÉ: Přidán enctype pro nahrávání souborů !! -->
     <form id="add-event-form" autocomplete="off" method="post" action="" enctype="multipart/form-data">
-        <h2>Nová událost</h2>
-
         <div id="name-wrapper" class="form-wrapper">
-            <label for="form-name">Název</label>
+            <label for="form-name">Název<span class="required"></span></label>
             <input id="form-name" type="text" name="name" placeholder="Název události" required>
+            <span id="error-name" class="validation-error <?= isset($errors['name']) ? 'active' : '' ?>">
+                <?= htmlspecialchars($errors['name'] ?? '') ?>
+            </span>
         </div>
 
         <div id="description-wrapper" class="form-wrapper">
             <label for="form-description">Popis</label>
             <textarea id="form-description" name="description" placeholder="Podrobný popis události..."></textarea>
+            <span id="error-description" class="validation-error <?= isset($errors['description']) ? 'active' : '' ?>">
+                <?= htmlspecialchars($errors['description'] ?? '') ?>
+            </span>
         </div>
 
         <div id="location-wrapper" class="form-wrapper">
-            <label for="form-location">Místo</label>
+            <label for="form-location">Místo<span class="required"></span></label>
             <input id="form-location" type="text" name="location" placeholder="Místo konání (např. adresa nebo 'Online')" required>
+            <span id="error-location" class="validation-error <?= isset($errors['location']) ? 'active' : '' ?>">
+                <?= htmlspecialchars($errors['location'] ?? '') ?>
+            </span>
+        </div>
+
+        <div id="price-wrapper" class="form-wrapper">
+            <label for="form-price">Cena</label>
+            <input id="form-price" type="text" placeholder="Cena události" name="price" required>
+            <span id="error-price" class="validation-error <?= isset($errors['price']) ? 'active' : '' ?>">
+                <?= htmlspecialchars($errors['price'] ?? '') ?>
+            </span>
+        </div>
+
+        <div id="capacity-wrapper" class="form-wrapper">
+            <label for="form-capacity">Kapacita</label>
+            <input id="form-capacity" type="text" placeholder="Kapacita" name="capacity" required>
+            <span id="error-capacity" class="validation-error <?= isset($errors['capacity']) ? 'active' : '' ?>">
+                <?= htmlspecialchars($errors['capacity'] ?? '') ?>
+            </span>
         </div>
 
         <div id="start-datetime-wrapper" class="form-wrapper">
-            <label for="form-start-datetime">Datum a čas zahájení</label>
+            <label for="form-start-datetime">Datum a čas zahájení<span class="required"></span></label>
             <input id="form-start-datetime" type="datetime-local" name="start_datetime" required>
+            <span id="error-start-datetime" class="validation-error <?= isset($errors['start_datetime']) ? 'active' : '' ?>">
+                <?= htmlspecialchars($errors['start_datetime'] ?? '') ?>
+            </span>
         </div>
 
         <div id="registration-deadline-wrapper" class="form-wrapper">
-            <label for="form-registration-deadline">Datum a čas konce registrací</label>
+            <label for="form-registration-deadline">Datum a čas konce registrací<span class="required"></span></label>
             <input id="form-registration-deadline" type="datetime-local" name="registration_deadline" required>
+            <span id="error-registration-deadline" class="validation-error <?= isset($errors['registration_deadline']) ? 'active' : '' ?>">
+                <?= htmlspecialchars($errors['registration_deadline'] ?? '') ?>
+            </span>
         </div>
 
         <!-- Nové pole pro obrázek -->
         <div id="image-wrapper" class="form-wrapper">
             <label for="form-image">Obrázek události (JPG, PNG)</label>
             <input id="form-image" type="file" name="image" accept="image/jpeg, image/png">
+            <span id="error-image" class="validation-error <?= isset($errors['image']) ? 'active' : '' ?>">
+                <?= htmlspecialchars($errors['image'] ?? '') ?>
+            </span>
         </div>
 
-        <button type="submit">Uložit událost</button>
+        <button type="submit">Uložit</button>
     </form>
 
     <div class="filter-wrapper">
@@ -231,6 +200,7 @@ $events = Event::getAllOrdered();
             <tr>
                 <th classs="sortable" aria-sort="descending">Název události</th> <!-- Seřazeno dle data konání (v PHP), ne klikatelně -->
                 <th>Datum registrace do</th>
+                <th>Registrace</th>
                 <th>Upravit</th>
                 <th>Smazat</th>
             </tr>
@@ -245,21 +215,21 @@ $events = Event::getAllOrdered();
             <?php endif; ?>
             <?php foreach ($events as $event): ?>
                 <tr>
-                    <!-- Přidán atribut 'mark' pro funkci filtrování -->
-                    <td mark="name" class="clip"><?= htmlspecialchars($event->name) ?></td>
+                    <td class="filter-element" class="clip"><?= htmlspecialchars($event->name) ?></td>
                     <td class="muted">
                         <?php
-                        // Formátování data pro lepší čitelnost
-                        try {
-                            echo htmlspecialchars(date('d. m. Y H:i', strtotime($event->registration_deadline)));
-                        } catch (Exception $e) {
-                            echo htmlspecialchars($event->registration_deadline); // Fallback
-                        }
+                            try {
+                                echo htmlspecialchars(date('d. m. Y H:i', strtotime($event->registration_deadline)));
+                            } catch (Exception $e) {
+                                echo htmlspecialchars($event->registration_deadline); // Fallback
+                            }
                         ?>
                     </td>
+                    <td>20/25</td>
                     <!-- TODO: Nahraďte '#' odkazy na skutečné editační a mazací skripty -->
                     <td><a href="event_edit.php?id=<?= $event->id ?>">upravit</a></td>
                     <td><a href="event_delete.php?id=<?= $event->id ?>" onclick="return confirm('Opravdu chcete smazat tuto událost?');">vymazat</a></td>
+                    <td><a class="download-link" href="events.php"><img src="<?= createPublicLink("/icons/dwnload.svg") ?>"></a></td>
                 </tr>
             <?php endforeach; ?>
             </tbody>
@@ -285,7 +255,7 @@ $events = Event::getAllOrdered();
 
             rows.forEach(row => {
                 // Ujistěte se, že buňka existuje a má atribut 'mark'
-                const nameCell = row.querySelector('[mark="name"]');
+                const nameCell = row.querySelector('.filter-element');
 
                 if (nameCell) { // Pokud je to řádek s událostí
                     const name = nameCell.textContent.toLowerCase();
@@ -305,6 +275,7 @@ $events = Event::getAllOrdered();
         });
     }
 </script>
+<script src="<?= createScriptLink("/validation/events.js") ?>"></script>
 
 </body>
 </html>
