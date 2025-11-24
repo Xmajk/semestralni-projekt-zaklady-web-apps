@@ -31,3 +31,11 @@ function redirect_to($link){
     header("Location: ".$link);
     exit();
 }
+
+function create_large_image_link($imagname){
+    return createPublicLink("/imgs/events/large/".$imagname);
+}
+
+function create_small_image_link($imagname){
+    return createPublicLink("/imgs/events/thumb/".$imagname);
+}

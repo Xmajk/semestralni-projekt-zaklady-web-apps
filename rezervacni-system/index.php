@@ -44,7 +44,8 @@ array_push($events, $tmp);
 
     <?php foreach ($events as $event): ?>
         <div class="event-card available">
-            <div class="event-image" style="background-image:url('/rezervacni-system/public/imgs/default-event-bg.png');"></div>
+            <img class="event-image" src="<?= create_small_image_link($event->image??"default.jpg") ?>">
+            <!--<div class="event-image" style="background-image:url('/rezervacni-system/public/imgs/default-event-bg.png');"></div>-->
             <div class="event-content">
                 <div class="event-title"><?= htmlspecialchars($event->name) ?></div>
                 <div class="event-date">Datum konání: 25. listopadu 2025</div>

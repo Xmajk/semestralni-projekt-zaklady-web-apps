@@ -1,2 +1,6 @@
 /zmt
 /zps
+*.jpg
+*.png
+
+!default.jpg

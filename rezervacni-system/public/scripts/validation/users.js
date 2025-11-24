@@ -62,14 +62,14 @@ document.addEventListener('DOMContentLoaded', function() {
         let errorMessage = '';
 
         if (inputElement.hasAttribute('required') && value === '' && id !== 'form-password') {
-            errorMessage = 'Toto pole je povinné.';
+            errorMessage = 'Toto pole je povinné';
         }
 
         if (errorMessage === '') {
             switch (id) {
                 case 'form-username':
                     if (value === '') {
-                        errorMessage = 'Uživatelské jméno je povinné.';
+                        errorMessage = 'Uživatelské jméno je povinné';
                     } else if (value.length > 0 && value.length < MIN_USERNAME_LENGTH) {
                         errorMessage = `Uživatelské jméno musí mít alespoň ${MIN_USERNAME_LENGTH} znaky.`;
                     } else if (await fetchUsernameValidation(value)){
@@ -79,16 +79,16 @@ document.addEventListener('DOMContentLoaded', function() {
                     break;
                 case 'form-email':
                     if (value === '') {
-                        errorMessage = 'E-mail je povinný.';
+                        errorMessage = 'E-mail je povinný';
                     } else if (value.length > 0 && !isValidEmail(value)) {
-                        errorMessage = 'Zadejte prosím platnou e-mailovou adresu.';
+                        errorMessage = 'Zadejte prosím platnou e-mailovou adresu';
                     }
                     break;
                 case 'form-password':
                     if (value === '') {
-                        errorMessage = 'Heslo je povinné.';
+                        errorMessage = 'Heslo je povinné';
                     } else if (value.length > 0 && value.length < MIN_PASSWORD_LENGTH) {
-                        errorMessage = `Heslo musí mít alespoň ${MIN_PASSWORD_LENGTH} znaků.`;
+                        errorMessage = `Heslo musí mít alespoň ${MIN_PASSWORD_LENGTH} znaků`;
                     }
                     break;
                 case 'form-firstname':

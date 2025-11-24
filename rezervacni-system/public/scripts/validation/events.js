@@ -51,14 +51,14 @@ async function validateField(inputElement) {
     let errorMessage = '';
 
     if (inputElement.hasAttribute('required') && value === '' && id !== 'form-password') {
-        errorMessage = 'Toto pole je povinné.';
+        errorMessage = 'Toto pole je povinné';
     }
 
     if (errorMessage === '') {
         switch (id) {
             case 'form-name':
                 if(value === ''){
-                    errorMessage = 'Uživatelské jméno je povinné';
+                    errorMessage = 'Název je povinný';
                 }else if(value.length<NAME_LEN[0]){
                     errorMessage = 'Uživatelské jménu musí být dlouhé minimálně '+NAME_LEN[0]+' znaků'
                 }else if(value.length>NAME_LEN[1]){

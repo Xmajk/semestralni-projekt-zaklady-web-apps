@@ -8,16 +8,72 @@ require_once __DIR__ . "/../components/utils/image_helper.php";
 session_start();
 check_auth_admin();
 
+CONST DEFAULT_IMAGE_NAME = "default.jpg";
+
 $errors = $_SESSION['form_errors'] ?? [];
 $formData = $_SESSION['form_data'] ?? [];
-
-// Zpracování formuláře pro přidání nové události
 if($_SERVER["REQUEST_METHOD"] == "POST"){
+    $formData = [
+            "name" => $_POST["name"],
+            "description" => $_POST["description"],
+            "location" => $_POST["location"],
+            "price" => $_POST["price"],
+            "capacity" => $_POST["capacity"],
+            "start_datetime" => $_POST["start_datetime"],
+            "registration_deadline" => $_POST["registration_deadline"],
+            "image" => $_FILES["image"],
+    ];
+    $_SESSION['form_data'] = $formData;
 
-    $image_db_filename = null; // Název souboru pro uložení do DB
+    //datavalidation
+    if(!isset($formData["name"])){
+        $errors["name"] = "Toto pole je povinné";
+    }
 
-    // Zpracování obrázku
-    if (isset($_FILES['image']) && $_FILES['image']['error'] === UPLOAD_ERR_OK) {
+    if(isset($formData["description"])){
+        if(strlen($formData["description"]) > 1000){
+            $errors["description"] = "Popis nesmí mít více jak 1000 znaků";
+        }
+    }
+
+    if(!isset($formData["location"])){
+        $errors["location"] = "Toto pole je povinné";
+    }elseif(strlen($formData["location"]) > 100){
+        $errors["location"] = "Místo nesmí mít více jak 100 znaků";
+    }
+
+    if(isset($formData["price"])){
+        if(trim(strtolower($formData["price"]))=="zdarma"){
+            $formData["price"]=0;
+        }
+        if(!is_numeric($formData["price"])){
+            $errors["price"] = "Cenam musí být číslo";
+        }else{
+            $formData = intval($formData["price"]);
+        }
+    }else{
+        $formData["price"] = 0;
+    }
+
+    if(!isset($formData["capacity"])){
+        $errors["capacity"] = "Toto pole je povinné.";
+    }
+    elseif(!is_numeric($formData["capacity"])){
+        $errors["capacity"] = "Kapacita musí být číslo";
+    }
+
+    if(!isset($formData["start_datetime"])){
+        $errors["start_datetime"] = "Toto pole je povinné";
+    }
+
+    if(!isset($formData["registration_deadline"])){
+        $errors["registration_deadline"] = "Toto pole je povinné";
+    }
+
+    $_SESSION['form_errors'] = $errors;
+
+    $image_db_filename = DEFAULT_IMAGE_NAME;
+    if (isset($formData['image']) && $formData['image']['error'] === UPLOAD_ERR_OK) {
         $file = $_FILES['image'];
         $source_path = $file['tmp_name'];
 
@@ -26,63 +82,49 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
         $allowed_types = [IMAGETYPE_JPEG, IMAGETYPE_PNG];
 
         if (!in_array($image_type, $allowed_types)) {
-            $error = "Neplatný formát obrázku. Povoleny jsou pouze JPEG a PNG.";
+            $errors["image"] = "Neplatný formát obrázku. Povoleny jsou pouze JPEG a PNG.";
         } else {
-            // Vytvoření unikátního názvu souboru
+            //uuid obrázku
             $base_filename = "event_" . uniqid();
             $extension = ($image_type == IMAGETYPE_JPEG) ? '.jpg' : '.png';
-            $image_db_filename = $base_filename . $extension; // např. event_60b8d29f1c3a4.jpg
+            $image_db_filename = $base_filename . $extension;
 
-            // Cílové adresáře (musí existovat a být zapisovatelné!)
             $dir_large = __DIR__ . "/../public/imgs/events/large/";
             $dir_thumb = __DIR__ . "/../public/imgs/events/thumb/";
+            if (!is_dir($dir_large)) @mkdir($dir_large, 0777, true);
+            if (!is_dir($dir_thumb)) @mkdir($dir_thumb, 0777, true);
 
-            // Vytvoření adresářů, pokud neexistují
-            if (!is_dir($dir_large)) @mkdir($dir_large, 0755, true);
-            if (!is_dir($dir_thumb)) @mkdir($dir_thumb, 0755, true);
-
-            // Zpracování velké verze (1200px)
             $success_large = \components\utils\processUploadedImage($source_path, $image_type, $dir_large, $image_db_filename, 1200);
-            // Zpracování náhledu (300px)
             $success_thumb = \components\utils\processUploadedImage($source_path, $image_type, $dir_thumb, $image_db_filename, 300);
 
             if (!$success_large || !$success_thumb) {
-                $error = "Chyba při ukládání obrázku. Zkontrolujte práva zápisu do adresáře 'public/imgs/events/'.";
-                $image_db_filename = null; // Reset
+                $errors["general"] = "Chyba při ukládání obrázku. Zkontrolujte práva zápisu do adresáře 'public/imgs/events/'.";
+                $image_db_filename = DEFAULT_IMAGE_NAME; // Reset
             }
         }
     }
-
-    // Uložení dat do databáze
-    if ($error === NULL) { // Pokud nenastala žádná chyba (ani při nahrávání obrázku)
-
+    $_SESSION['form_errors'] = $errors;
+    if (count($errors)==0) {
         $newEvent = new Event();
-        $newEvent->name = $_POST["name"];
-        $newEvent->description = $_POST["description"];
-        $newEvent->location = $_POST["location"];
-        $newEvent->start_datetime = $_POST["start_datetime"];
-        $newEvent->registration_deadline = $_POST["registration_deadline"];
-        $newEvent->image_filename = $image_db_filename; // Uložíme název souboru (nebo null, pokud nebyl nahrán)
+        $newEvent->name = $formData["name"];
+        $newEvent->description = $formData["description"];
+        $newEvent->location = $formData["location"];
+        $newEvent->start_datetime = $formData["start_datetime"];
+        $newEvent->registration_deadline = $formData["registration_deadline"];
+        $newEvent->image_filename = $image_db_filename;
 
         // Metoda z Event.php
         if ($newEvent->insert()) {
-            header("Location: " . $_SERVER['REQUEST_URI']);
+            redirect_to(createLink("/admin/events.php"));
             exit;
         } else {
             $error = "Chyba při ukládání události do databáze.";
         }
-
     }
 
-    // Pokud chyba nastala, zobrazíme ji
-    if ($error) {
-        // Použití alertu je zde pro jednoduchost, v produkci by bylo lepší chybovou hlášku vypsat do HTML
-        echo "<script>alert('".htmlspecialchars($error)."');</script>";
-    }
+    redirect_to(createLink("/admin/events.php"));
 }
 
-
-// Načtení událostí - metoda getAllOrdered() je řadí podle start_datetime DESC
 $events = Event::getAllOrdered();
 
 ?>
@@ -119,9 +161,12 @@ $events = Event::getAllOrdered();
 <div id="page-content">
 
     <button class="expand-btn" onclick="toggleForm()">Přidat událost</button>
+    <?= var_dump($errors); ?>
+    <p>---</p>
+    <?= var_dump($formData); ?>
 
     <!-- !! DŮLEŽITÉ: Přidán enctype pro nahrávání souborů !! -->
-    <form id="add-event-form" autocomplete="off" method="post" action="" enctype="multipart/form-data">
+    <form id="add-event-form" autocomplete="off" method="post" enctype="multipart/form-data">
         <div id="name-wrapper" class="form-wrapper">
             <label for="form-name">Název<span class="required"></span></label>
             <input id="form-name" type="text" name="name" placeholder="Název události" value="<?= $formData["name"] ?? "" ?>" required>
