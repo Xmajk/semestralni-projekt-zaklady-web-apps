@@ -49,7 +49,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
         if(!is_numeric($formData["price"])){
             $errors["price"] = "Cenam musí být číslo";
         }else{
-            $formData = intval($formData["price"]);
+            $formData["price"] = intval($formData["price"]);
         }
     }else{
         $formData["price"] = 0;
