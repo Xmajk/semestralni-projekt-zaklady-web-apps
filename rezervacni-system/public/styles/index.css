@@ -125,7 +125,8 @@ body#home-body {
     content: "🔒 Uzamčeno";
     position: absolute;
     top: 10px;
-    left: 10px;
+    /* left: 10px; */
+    right: 10px;
     background: #555;
     color: white;
     font-size: 0.8rem;
@@ -140,6 +141,9 @@ body#home-body {
         grid-template-columns: 1fr;
     }
     .event-card .event-image {
-        height: 160px;
+        display: none;
+    }
+    .event-card:hover {
+        transform: none;
     }
 }

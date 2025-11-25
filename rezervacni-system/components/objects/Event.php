@@ -112,8 +112,8 @@ class Event
     {
         $conn = connect();
         $sql = "
-            INSERT INTO events (name, description, location, start_datetime, registration_deadline, image_filename)
-            VALUES (?, ?, ?, ?, ?, ?)
+            INSERT INTO events (name, description, location, start_datetime, registration_deadline, image_filename, price, capacity)
+            VALUES (?, ?, ?, ?, ?, ?,?,?)
         ";
 
         $stmt = $conn->prepare($sql);
@@ -123,13 +123,15 @@ class Event
         }
 
         $stmt->bind_param(
-            "ssssss",
+            "ssssssii",
             $this->name,
             $this->description,
             $this->location,
             $this->start_datetime,
             $this->registration_deadline,
-            $this->image_filename
+            $this->image_filename,
+            $this->price,
+            $this->capacity
         );
 
         $result = $stmt->execute();

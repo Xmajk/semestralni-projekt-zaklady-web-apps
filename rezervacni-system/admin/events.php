@@ -15,10 +15,10 @@ check_auth_admin();
 CONST DEFAULT_IMAGE_NAME = "default.jpg";
 
 function createEventUpdateLink ($event_id):string {
-    return createLink("/admin/events/update?".http_build_query(array("event_id" => $event_id)));
+    return createLink("/admin/events/update.php?".http_build_query(array("id" => $event_id)));
 }
 function createEventDeleteLink ($event_id):string {
-    return createLink("/admin/events/delete?".http_build_query(array("event_id" => $event_id)));
+    return createLink("/admin/events/delete.php?".http_build_query(array("id" => $event_id)));
 }
 
 $errors = $_SESSION['form_errors'] ?? [];
@@ -123,6 +123,8 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
         $newEvent->start_datetime = $formData["start_datetime"];
         $newEvent->registration_deadline = $formData["registration_deadline"];
         $newEvent->image_filename = $image_db_filename;
+        $newEvent->capacity = $formData["capacity"];
+        $newEvent->price = $formData["price"];
 
         if ($newEvent->insert()) {
             redirect_to(createLink("/admin/events.php"));
@@ -144,32 +146,13 @@ $events = Event::getAllOrdered();
 <head>
     <?php include __DIR__ . "/../components/head.php" ?>
     <link rel="stylesheet" href="<?= createStylesLink("/forms.css") ?>">
-    <style>
-
-        /* Obalovač filtru */
-        .filter-wrapper {
-            margin-bottom: 15px;
-            max-width: 400px; /* Omezení šířky filtru */
-        }
-        .filter-wrapper label {
-            font-weight: bold;
-            margin-right: 10px;
-        }
-        .filter-wrapper input[type="text"] {
-            width: 100%;
-            padding: 8px;
-            border: 1px solid #ccc;
-            border-radius: 4px;
-            box-sizing: border-box;
-        }
-    </style>
 </head>
 <body id="admin-users-body">
 <header>
     <?php include "../components/navbar.php"; ?>
 </header>
 <div id="page-content">
-    <button class="expand-btn" onclick="toggleForm()">Přidat událost</button>
+    <button id="show-form-btn" class="expand-btn">Přidat událost</button>
     <form id="add-event-form" autocomplete="off" method="post" enctype="multipart/form-data">
         <div id="name-wrapper" class="form-wrapper">
             <label for="form-name">Název<span class="required"></span></label>
@@ -247,11 +230,12 @@ $events = Event::getAllOrdered();
         <table class="table">
             <thead>
             <tr>
-                <th classs="sortable" aria-sort="descending">Název události</th> <!-- Seřazeno dle data konání (v PHP), ne klikatelně -->
+                <th classs="sortable" aria-sort="descending">Název události</th>
                 <th>Datum registrace do</th>
                 <th>Registrace</th>
                 <th>Upravit</th>
                 <th>Smazat</th>
+                <th>Stáhnout</th>
             </tr>
             </thead>
             <tbody>
@@ -270,13 +254,13 @@ $events = Event::getAllOrdered();
                             try {
                                 echo htmlspecialchars(date('d. m. Y H:i', strtotime($event->registration_deadline)));
                             } catch (Exception $e) {
-                                echo htmlspecialchars($event->registration_deadline); // Fallback
+                                echo htmlspecialchars($event->registration_deadline);
                             }
                         ?>
                     </td>
-                    <td><?= strval(Registration::numberOfRegistrationsByEventId($event->id))."/".strval($event->capacity) ?><td>
+                    <td><?= htmlspecialchars(strval(Registration::numberOfRegistrationsByEventId($event->id))."/".strval($event->capacity)) ?></td>
                     <td><a href="<?= createEventUpdateLink($event->id) ?>">upravit</a></td>
-                    <td><a href="<?= createEventDeleteLink($event->id) ?>" onclick="return confirm('Opravdu chcete smazat tuto událost?');">vymazat</a></td>
+                    <td><a href="<?= createEventDeleteLink($event->id) ?>">vymazat</a></td>
                     <td><a class="download-link" href="events.php"><img src="<?= createPublicLink("/icons/dwnload.svg") ?>"></a></td>
                 </tr>
             <?php endforeach; ?>
@@ -285,45 +269,6 @@ $events = Event::getAllOrdered();
     </div>
 
 </div>
-
-<script>
-    // Funkce pro zobrazení/skrytí formuláře
-    function toggleForm() {
-        const form = document.getElementById('add-event-form');
-        form.style.display = (form.style.display === 'none' || form.style.display === '') ? 'block' : 'none';
-    }
-
-    // Filtrování tabulky
-    const filterInput = document.getElementById('event-filter');
-    const rows = document.querySelectorAll('tbody tr');
-
-    if(filterInput) {
-        filterInput.addEventListener('input', function () {
-            const filterValue = this.value.toLowerCase().trim();
-
-            rows.forEach(row => {
-                // Ujistěte se, že buňka existuje a má atribut 'mark'
-                const nameCell = row.querySelector('.filter-element');
-
-                if (nameCell) { // Pokud je to řádek s událostí
-                    const name = nameCell.textContent.toLowerCase();
-                    if (name.includes(filterValue)) {
-                        row.style.display = ''; // Zobrazit řádek
-                    } else {
-                        row.style.display = 'none'; // Skrýt řádek
-                    }
-                } else if (filterValue === "" && row.querySelector('td[colspan]')) {
-                    // Zobrazit zprávu "Zatím nebyly vytvořeny..." pokud je filtr prázdný
-                    row.style.display = '';
-                } else if (row.querySelector('td[colspan]')) {
-                    // Skrýt zprávu "Zatím nebyly vytvořeny..." pokud se filtruje
-                    row.style.display = 'none';
-                }
-            });
-        });
-    }
-</script>
 <script src="<?= createScriptLink("/validation/events.js") ?>"></script>
-
 </body>
 </html>

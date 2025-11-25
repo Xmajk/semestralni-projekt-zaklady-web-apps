@@ -162,3 +162,38 @@ form.addEventListener('submit', function(event) {
         clearGeneralError();
     }
 });
+
+function toggleForm() {
+    const form = document.getElementById('add-event-form');
+    form.style.display = (form.style.display === 'none' || form.style.display === '') ? 'block' : 'none';
+}
+const btn = document.getElementById("show-form-btn").addEventListener("click",toggleForm)
+
+const filterInput = document.getElementById('event-filter');
+const rows = document.querySelectorAll('tbody tr');
+
+if(filterInput) {
+    filterInput.addEventListener('input', function () {
+        const filterValue = this.value.toLowerCase().trim();
+
+        rows.forEach(row => {
+            // Ujistěte se, že buňka existuje a má atribut 'mark'
+            const nameCell = row.querySelector('.filter-element');
+
+            if (nameCell) { // Pokud je to řádek s událostí
+                const name = nameCell.textContent.toLowerCase();
+                if (name.includes(filterValue)) {
+                    row.style.display = ''; // Zobrazit řádek
+                } else {
+                    row.style.display = 'none'; // Skrýt řádek
+                }
+            } else if (filterValue === "" && row.querySelector('td[colspan]')) {
+                // Zobrazit zprávu "Zatím nebyly vytvořeny..." pokud je filtr prázdný
+                row.style.display = '';
+            } else if (row.querySelector('td[colspan]')) {
+                // Skrýt zprávu "Zatím nebyly vytvořeny..." pokud se filtruje
+                row.style.display = 'none';
+            }
+        });
+    });
+}
