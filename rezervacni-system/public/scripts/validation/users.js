@@ -132,11 +132,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 headers:{},
             }
         )
-
-        console.log(response.status);
-        console.log(await response.text());
-
-        return true;
+        return (await response.text())==="true";
     }
 
     fields.forEach(input => {

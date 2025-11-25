@@ -27,46 +27,36 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
     $MIN_PASSWORD_LENGTH = 8;
     $MIN_USERNAME_LENGTH = 3;
 
-    // SERVER-SIDE VALIDACE
-
-    // 1. Uživatelské jméno
     if (empty($formData['username'])) {
         $errors['username'] = "Uživatelské jméno je povinné.";
     } else if (strlen($formData['username']) < $MIN_USERNAME_LENGTH) {
         $errors['username'] = "Uživatelské jméno musí mít alespoň {$MIN_USERNAME_LENGTH} znaky.";
     }
 
-    // 2. Jméno
     if (empty($formData['firstname'])) {
         $errors['firstname'] = "Jméno je povinné.";
     }
 
-    // 3. Příjmení
     if (empty($formData['lastname'])) {
         $errors['lastname'] = "Příjmení je povinné.";
     }
 
-    // 4. E-mail
     if (empty($formData['email'])) {
         $errors['email'] = "E-mail je povinný.";
     } else if (!filter_var($formData['email'], FILTER_VALIDATE_EMAIL)) {
         $errors['email'] = "Zadejte prosím platnou e-mailovou adresu.";
     }
-    // Dále by bylo dobré zkontrolovat unikátnost e-mailu/uživ. jména v databázi, ale to vyžaduje kód v User.php
 
-    // 5. Datum narození
     if (empty($formData['bdate'])) {
         $errors['bdate'] = "Datum narození je povinné.";
     }
 
-    // 6. Heslo
     if (empty($password)) {
         $errors['password'] = "Heslo je povinné.";
     } else if (strlen($password) < $MIN_PASSWORD_LENGTH) {
         $errors['password'] = "Heslo musí mít alespoň {$MIN_PASSWORD_LENGTH} znaků.";
     }
 
-    // Pokud nejsou žádné chyby, ulož uživatele
     if (empty($errors)) {
         $newUser = new User();
         $newUser->username   = $formData["username"];
@@ -79,18 +69,12 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
 
         try{
             $newUser->insert();
-        }catch (Exception $e){
-            //CHyba při ukládání usera
-            echo $e->getMessage();
-        }
+        }catch (Exception $e){}
 
     } else {
-        // Chyby, uložit do session pro znovunačtení
         $_SESSION['form_errors'] = $errors;
         $_SESSION['form_data'] = $formData;
     }
-
-    // VŽDY přesměrovat po POSTu (PRG pattern)
     header("Location: " . $_SERVER['REQUEST_URI']);
     exit;
 }

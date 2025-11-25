@@ -18,6 +18,8 @@ class Event
     public ?string $start_datetime = null;
     public ?string $registration_deadline = null;
     public ?string $image_filename = null;
+    public ?int $capacity = null;
+    public ?int $price = null;
 
     /**
      * Interní pomocná funkce pro "hydrataci" objektu z databázového řádku.
@@ -34,6 +36,8 @@ class Event
         $event->start_datetime = $row['start_datetime'] ?? null;
         $event->registration_deadline = $row['registration_deadline'] ?? null;
         $event->image_filename = $row['image_filename'] ?? null;
+        $event->capacity = (int)$row['capacity'] ?? null;
+        $event->price = (int)$row['price'] ?? null;
         return $event;
     }
 
@@ -130,15 +134,16 @@ class Event
 
         $result = $stmt->execute();
 
-        // Pokud bylo vložení úspěšné, nastavíme objektu jeho nové ID
         if ($result) {
             $this->id = $conn->insert_id;
+        }else{
+            return false;
         }
 
         $stmt->close();
         $conn->close();
 
-        return $result;
+        return true;
     }
 
     /**

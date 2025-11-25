@@ -10,16 +10,7 @@ $events_per_page = 10;
 
 $error = "";
 
-$events = array();
-
-$tmp = new Event();
-$tmp->registered = false;
-$tmp->locked = false;
-$tmp->name = "Event1";
-$tmp->description = "";
-
-array_push($events, $tmp);
-
+$events = Event::getAllOrdered();
 ?>
 <!DOCTYPE html>
 <html lang="cs">
@@ -30,9 +21,6 @@ array_push($events, $tmp);
     <link href="public/styles/index.css" rel="stylesheet" type="text/css">
     <link rel="icon" type="image/x-icon" href="https://www.kacubo.cz/favicon.ico">
     <title>Rezervace – Kacubó Kenrikai</title>
-    <style>
-
-    </style>
     <link rel="stylesheet" href="/rezervacni-system/public/styles/forms.css">
     <link rel="stylesheet" href="/rezervacni-system/public/styles/toogleswitch.css">
 </head>
@@ -44,7 +32,7 @@ array_push($events, $tmp);
 
     <?php foreach ($events as $event): ?>
         <div class="event-card available">
-            <img class="event-image" src="<?= create_small_image_link($event->image??"default.jpg") ?>">
+            <img height="300" class="event-image" src="<?= create_small_image_link($event->image_filename??"default.jpg") ?>">
             <!--<div class="event-image" style="background-image:url('/rezervacni-system/public/imgs/default-event-bg.png');"></div>-->
             <div class="event-content">
                 <div class="event-title"><?= htmlspecialchars($event->name) ?></div>

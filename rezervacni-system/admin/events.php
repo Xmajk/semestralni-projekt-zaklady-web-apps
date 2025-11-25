@@ -1,6 +1,10 @@
 <?php
 use components\objects\Event;
+use components\objects\Registration;
+use components\objects\User;
 require_once __DIR__ . "/../components/objects/Event.php";
+require_once __DIR__ . "/../components/objects/User.php";
+require_once __DIR__ . "/../components/objects/Registration.php";
 require_once __DIR__ . "/../components/utils/links.php";
 require_once __DIR__ . "/../components/check_auth.php";
 require_once __DIR__ . "/../components/utils/image_helper.php";
@@ -9,6 +13,13 @@ session_start();
 check_auth_admin();
 
 CONST DEFAULT_IMAGE_NAME = "default.jpg";
+
+function createEventUpdateLink ($event_id):string {
+    return createLink("/admin/events/update?".http_build_query(array("event_id" => $event_id)));
+}
+function createEventDeleteLink ($event_id):string {
+    return createLink("/admin/events/delete?".http_build_query(array("event_id" => $event_id)));
+}
 
 $errors = $_SESSION['form_errors'] ?? [];
 $formData = $_SESSION['form_data'] ?? [];
@@ -113,7 +124,6 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
         $newEvent->registration_deadline = $formData["registration_deadline"];
         $newEvent->image_filename = $image_db_filename;
 
-        // Metoda z Event.php
         if ($newEvent->insert()) {
             redirect_to(createLink("/admin/events.php"));
             exit;
@@ -159,13 +169,7 @@ $events = Event::getAllOrdered();
     <?php include "../components/navbar.php"; ?>
 </header>
 <div id="page-content">
-
     <button class="expand-btn" onclick="toggleForm()">Přidat událost</button>
-    <?= var_dump($errors); ?>
-    <p>---</p>
-    <?= var_dump($formData); ?>
-
-    <!-- !! DŮLEŽITÉ: Přidán enctype pro nahrávání souborů !! -->
     <form id="add-event-form" autocomplete="off" method="post" enctype="multipart/form-data">
         <div id="name-wrapper" class="form-wrapper">
             <label for="form-name">Název<span class="required"></span></label>
@@ -200,8 +204,8 @@ $events = Event::getAllOrdered();
         </div>
 
         <div id="capacity-wrapper" class="form-wrapper">
-            <label for="form-capacity">Kapacita</label>
-            <input id="form-capacity" type="text" placeholder="Kapacita" name="capacity" value="<?= $formData["capacity"] ?? "" ?>">
+            <label for="form-capacity">Kapacita<span class="required"></span></label>
+            <input id="form-capacity" type="text" placeholder="Kapacita" name="capacity" required value="<?= $formData["capacity"] ?? "" ?>">
             <span id="error-capacity" class="validation-error <?= isset($errors['capacity']) ? 'active' : '' ?>">
                 <?= htmlspecialchars($errors['capacity'] ?? '') ?>
             </span>
@@ -239,7 +243,6 @@ $events = Event::getAllOrdered();
         <input name="filter" id="event-filter" type="text" placeholder="Zadejte název události...">
     </div>
 
-    <!-- Tabulka pro výpis událostí -->
     <div class="table-wrap" data-density="comfy">
         <table class="table">
             <thead>
@@ -271,10 +274,9 @@ $events = Event::getAllOrdered();
                             }
                         ?>
                     </td>
-                    <td>20/25</td>
-                    <!-- TODO: Nahraďte '#' odkazy na skutečné editační a mazací skripty -->
-                    <td><a href="event_edit.php?id=<?= $event->id ?>">upravit</a></td>
-                    <td><a href="event_delete.php?id=<?= $event->id ?>" onclick="return confirm('Opravdu chcete smazat tuto událost?');">vymazat</a></td>
+                    <td><?= strval(Registration::numberOfRegistrationsByEventId($event->id))."/".strval($event->capacity) ?><td>
+                    <td><a href="<?= createEventUpdateLink($event->id) ?>">upravit</a></td>
+                    <td><a href="<?= createEventDeleteLink($event->id) ?>" onclick="return confirm('Opravdu chcete smazat tuto událost?');">vymazat</a></td>
                     <td><a class="download-link" href="events.php"><img src="<?= createPublicLink("/icons/dwnload.svg") ?>"></a></td>
                 </tr>
             <?php endforeach; ?>
