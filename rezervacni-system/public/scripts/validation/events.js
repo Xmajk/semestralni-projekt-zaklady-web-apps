@@ -45,6 +45,12 @@ function validationCapacity(value){
     return value.match(/^\d+$/gm)
 }
 
+function validationDatesConnection(){
+    let registration_deadline = document.getElementById("form-registration-deadline").value||"";
+    let start_datetime = document.getElementById("form-start-datetime").value||""
+    return (new Date(start_datetime))>(new Date(registration_deadline))
+}
+
 async function validateField(inputElement) {
     const value = inputElement.value.trim();
     const id = inputElement.id;
@@ -104,6 +110,8 @@ async function validateField(inputElement) {
                     errorMessage = 'Datum a čas konce registrace je povinné'
                 }else if(new Date(value)<new Date()){
                     errorMessage = 'Datum a čas konce registrace musí být v budoucnosti'
+                }else if(!validationDatesConnection()){
+                    errorMessage = 'Konec registrace musí být před začátkem'
                 }
                 break;
         }
@@ -117,13 +125,13 @@ async function validateField(inputElement) {
     return true;
 }
 
-function validateAll() {
+async function validateAll() {
     let isFormValid = true;
-    fields.forEach(input => {
-        if (!validateField(input)) {
+    for(let input of fields){
+        if (!(await validateField(input))) {
             isFormValid = false;
         }
-    });
+    }
     return isFormValid;
 }
 
@@ -149,8 +157,8 @@ fields.forEach(async input => {
     });
 });
 
-form.addEventListener('submit', function(event) {
-    const isFormValid = validateAll();
+form.addEventListener('submit', async function(event) {
+    const isFormValid = await validateAll();
     if (!isFormValid) {
         event.preventDefault();
 

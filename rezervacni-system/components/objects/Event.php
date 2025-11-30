@@ -2,6 +2,7 @@
 
 namespace components\objects;
 require_once __DIR__."/../dbconnector.php";
+require_once __DIR__."/../utils/date_time.php";
 
 /**
  * Class Event
@@ -21,6 +22,106 @@ class Event
     public ?int $capacity = null;
     public ?int $price = null;
 
+
+    public function fill(array $formData): array{
+        $errors = [];
+        $this->name = $formData["name"] ?? null;
+        if(!isset($this->name)){
+            $errors["name"] = "Toto pole je povinné";
+        }
+        $this->description = $formData["description"]??"";
+        $this->location = $formData["location"]??null;
+        if(!isset($this->location)){
+            $errors["location"] = "Toto pole je povinné";
+        }
+
+        if(!isset($formData["start_datetime"])){
+            $errors["start_datetime"] = "Toto pole je povinné";
+        }else{
+            $this->start_datetime = $formData["start_datetime"];
+        }
+        if(!isset($formData["registration_deadline"])){
+            $errors["registration_deadline"] = "Toto pole je povinné";
+        }else{
+            $this->registration_deadline = $formData["registration_deadline"];
+        }
+
+        if(!isset($formData["capacity"])){
+            $errors["capacity"] = "Toto pole je povinné.";
+        }
+        elseif(!is_numeric($formData["capacity"])){
+            $errors["capacity"] = "Kapacita musí být číslo";
+        }else{
+            $this->capacity = intval($formData["capacity"]);
+        }
+
+        if(isset($formData["price"])){
+            if(trim(strtolower($formData["price"]))=="zdarma"){
+                $this->price=0;
+                $formData["price"]=0;
+            }
+            if(!is_numeric($formData["price"])){
+                $errors["price"] = "Cenam musí být číslo";
+            }else{
+                $this->price = intval($formData["price"]);
+            }
+        }else{
+            $this->price = 0;
+        }
+        return array_merge($errors,$this->validate());
+    }
+    public function validate():array{
+        $errors = [];
+
+        if(isset($this->description)){
+            if(strlen($this->description) > 1000){
+                $errors["description"] = "Popis nesmí mít více jak 1000 znaků";
+            }
+        }
+
+        if(isset($this->location)){
+            if(strlen($this->location) > 100){
+                $errors["location"] = "Místo nesmí mít více jak 100 znaků";
+            }
+        }
+
+        if(isset($this->capacity)){
+            if($this->capacity<0){
+                $errors["capacity"] = "Kapacita musí být kladné číslo";
+            }
+        }
+
+        if($this->price<0){
+            $errors["price"] = "Cena musí být kladné číslo";
+        }
+
+
+        $pass=true;
+        if(isset($this->registration_deadline)){
+            if(convertStringToDateTime($this->registration_deadline)->getTimestamp()<=time()){
+                $errors["registration_deadline"] = 'Datum a čas konce registrace musí být v budoucnosti';
+                $pass=false;
+            }
+        }
+
+        if(isset($this->start_datetime)){
+            if(convertStringToDateTime($this->start_datetime)->getTimestamp()<= time()){
+                $errors["start_datetime"] = 'Konec registrace musí být před začátkem';
+                $pass=false;
+            }
+        }
+
+        if ( $pass && isset($this->registration_deadline) && isset($this->start_datetime)){
+            if(convertStringToDateTime($this->start_datetime)->getTimestamp()<convertStringToDateTime($this->registration_deadline)->getTimestamp()){
+                $tmp = "Konec registrace musí být před začátkem";
+                $errors["registration_deadline"] = $tmp;
+            }
+        }
+
+        return $errors;
+    }
+
+    /*===DATABASE===*/
     /**
      * Interní pomocná funkce pro "hydrataci" objektu z databázového řádku.
      * @param array $row Asociativní pole dat z databáze.

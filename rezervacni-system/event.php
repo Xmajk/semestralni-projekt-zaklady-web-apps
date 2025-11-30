@@ -1,5 +1,30 @@
 <?php
-$msg = $_GET["id"];
+
+use components\objects\Event;
+
+require_once __DIR__ . "/components/objects/Event.php";
+require_once __DIR__ . "/components/utils/links.php";
+
+$event_id =null;
+if($_SERVER["REQUEST_METHOD"] != "GET" && $_SERVER["REQUEST_METHOD"] != "POST"){
+    redirect_to(create_error_link("404 chyba"));
+}
+
+$event_id = $_GET["id"]??null;
+if(!isset($event_id)){
+    redirect_to(create_error_link("Chybí parametr id"));
+}
+$event = Event::getById($event_id);
+if(!isset($event)){
+    redirect_to(create_error_link("Event nenalezen"));
+}
+
+if($_SERVER["REQUEST_METHOD"] == "POST"){
+    //TODO registrace
+    redirect_to(createLink("/event.php?".http_build_query(["id" => $event_id])));
+}
+
+
 ?>
 <!DOCTYPE html>
 <html lang="cs">
@@ -10,9 +35,6 @@ $msg = $_GET["id"];
     <link href="public/styles/index.css" rel="stylesheet" type="text/css">
     <link rel="icon" type="image/x-icon" href="https://www.kacubo.cz/favicon.ico">
     <title>Rezervace – Kacubó Kenrikai</title>
-    <style>
-
-    </style>
     <link rel="stylesheet" href="/rezervacni-system/public/styles/forms.css">
     <link rel="stylesheet" href="/rezervacni-system/public/styles/toogleswitch.css">
 </head>
@@ -23,7 +45,7 @@ $msg = $_GET["id"];
 <div id="event-container">
     <div class="event-div">
         <h2>Event1sadjkanksjandkjasnkasjdnaskjdnaskjkjasndkasdkjajndas1111</h2>
-        <a class="kacubo-ref" href="index.php"><- zpět na akce</a>
+        <a class="kacubo-ref" href="<?= createLink("index.php") ?>"><- zpět na akce</a>
         <div class="dates-wrapper">
             <div class="date-div">
                 <p>Začátek: 5.5.2025</p>
