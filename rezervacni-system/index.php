@@ -44,7 +44,7 @@ $events = Event::getAllOrdered();
                 </div>
             </div>
             <div class="event-actions">
-                <a href="<?= createLink("/event.php?".http_build_query(["id"=>$event->id])) ?>">Více informací</a>
+                <a class="link-as-btn rounded" href="<?= createLink("/event.php?".http_build_query(["id"=>$event->id])) ?>">Více informací</a>
             </div>
         </div>
     <?php endforeach; ?>

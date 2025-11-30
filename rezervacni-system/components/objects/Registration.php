@@ -208,4 +208,85 @@ class Registration
             return false;
         }
     }
+
+    /*===PROFILE===*/
+    public static function getEventsByUser(int $userId): array
+    {
+        $events = [];
+        $conn = connect();
+
+        $conn->autocommit(false);
+        $conn->query("LOCK TABLES events e READ, registrations r READ");
+
+        $sql = "
+            SELECT e.* FROM events e 
+            JOIN registrations r ON e.id = r.id_event 
+            WHERE r.id_user = ?
+            ORDER BY e.start_datetime DESC
+        ";
+
+        $stmt = $conn->prepare($sql);
+        if ($stmt === false) {
+            $conn->rollback();
+            $conn->query("UNLOCK TABLES");
+            $conn->close();
+            return [];
+        }
+
+        $stmt->bind_param("i", $userId);
+
+        if ($stmt->execute()) {
+            $result = $stmt->get_result();
+            while ($row = $result->fetch_assoc()) {
+                $event = new Event();
+                $event->id = (int)$row['id'];
+                $event->name = $row['name'] ?? null;
+                $event->description = $row['description'] ?? null;
+                $event->location = $row['location'] ?? null;
+                $event->start_datetime = $row['start_datetime'] ?? null;
+                $event->registration_deadline = $row['registration_deadline'] ?? null;
+                $event->image_filename = $row['image_filename'] ?? null;
+
+                $events[] = $event;
+            }
+        }
+
+        $stmt->close();
+        $conn->commit();
+        $conn->query("UNLOCK TABLES");
+        $conn->close();
+
+        return $events;
+    }
+
+    public static function isUserRegistered(int $userId, int $eventId): bool
+    {
+        $conn = connect();
+
+        $conn->autocommit(false);
+        $conn->query("LOCK TABLES registrations READ");
+
+        $sql = "SELECT id FROM registrations WHERE user_id = ? AND event_id = ? LIMIT 1";
+
+        $stmt = $conn->prepare($sql);
+        if (!$stmt) {
+            $conn->rollback();
+            $conn->query("UNLOCK TABLES");
+            $conn->close();
+            return false;
+        }
+
+        $stmt->bind_param("ii", $userId, $eventId);
+        $stmt->execute();
+        $result = $stmt->get_result();
+
+        $exists = $result->num_rows > 0;
+
+        $stmt->close();
+        $conn->commit();
+        $conn->query("UNLOCK TABLES");
+        $conn->close();
+
+        return $exists;
+    }
 }
