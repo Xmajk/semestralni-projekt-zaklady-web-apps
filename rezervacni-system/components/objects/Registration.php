@@ -2,6 +2,7 @@
 
 namespace components\objects;
 use DateTime;
+use Exception;
 
 require_once __DIR__ . "/Event.php";
 require_once __DIR__ . "/User.php";
@@ -46,37 +47,36 @@ class Registration
         return $registrations;
     }
 
-   public static function numberOfRegistrationsByEventId(int $eventId): ?int
-   {
-       $count = 0;
-       $conn = connect();
-       $sql = "SELECT count(*) FROM registrations where id_event = ?";
+    public static function numberOfRegistrationsByEventId(int $eventId): ?int
+    {
+        $conn = connect();
+        $sql = "SELECT count(*) FROM registrations where id_event = ?";
 
-       $stmt = $conn->prepare($sql);
-       if ($stmt === false) {
-           $conn->close();
-           return null;
-       }
+        $stmt = $conn->prepare($sql);
+        if ($stmt === false) {
+            $conn->close();
+            return null;
+        }
 
-       $stmt->bind_param("i", $eventId);
-       if (!$stmt->execute()) {
-           $stmt->close();
-           $conn->close();
-           return null;
-       }
+        $stmt->bind_param("i", $eventId);
+        if (!$stmt->execute()) {
+            $stmt->close();
+            $conn->close();
+            return null;
+        }
 
-       $result = $stmt->get_result();
-       if (!$result || $result->num_rows === 0) {
-           $stmt->close();
-           $conn->close();
-           return null;
-       }
+        $result = $stmt->get_result();
+        if (!$result || $result->num_rows === 0) {
+            $stmt->close();
+            $conn->close();
+            return null;
+        }
 
-       $row = $result->fetch_assoc();
+        $row = $result->fetch_assoc();
 
-       $conn->close();
-       return $row["count(*)"];
-   }
+        $conn->close();
+        return $row["count(*)"];
+    }
 
     public static function findEventRegistrationsByEventId(int $eventId):array{
         return array();
@@ -107,56 +107,105 @@ class Registration
 
     public static function createRegistration(Registration $registration): bool|null{
         $conn = connect();
+        $conn->begin_transaction();
 
-        $sql = "
-        INSERT INTO registrations (id_event, id_user, register_time)
-        VALUES (?, ?, ?)
-    ";
+        try {
+            $sqlEvent = "SELECT capacity FROM events WHERE id = ? FOR UPDATE";
+            $stmtEvent = $conn->prepare($sqlEvent);
+            $stmtEvent->bind_param("i", $registration->id_event);
+            if (!$stmtEvent->execute()) {
+                throw new Exception();
+            }
+            $resEvent = $stmtEvent->get_result();
+            $eventData = $resEvent->fetch_assoc();
+            $stmtEvent->close();
 
-        $stmt = $conn->prepare($sql);
+            if (!$eventData) {
+                throw new Exception();
+            }
+            $capacity = (int)$eventData['capacity'];
 
-        if (!$stmt) {
-            return null;
+            $sqlCheck = "SELECT count(*) FROM registrations WHERE id_event = ? AND id_user = ?";
+            $stmtCheck = $conn->prepare($sqlCheck);
+            $stmtCheck->bind_param("ii", $registration->id_event, $registration->id_user);
+            $stmtCheck->execute();
+            $resCheck = $stmtCheck->get_result();
+            $rowCheck = $resCheck->fetch_row();
+            $stmtCheck->close();
+
+            if ($rowCheck[0] > 0) {
+                throw new Exception();
+            }
+
+            if ($capacity > 0) {
+                $sqlCount = "SELECT count(*) FROM registrations WHERE id_event = ?";
+                $stmtCount = $conn->prepare($sqlCount);
+                $stmtCount->bind_param("i", $registration->id_event);
+                $stmtCount->execute();
+                $resCount = $stmtCount->get_result();
+                $rowCount = $resCount->fetch_row();
+                $stmtCount->close();
+
+                if ($rowCount[0] >= $capacity) {
+                    throw new Exception();
+                }
+            }
+
+            $sql = "INSERT INTO registrations (id_event, id_user, register_time) VALUES (?, ?, ?)";
+            $stmt = $conn->prepare($sql);
+            if (!$stmt) {
+                throw new Exception();
+            }
+
+            $stmt->bind_param(
+                "iis",
+                $registration->id_event,
+                $registration->id_user,
+                $registration->registration_datetime
+            );
+
+            $stmt->execute();
+            $stmt->close();
+
+            $conn->commit();
+            $conn->close();
+            return true;
+
+        } catch (Exception $e) {
+            $conn->rollback();
+            $conn->close();
+            return false;
         }
-
-        $stmt->bind_param(
-            "iis",
-            $registration->id_event,
-            $registration->id_user,
-            $registration->registration_datetime
-        );
-
-        $result = $stmt->execute();
-
-        $stmt->close();
-        $conn->close();
-
-        return $result;
     }
 
     public static function deleteRegistration(Registration $registration): bool|null{
         $conn = connect();
+        $conn->begin_transaction();
 
-        $sql = "
-        DELETE FROM registrations WHERE id_event=? and id_user=?";
+        try {
+            $sql = "DELETE FROM registrations WHERE id_event=? and id_user=?";
+            $stmt = $conn->prepare($sql);
 
-        $stmt = $conn->prepare($sql);
+            if (!$stmt) {
+                throw new Exception();
+            }
 
-        if (!$stmt) {
-            return null;
+            $stmt->bind_param(
+                "ii",
+                $registration->id_event,
+                $registration->id_user,
+            );
+
+            $stmt->execute();
+            $stmt->close();
+
+            $conn->commit();
+            $conn->close();
+            return true;
+        } catch (Exception $e) {
+            $conn->rollback();
+            $conn->close();
+            return false;
         }
-
-        $stmt->bind_param(
-            "ii",
-            $registration->id_event,
-            $registration->id_user,
-        );
-
-        $result = $stmt->execute();
-
-        $stmt->close();
-        $conn->close();
-
-        return $result;
     }
 }

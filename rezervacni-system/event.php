@@ -135,7 +135,7 @@ $image_src = create_large_image_link($event->image_filename ?? "default.jpg");
 
         <div class="info-row">
             <span class="info-label">Konec registrací</span>
-            <span class="info-value highlight" style="color: <?= (!$is_past_deadline) ? 'var(--primary-kacubo)' : 'inherit' ?>">
+            <span class="info-value highlight <?= (!$is_past_deadline) ? 'past-deadline-active' : 'past-deadline-inactive' ?>">
                 <?= $deadline->format('d. m. Y H:i') ?>
             </span>
         </div>
@@ -157,11 +157,11 @@ $image_src = create_large_image_link($event->image_filename ?? "default.jpg");
             <div class="capacity-bar-wrapper">
                 <div class="capacity-bar-fill" style="width: <?= $percent ?>%;"></div>
             </div>
-            <div style="font-size: 0.8rem; color: #666; margin-top: 4px; text-align: right;"><?= $percent ?>% zaplněno</div>
+            <div class="percent-status"><?= $percent ?>% zaplněno</div>
         </div>
 
         <?php if ($is_registered): ?>
-            <button type="submit" name="action" value="remove" class="btn-action btn-cancel">
+            <button type="submit" <?php if($is_past_deadline): ?>disabled<?php endif; ?> name="action" value="remove" class="btn-action btn-cancel">
                 Zrušit registraci
             </button>
 
@@ -201,7 +201,7 @@ $image_src = create_large_image_link($event->image_filename ?? "default.jpg");
                 targetTime = startTime; labelEl.textContent = "Začátek události za:";
                 labelEl.style.color = "#0f5132"; timerEl.style.color = "#333";
             } else {
-                labelEl.textContent = "Stav události:"; timerEl.textContent = "Již probíhá";
+                labelEl.textContent = "Stav události:"; timerEl.textContent = "Akce proběhla";
                 timerEl.style.fontSize = "1.2rem"; return;
             }
             const dist = targetTime - now;
