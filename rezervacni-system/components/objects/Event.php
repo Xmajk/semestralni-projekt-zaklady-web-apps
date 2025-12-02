@@ -182,17 +182,41 @@ class Event
         return $event;
     }
 
-    /**
-     * Načte všechny události z databáze, seřazené podle data zahájení (nejnovější první).
-     * @return array Pole objektů Event.
-     */
     public static function getAllOrdered(): array
     {
         $events = [];
         $conn = connect();
-        // Seřadíme události od nejnovějších po nejstarší
         $sql = "SELECT * FROM events ORDER BY start_datetime DESC";
 
+        $result = $conn->query($sql);
+        if ($result) {
+            while ($row = $result->fetch_assoc()) {
+                $events[] = self::hydrate($row);
+            }
+            $result->free();
+        }
+
+        $conn->close();
+        return $events;
+    }
+
+    public static function countEvents(): int
+    {
+        $events = [];
+        $conn = connect();
+        $sql = "SELECT count(*) FROM events";
+
+        $result = $conn->query($sql);
+        $row = $result->fetch_assoc();
+        $conn->close();
+        return $row["count(*)"];
+    }
+
+    public static function getPage(int $pageSize, int $page): array{
+        $page-=1;
+        $events = [];
+        $conn = connect();
+        $sql = "SELECT * FROM events ORDER BY start_datetime DESC LIMIT " . (int)$pageSize . " OFFSET " . ((int)$page * (int)$pageSize);
         $result = $conn->query($sql);
         if ($result) {
             while ($row = $result->fetch_assoc()) {
@@ -249,10 +273,6 @@ class Event
         return true;
     }
 
-    /**
-     * Aktualizuje existující událost v databázi na základě ID tohoto objektu.
-     * @return bool Vrací true při úspěchu, false při selhání.
-     */
     public function update(): bool
     {
         if ($this->id === null) {
@@ -261,6 +281,8 @@ class Event
         }
 
         $conn = connect();
+
+        // Přidány sloupce price a capacity
         $sql = "
             UPDATE events SET 
                 name = ?, 
@@ -268,7 +290,9 @@ class Event
                 location = ?, 
                 start_datetime = ?, 
                 registration_deadline = ?, 
-                image_filename = ?
+                image_filename = ?,
+                price = ?,
+                capacity = ?
             WHERE id = ?
         ";
 
@@ -278,14 +302,17 @@ class Event
             return false;
         }
 
+        // Typy parametrů: s (string) x 6, i (integer) x 3 (price, capacity, id)
         $stmt->bind_param(
-            "ssssssi",
+            "ssssssiii",
             $this->name,
             $this->description,
             $this->location,
             $this->start_datetime,
             $this->registration_deadline,
             $this->image_filename,
+            $this->price,
+            $this->capacity,
             $this->id
         );
 

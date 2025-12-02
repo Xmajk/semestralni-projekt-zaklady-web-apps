@@ -11,6 +11,16 @@
     session_start();
     check_auth_admin();
 
+    $event_id=$_GET['id']??null;
+    if(!is_numeric($event_id)) {
+        redirect_to(create_error_link("Nevalidní id"));
+    }
+    $event_id=intval($event_id);
+    $event = Event::getById($event_id);
+    if(!isset($event)) {
+        redirect_to(create_error_link("Událost nebyla nalezena"));
+    }
+
 
     $errors = $_SESSION['form_errors'] ?? [];
     $formData = $_SESSION['form_data'] ?? [];
@@ -28,20 +38,48 @@
 
         $_SESSION['form_data'] = $formData;
         $newEvent = new Event();
-        $errors = $newEvent->fill($formData);
+        $event = Event::getById($event_id);
+        $errors = $event->fill($formData);
         $_SESSION['form_errors'] = $errors;
 
-        redirect_to($_SESSION["redirectto"]??create_error_link(""));
+        if (isset($formData['image']) && $formData['image']['error'] === UPLOAD_ERR_OK) {
+            $file = $_FILES['image'];
+            $source_path = $file['tmp_name'];
+
+            $image_type = exif_imagetype($source_path);
+            $allowed_types = [IMAGETYPE_JPEG, IMAGETYPE_PNG];
+
+            if (!in_array($image_type, $allowed_types)) {
+                $errors["image"] = "Neplatný formát obrázku. Povoleny jsou pouze JPEG a PNG.";
+            } else {
+                $base_filename = "event_" . uniqid();
+                $extension = ($image_type == IMAGETYPE_JPEG) ? '.jpg' : '.png';
+                $event->image_filename = $base_filename . $extension;
+
+                $dir_large = __DIR__ . "/../public/imgs/events/large/";
+                $dir_thumb = __DIR__ . "/../public/imgs/events/thumb/";
+                if (!is_dir($dir_large)) @mkdir($dir_large, 0777, true);
+                if (!is_dir($dir_thumb)) @mkdir($dir_thumb, 0777, true);
+
+                $success_large = processUploadedImage($source_path, $image_type, $dir_large, $event->image_filename, 1200);
+                $success_thumb = processUploadedImage($source_path, $image_type, $dir_thumb, $event->image_filename, 300);
+
+                if (!$success_large || !$success_thumb) {
+                    $errors["general"] = "Chyba při ukládání obrázku. Zkontrolujte práva zápisu do adresáře 'public/imgs/events/'.";
+                }
+            }
+        }
+
+        if (count($errors)==0) {
+            if ($event->update()) {
+                $_SESSION['form_data'] = [];
+                redirect_to(createLink("/admin/events.php"));
+            } else {
+                $errors["db_error"] = "Chyba při ukládání události do databáze.";
+            }
+        }
+        redirect_to(createLink("/admin/events/update.php?".http_build_query(["id" => $event_id])));
     }elseif ($_SERVER["REQUEST_METHOD"] === "GET"){
-        $event_id=$_GET['id']??null;
-        if(!is_numeric($event_id)) {
-            redirect_to(create_error_link("Nevalidní id"));
-        }
-        $event_id=intval($event_id);
-        $event = Event::getById($event_id);
-        if(!isset($event)) {
-            redirect_to(create_error_link("Událost nebyla nalezena"));
-        }
         $_SESSION["redirectto"]=createLink("/admin/events/update.php?".http_build_query(["id" => $event_id]));
         $registrations = Registration::findEventRegistrationsByEventId($event_id);
     }
