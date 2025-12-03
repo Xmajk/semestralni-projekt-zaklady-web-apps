@@ -2,7 +2,7 @@
 use components\objects\Event;
 use components\objects\Registration;
 
-const EVENTS_PER_PAGE = 5;
+const EVENTS_PER_PAGE = 1;
 
 
 require_once __DIR__ . "/components/objects/Event.php";
@@ -10,6 +10,7 @@ require_once __DIR__ . "/components/objects/Registration.php";
 require_once __DIR__ . "/components/check_auth.php";
 require_once __DIR__ . "/components/utils/date_time.php";
 require_once __DIR__ . "/components/utils/links.php";
+require_once __DIR__ . "/components/utils/numbers.php";
 
 function eventIsLocked(Event $event):bool{
     $event_deadline = convertStringToDateTime($event->registration_deadline);
@@ -22,7 +23,7 @@ function userIsRegistered(int $user_id, int $event_id):bool{
     try{
         $result = Registration::existsByUserIdAndEventId($user_id, $event_id);
     }catch (Exception $exception){
-        var_dump($exception->getMessage());
+        redirect_to(create_error_link("Chyba databáze"));
     }
     return $result;
 }
@@ -32,12 +33,27 @@ $error = "";
 $now = new DateTime();
 $user_id = isset($_COOKIE["user_id"]) ? (int)$_COOKIE["user_id"] : 0;
 $numberOfEvents = Event::countEvents();
-$numberOfPages = $numberOfEvents / EVENTS_PER_PAGE;
+$numberOfPages = ceil($numberOfEvents / EVENTS_PER_PAGE);
 $currentPage=$_GET["page"]??"1";
 if(!is_numeric($currentPage) && $currentPage != "max"){
     redirect_to(create_error_link("Chybné číslo stránky"));
 }else if($currentPage=="max"){
     $currentPage=$numberOfPages;
+}
+$currentPage=intval($currentPage);
+if($currentPage<1){
+    redirect_to(create_error_link("Chybné číslo stránky"));
+}
+if($currentPage>$numberOfPages){
+    $currentPage=intval($numberOfPages);
+}
+$pagination = [];
+if($currentPage!=1){
+    $pagination[]=$currentPage-1;
+}
+$pagination[]=$currentPage;
+if($currentPage!=$numberOfPages){
+    $pagination[]=$currentPage+1;
 }
 $events = Event::getPage(EVENTS_PER_PAGE, $currentPage);
 $userEvents = [];
@@ -121,7 +137,7 @@ $userEvents = [];
 <div class="pagination-wrap">
     <ul class="pagination">
         <li>
-            <a href="">
+            <a href="<?= createLink("/index.php?".http_build_query(["page"=>1])) ?>">
                 <span aria-hidden="true">&laquo;</span>
                 <span class="visuallyhidden">previous set of pages</span>
             </a>
@@ -141,7 +157,7 @@ $userEvents = [];
             <a href=""> <span class="visuallyhidden">page </span>4 </a>
         </li>
         <li>
-            <a href="">
+            <a href="<?= createLink("/index.php?".http_build_query(["page"=>"max"])) ?>">
         <span class="visuallyhidden">next set of pages</span
         ><span aria-hidden="true">&raquo;</span>
             </a>

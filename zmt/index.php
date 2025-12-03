@@ -1,331 +1,423 @@
-<?php
-?>
 <!DOCTYPE html>
-<html lang="cs">
+<html lang="cs" class="scroll-smooth">
 <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-    <title>Výstava</title>
-
-    <!-- Pixelové písmo (retro) -->
-    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
-
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ZMT Projekt</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link rel="icon" type="image/png" sizes="16x16" href="https://fel.cvut.cz/favicon/favicon-16x16.png">
     <style>
-        :root{
-            --bg:#0e0e0e;
-            --fg:#eaeaea;
-            --muted:#9a9a9a;
-            --accent:#37ff8b;      /* jemná moderní zelená */
-            --accent-dim:#1b9c56;
-            --card:#151515;
-            --border:#222;
+        @import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;700&display=swap');
+
+        :root {
+            --forward: #00f0ff; /* Cyan */
+            --backward: #ff004c; /* Red */
         }
 
-        *{box-sizing:border-box}
-        html,body{height:100%}
-
-        body{
-            margin:0;
-            background:radial-gradient(1200px 600px at 50% -10%, #1a1a1a 0%, var(--bg) 60%);
-            color:var(--fg);
-            font-family:"Press Start 2P", system-ui, sans-serif;
-            letter-spacing:0.5px;
+        body {
+            background-color: #050505;
+            color: #e0e0e0;
+            font-family: 'Space Grotesk', sans-serif;
+            overflow-x: hidden;
+            cursor: default; /* Custom cursor handling */
         }
 
-        header{
-            text-align:center;
-            padding:64px 16px 24px;
-            font-size:clamp(18px,3vw,28px);
-            color:var(--fg);
-            text-shadow:0 0 8px rgba(55,255,139,0.15);
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+            display: none
+        }
+        ::-webkit-scrollbar-track {
+            background: #000;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: var(--backward);
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: var(--forward);
         }
 
-        .sub{
-            text-align:center;
-            color:var(--muted);
-            font-size:10px;
-            opacity:.9;
-            margin-bottom:28px;
+        /* Custom Cursor */
+        /*
+        .cursor-dot,
+        .cursor-outline {
+            position: fixed;
+            top: 0;
+            left: 0;
+            transform: translate(-50%, -50%);
+            border-radius: 50%;
+            z-index: 9999;
+            pointer-events: none;
+        }
+        .cursor-dot {
+            width: 8px;
+            height: 8px;
+            background-color: white;
+        }
+        .cursor-outline {
+            width: 40px;
+            height: 40px;
+            border: 1px solid rgba(255, 255, 255, 0.5);
+            transition: width 0.2s, height 0.2s, background-color 0.2s;
+        }*/
+
+        strong.mark{
+            color: var(--backward);
         }
 
-        .gallery{
-            display:flex;
-            flex-direction:column;
-            gap:100px;
-            width:min(980px, 92%);
-            margin:0 auto 120px;
+        /* Glitch Effect for Titles */
+        .glitch-text {
+            position: relative;
+        }
+        .glitch-text::before,
+        .glitch-text::after {
+            content: attr(data-text);
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: #050505;
+        }
+        .glitch-text::before {
+            left: 2px;
+            text-shadow: -1px 0 var(--backward);
+            animation: glitch-anim-1 2s infinite linear alternate-reverse;
+        }
+        .glitch-text::after {
+            left: -2px;
+            text-shadow: -1px 0 var(--forward);
+            animation: glitch-anim-2 3s infinite linear alternate-reverse;
         }
 
-        /* Položky výstavy */
-        .item{
-            display:flex;
-            justify-content:center;
-            opacity:0;
-            transform:translateY(18px);
-            transition:opacity .8s ease, transform .8s ease;
+        @keyframes glitch-anim-1 {
+            0% { clip-path: inset(20% 0 80% 0); }
+            20% { clip-path: inset(60% 0 10% 0); }
+            40% { clip-path: inset(40% 0 50% 0); }
+            60% { clip-path: inset(80% 0 5% 0); }
+            80% { clip-path: inset(10% 0 70% 0); }
+            100% { clip-path: inset(30% 0 60% 0); }
         }
-        .item.visible{ opacity:1; transform:translateY(0); }
-
-        .frame{
-            width:100%;
-            max-width:1100px;
-            background:linear-gradient(0deg,#141414,#171717);
-            border:2px solid var(--border);
-            border-radius:10px;
-            padding:10px;
-            box-shadow:
-                    0 0 0 1px #0b0b0b inset,
-                    0 8px 30px rgba(0,0,0,.4);
+        @keyframes glitch-anim-2 {
+            0% { clip-path: inset(10% 0 60% 0); }
+            20% { clip-path: inset(30% 0 20% 0); }
+            40% { clip-path: inset(70% 0 40% 0); }
+            60% { clip-path: inset(5% 0 80% 0); }
+            80% { clip-path: inset(50% 0 10% 0); }
+            100% { clip-path: inset(20% 0 30% 0); }
         }
 
-        .frame img,
-        .frame iframe{
-            display:block;
-            width:100%;
-            height:auto;
-            border-radius:6px;
-            border:1px solid #1f1f1f;
-            cursor:pointer;
-            transition:transform .5s ease;
-            will-change:transform;
+        /* Image Duality Effect */
+        .duality-img {
+            filter: grayscale(100%) contrast(1.2);
+            transition: filter 0.5s ease, transform 0.5s ease;
         }
-        .frame img:hover,
-        .frame iframe:hover{ transform:scale(1.015); }
-
-        /* ── Lightbox ─────────────────────────────────────────── */
-        #lightbox{
-            position:fixed; inset:0;
-            background:rgba(0,0,0,.92);
-            display:none; /* flex when open */
-            align-items:center; justify-content:center;
-            z-index:999;
+        .duality-img:hover {
+            filter: grayscale(0%) contrast(1) drop-shadow(4px 4px 0 var(--forward)) drop-shadow(-4px -4px 0 var(--backward));
+            transform: scale(1.02);
         }
 
-        .lb-content{
-            position:relative;
-            max-width:92vw; max-height:92vh;
-            display:flex; align-items:center; justify-content:center;
+        /* Reveal Animation Classes */
+        .reveal {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 1s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        .reveal.active {
+            opacity: 1;
+            transform: translateY(0);
         }
 
-        #lb-img{
-            max-width:100%; max-height:100%;
-            border-radius:8px;
-            image-rendering:auto;
-            box-shadow:0 0 0 2px #1f1f1f, 0 20px 60px rgba(0,0,0,.7);
+        /* Magnetic Button */
+        .magnetic-btn {
+            transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1);
         }
 
-        /* Šipky (pixel/retro, ale čisté) */
-        .lb-nav{
-            position:absolute; inset:0;
-            pointer-events:none; /* jen tlačítka chytají click */
-        }
-        .lb-btn{
-            pointer-events:auto;
-            position:absolute; top:50%;
-            translate:0 -50%;
-            width:52px; height:52px;
-            border:2px solid var(--accent);
-            border-radius:6px;
-            background:rgba(20,20,20,.6);
-            display:grid; place-items:center;
-            cursor:pointer;
-            user-select:none;
-            transition:transform .15s ease, background .15s ease, box-shadow .15s ease;
-            box-shadow:0 0 0 0 rgba(55,255,139,0);
-        }
-        .lb-btn:hover{
-            background:rgba(20,20,20,.85);
-            transform:scale(1.05);
-            box-shadow:0 0 12px 2px rgba(55,255,139,.25);
-        }
-        .lb-prev{ left:-68px; }
-        .lb-next{ right:-68px; }
-
-        .lb-icon{
-            font-size:18px; line-height:1;
-            color:var(--accent);
-        }
-
-        .lb-close{
-            position:absolute; top:-58px; right:0;
-            width:46px; height:46px;
-            border:2px solid var(--accent);
-            border-radius:6px;
-            background:rgba(20,20,20,.6);
-            display:grid; place-items:center;
-            cursor:pointer;
-        }
-        .lb-close:hover{ background:rgba(20,20,20,.85); }
-        .lb-close .lb-icon{ font-size:14px; }
-
-        /* Název / čítač dole */
-        .lb-caption{
-            position:absolute; bottom:-46px; left:0; right:0;
-            text-align:center; font-size:10px; color:var(--muted);
-        }
-
-        /* Responsivní doladění */
-        @media (max-width: 860px){
-            .lb-prev{ left:-56px; }
-            .lb-next{ right:-56px; }
-        }
-        @media (max-width: 640px){
-            .gallery{ gap:60px; }
-            .lb-prev{ left:-52px; }
-            .lb-next{ right:-52px; }
-            .lb-btn{ width:48px; height:48px; }
-        }
-
-        /* Fokus pro klávesy (a11y) */
-        .lb-btn:focus-visible,
-        .lb-close:focus-visible{
-            outline:2px dashed var(--accent);
-            outline-offset:3px;
+        /* Background Grid */
+        .bg-grid {
+            background-size: 40px 40px;
+            background-image: linear-gradient(to right, rgba(255, 255, 255, 0.05) 1px, transparent 1px),
+            linear-gradient(to bottom, rgba(255, 255, 255, 0.05) 1px, transparent 1px);
         }
     </style>
 </head>
-<body>
+<body class="antialiased">
 
-<header>VÝSTAVA</header>
-<div class="sub">klid • prostor • pixel vibe</div>
+<!-- Custom Cursor -->
+<div class="cursor-dot" id="cursor-dot"></div>
+<div class="cursor-outline" id="cursor-outline"></div>
 
-<main class="gallery" id="gallery">
-    <!-- FOTO -->
-    <section class="item">
-        <figure class="frame">
-            <img src="https://picsum.photos/id/1011/1200/800" alt="Exponát 1" data-caption="Exponát 1 – Mlčení města">
-        </figure>
-    </section>
+<!-- Navigation (Minimal)
+<nav class="fixed top-0 w-full z-50 flex justify-between items-center p-6 mix-blend-difference text-white">
+    <div class="text-xl font-bold tracking-[0.2em]">OPERACE: AREPO</div>
+    <div class="text-xs tracking-widest opacity-70 hidden md:block">ENTROPIE SE ZVYŠUJE</div>
+</nav> -->
 
-    <section class="item">
-        <figure class="frame">
-            <img src="https://picsum.photos/id/1022/1200/800" alt="Exponát 2" data-caption="Exponát 2 – Zrno a světlo">
-        </figure>
-    </section>
+<!-- Hero Section -->
+<header class="relative h-screen flex flex-col items-center justify-center overflow-hidden bg-grid">
+    <div class="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-[#050505]"></div>
 
-    <section class="item">
-        <figure class="frame">
-            <img src="https://picsum.photos/id/1039/1200/800" alt="Exponát 3" data-caption="Exponát 3 – Mezi stíny">
-        </figure>
-    </section>
+    <h1 class="text-7xl md:text-9xl font-bold tracking-tighter uppercase text-center leading-none z-10 glitch-text mb-4" data-text="INVERZE">
+        INVERZE
+    </h1>
 
-    <!-- VIDEO (zůstává, ale navigace šipkami je pro fotografie) -->
-    <section class="item">
-        <figure class="frame">
-            <iframe
-                src="https://www.youtube.com/embed/dQw4w9WgXcQ"
-                title="Video 1"
-                allowfullscreen
-                loading="lazy">
-            </iframe>
-        </figure>
-    </section>
+    <!-- Decorative Lines -->
+    <div class="absolute w-[1px] h-screen bg-gradient-to-b from-transparent via-red-600 to-transparent left-1/4 opacity-20"></div>
+    <div class="absolute w-[1px] h-screen bg-gradient-to-t from-transparent via-cyan-400 to-transparent right-1/4 opacity-20"></div>
+</header>
 
-    <!-- FOTO -->
-    <section class="item">
-        <figure class="frame">
-            <img src="https://picsum.photos/id/1041/1200/800" alt="Exponát 4" data-caption="Exponát 4 – Poslední ozvěna">
-        </figure>
-    </section>
-</main>
-
-<!-- Lightbox -->
-<div id="lightbox" aria-hidden="true">
-    <div class="lb-content">
-        <img id="lb-img" alt="">
-        <div class="lb-nav" aria-hidden="false">
-            <button class="lb-btn lb-prev" id="lb-prev" aria-label="Předchozí (šipka vlevo)">
-                <span class="lb-icon">◀</span>
-            </button>
-            <button class="lb-btn lb-next" id="lb-next" aria-label="Další (šipka vpravo)">
-                <span class="lb-icon">▶</span>
-            </button>
-            <button class="lb-close" id="lb-close" aria-label="Zavřít (Esc)">
-                <span class="lb-icon">✕</span>
-            </button>
-            <div class="lb-caption" id="lb-cap"></div>
+<!-- Project Description -->
+<section class="max-w-8xl mx-auto px-6 py-24 md:py-32 relative flex flex-col md:flex-row">
+    <div class="flex flex-col md:flex-row gap-12 items-start mb-5">
+        <div class="md:w-1/4 ml-4">
+            <h2 class="text-xs text-red-500 tracking-[0.2em] font-bold mb-4 uppercase">vize projektu</h2>
+            <div class="w-12 h-1 bg-white mb-6"></div>
+        </div>
+        <div class="md:w-3/4">
+            <p class="text-xl md:text-2xl leading-relaxed text-gray-300 reveal mb-8">
+                Projekt je inspirován filmem <strong class="mark">TENET</strong>, který je o tajném agentovi, který má zabránit konci světa, ale háček je v tom, že v tomhle světě <strong class="mark">jde čas i pozpátku</strong>.
+            </p>
         </div>
     </div>
-</div>
+    <div class="flex flex-col md:flex-row gap-12 items-start">
+        <div class="md:w-1/4 ml-4">
+            <h2 class="text-xs text-red-500 tracking-[0.2em] font-bold mb-4 uppercase">technologie</h2>
+            <div class="w-12 h-1 bg-white mb-6"></div>
+        </div>
+        <div class="md:w-3/4">
+            <p class="text-xl md:text-2xl leading-relaxed text-gray-300 reveal mb-8">
+                Videa jsou točená na <strong class="mark">Xiaomi 15</strong>. O postprodukci se pak postaralo kombo <strong class="mark">GIMP (na fotky)</strong> a <strong class="mark">Audacity (na audio)</strong>. Všechno jsme to nakonec sestříhali v <strong class="mark">DaVinci Resolve</strong>.
+            </p>
+        </div>
+    </div>
+</section>
+
+<!-- Main Video Section (Rickroll) -->
+<section class="w-full bg-white text-black py-20 overflow-hidden relative group">
+    <div class="absolute inset-0 bg-black opacity-0 group-hover:opacity-10 transition-opacity duration-500 pointer-events-none"></div>
+
+    <div class="max-w-7xl mx-auto px-4">
+        <div class="flex justify-between items-end mb-8">
+            <h2 class="text-4xl md:text-6xl font-bold tracking-tighter uppercase">Naše veledílo</h2>
+        </div>
+
+        <!-- Video Container -->
+        <div class="relative w-full aspect-video bg-black shadow-[20px_20px_0px_0px_rgba(255,0,76,1)] transition-transform duration-500 hover:translate-x-[-5px] hover:translate-y-[-5px]">
+            <iframe
+                    class="w-full h-full object-cover opacity-90 hover:opacity-100 transition-opacity duration-300"
+                    src="https://www.youtube.com/embed/dQw4w9WgXcQ?controls=0&rel=0&modestbranding=1"
+                    title="Main Project Video"
+                    frameborder="0"
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                    allowfullscreen>
+            </iframe>
+
+            <!-- Overlay details -->
+            <div class="absolute top-4 left-4 border border-white/20 px-2 py-1 text-[10px] text-white/50 font-mono tracking-widest pointer-events-none">
+                ISO 800 // F 2.8
+            </div>
+            <div class="absolute bottom-4 right-4 text-white text-2xl animate-pulse pointer-events-none">
+                <i class="fas fa-play"></i>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Process / Gallery Section -->
+<section class="max-w-7xl mx-auto px-6 py-32">
+    <div class="flex flex-col items-center mb-16">
+        <h2 class="text-3xl font-bold tracking-[0.5em] text-center mb-2 uppercase">PROCES TVORBY</h2>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+        <!-- Item 1 -->
+        <div class="relative group reveal magnetic-element">
+            <div class="overflow-hidden bg-gray-900 aspect-[4/5] mb-4 relative border border-gray-800">
+                <img src="1000003541.jpg" alt="Process 1" class="w-full h-full object-cover duality-img">
+                <div class="absolute bottom-0 left-0 w-full p-4 bg-gradient-to-t from-black to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                    <span class="text-cyan-400 text-xs font-mono">FÁZE 01</span>
+                </div>
+            </div>
+            <h3 class="text-lg font-bold uppercase tracking-wide">Natáčení</h3>
+            <p class="text-gray-500 text-sm mt-1">Večer natáčení</p>
+        </div>
+
+        <!-- Item 2 -->
+        <div class="relative group reveal magnetic-element" style="transition-delay: 100ms;">
+            <div class="overflow-hidden bg-gray-900 aspect-[4/5] mb-4 relative border border-gray-800">
+                <img src="1000003557.jpg" alt="Process 2" class="w-full h-full object-cover duality-img">
+                <div class="absolute bottom-0 left-0 w-full p-4 bg-gradient-to-t from-black to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                    <span class="text-cyan-400 text-xs font-mono">FÁZE 02</span>
+                </div>
+            </div>
+            <h3 class="text-lg font-bold uppercase tracking-wide">Střih</h3>
+            <p class="text-gray-500 text-sm mt-1">Ukázka střihu</p>
+        </div>
+
+        <!-- Item 3 -->
+        <div class="relative group reveal magnetic-element" style="transition-delay: 200ms;">
+            <div class="overflow-hidden bg-gray-900 aspect-[4/5] mb-4 relative border border-gray-800">
+                <img src="1000003559.jpg" alt="Process 3" class="w-full h-full object-cover duality-img">
+                <div class="absolute bottom-0 left-0 w-full p-4 bg-gradient-to-t from-black to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                    <span class="text-cyan-400 text-xs font-mono">FÁZE 03</span>
+                </div>
+            </div>
+            <h3 class="text-lg font-bold uppercase tracking-wide">Proces střihu</h3>
+            <p class="text-gray-500 text-sm mt-1">Pauza při kompletování projektu</p>
+        </div>
+
+        <div class="relative group reveal magnetic-element" style="transition-delay: 200ms;">
+            <div class="overflow-hidden bg-gray-900 aspect-[4/5] mb-4 relative border border-gray-800">
+                <img src="DaVinci Resolve - ZMT v1 03.12.2025 21_30_29.png" alt="Process 3" class="w-full h-full object-cover duality-img">
+            </div>
+            <h3 class="text-lg font-bold uppercase tracking-wide">Davinci</h3>
+        </div>
+
+    </div>
+</section>
+
+<!-- Authors Section -->
+<section class="bg-zinc-900 border-t border-zinc-800 py-24 relative overflow-hidden">
+    <!-- Abstract background blur
+    <div class="absolute top-0 right-0 w-96 h-96 bg-red-600 rounded-full mix-blend-multiply filter blur-[128px] opacity-10 animate-pulse"></div>
+    <div class="absolute bottom-0 left-0 w-96 h-96 bg-cyan-600 rounded-full mix-blend-multiply filter blur-[128px] opacity-10 animate-pulse" style="animation-delay: 1s;"></div>
+    -->
+    <div class="max-w-6xl mx-auto px-6 relative z-10">
+        <h2 class="text-5xl font-bold mb-16 text-center tracking-tighter">TVŮRCI</h2>
+
+        <div class="flex flex-col md:flex-row justify-center gap-16">
+            <!-- Author 1 -->
+            <div class="text-center group reveal">
+                <div class="relative w-48 h-48 mx-auto mb-6 rounded-full p-1 border border-zinc-700 group-hover:border-red-500 transition-colors duration-500">
+                    <div class="w-full h-full rounded-full overflow-hidden relative">
+                        <img src="1000003560.jpg" alt="MH2" class="w-full h-full object-cover filter grayscale group-hover:grayscale-0 transition-all duration-500">
+                    </div>
+                </div>
+                <h3 class="text-2xl font-bold text-white">Michal Hoda</h3>
+                <p class="text-red-500 text-sm tracking-[0.2em] uppercase mt-2">Režie / Hlavní role / Střih</p>
+            </div>
+
+            <!-- Author 2 -->
+            <div class="text-center group reveal" style="transition-delay: 200ms;">
+                <div class="relative w-48 h-48 mx-auto mb-6 rounded-full p-1 border border-zinc-700 group-hover:border-cyan-400 transition-colors duration-500">
+                    <div class="w-full h-full rounded-full overflow-hidden relative">
+                        <img src="1000003561.jpg" alt="MH" class="w-full h-full object-cover filter grayscale group-hover:grayscale-0 transition-all duration-500">
+                    </div>
+                </div>
+                <h3 class="text-2xl font-bold text-white">Michal Hrouda</h3>
+                <p class="text-cyan-400 text-sm tracking-[0.2em] uppercase mt-2">Technické zázemí / Webová prezentace / Kamera</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Footer -->
+<footer class="bg-black py-12 border-t border-zinc-900 text-center">
+    <div class="flex flex-col items-center justify-center gap-4">
+        <p class="text-zinc-600 text-xs tracking-widest uppercase">
+            &copy; 2025 Projekt na ZMP Michal Hrouda a Michal Hrouda
+        </p>
+    </div>
+</footer>
 
 <script>
-    /* Fade-in při scrollu */
-    const observer = new IntersectionObserver((entries)=> {
-        entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
-    },{ threshold: 0.12 });
-    document.querySelectorAll('.item').forEach(i => observer.observe(i));
+    // --- CUSTOM CURSOR LOGIC ---
+    const cursorDot = document.getElementById("cursor-dot");
+    const cursorOutline = document.getElementById("cursor-outline");
 
-    /* Sbíráme všechny obrázky z galerie (pořadí = navigace) */
-    const photoNodes = Array.from(document.querySelectorAll('.frame img'));
-    const photos = photoNodes.map((img, idx) => ({
-        src: img.currentSrc || img.src,
-        alt: img.alt || ('Exponát ' + (idx+1)),
-        cap: img.dataset.caption || img.alt || ''
-    }));
+    /*
+    window.addEventListener("mousemove", (e) => {
+        const posX = e.clientX;
+        const posY = e.clientY;
 
-    /* Lightbox elementy */
-    const lb = document.getElementById('lightbox');
-    const lbImg = document.getElementById('lb-img');
-    const lbCap = document.getElementById('lb-cap');
-    const btnPrev = document.getElementById('lb-prev');
-    const btnNext = document.getElementById('lb-next');
-    const btnClose = document.getElementById('lb-close');
+        // Dot follows immediately
+        cursorDot.style.left = `${posX}px`;
+        cursorDot.style.top = `${posY}px`;
 
-    let currentIndex = 0;
-    let isOpen = false;
+        // Outline follows with slight delay (animation handled by CSS transition usually, but let's force strict follow for snappy feel)
+        cursorOutline.animate({
+            left: `${posX}px`,
+            top: `${posY}px`
+        }, { duration: 500, fill: "forwards" });
+    });
+    */
 
-    /* Otevření s indexem */
-    function openLightbox(index){
-        if (!photos.length) return;
-        currentIndex = (index + photos.length) % photos.length;
-        const {src, alt, cap} = photos[currentIndex];
-        lbImg.src = src;
-        lbImg.alt = alt;
-        lbCap.textContent = `${cap || alt}  —  ${currentIndex+1}/${photos.length}`;
-        lb.style.display = 'flex';
-        lb.setAttribute('aria-hidden','false');
-        isOpen = true;
-        // fokus na Next pro a11y
-        btnNext.focus();
-    }
-
-    /* Zavření */
-    function closeLightbox(){
-        lb.style.display = 'none';
-        lb.setAttribute('aria-hidden','true');
-        lbImg.src = '';
-        isOpen = false;
-    }
-
-    /* Další / Předchozí */
-    function showNext(step=1){
-        openLightbox(currentIndex + step);
-    }
-
-    /* Click na obrázek v galerii -> otevři dle indexu */
-    photoNodes.forEach((img, i) => {
-        img.addEventListener('click', () => openLightbox(i));
+    // Hover effects for cursor
+    document.querySelectorAll('a, button, .duality-img').forEach(el => {
+        el.addEventListener('mouseenter', () => {
+            cursorOutline.style.transform = 'translate(-50%, -50%) scale(1.5)';
+            cursorOutline.style.backgroundColor = 'rgba(255, 255, 255, 0.1)';
+            cursorOutline.style.borderColor = 'transparent';
+        });
+        el.addEventListener('mouseleave', () => {
+            cursorOutline.style.transform = 'translate(-50%, -50%) scale(1)';
+            cursorOutline.style.backgroundColor = 'transparent';
+            cursorOutline.style.borderColor = 'rgba(255, 255, 255, 0.5)';
+        });
     });
 
-    /* Click mimo obsah (pozadí) zavře */
-    lb.addEventListener('click', (e)=>{
-        if (e.target === lb) closeLightbox();
+    // --- SCROLL REVEAL LOGIC ---
+    const revealElements = document.querySelectorAll(".reveal");
+
+    const revealOnScroll = () => {
+        const windowHeight = window.innerHeight;
+        const elementVisible = 150;
+
+        revealElements.forEach((reveal) => {
+            const elementTop = reveal.getBoundingClientRect().top;
+            if (elementTop < windowHeight - elementVisible) {
+                reveal.classList.add("active");
+            } else {
+                // Optional: remove class to replay animation when scrolling back up
+                // reveal.classList.remove("active");
+            }
+        });
+    };
+
+    window.addEventListener("scroll", revealOnScroll);
+    // Trigger once on load
+    revealOnScroll();
+
+    // --- MAGNETIC BUTTONS (Micro-interaction) ---
+    // Subtle movement of elements towards the cursor
+    const magnets = document.querySelectorAll('.magnetic-element');
+
+    magnets.forEach((magnet) => {
+        magnet.addEventListener('mousemove', (e) => {
+            const position = magnet.getBoundingClientRect();
+            const x = e.clientX - position.left - position.width / 2;
+            const y = e.clientY - position.top - position.height / 2;
+
+            magnet.style.transform = `translate(${x * 0.1}px, ${y * 0.1}px)`;
+        });
+
+        magnet.addEventListener('mouseleave', () => {
+            magnet.style.transform = 'translate(0px, 0px)';
+        });
     });
 
-    /* Tlačítka */
-    btnPrev.addEventListener('click', (e)=>{ e.stopPropagation(); showNext(-1); });
-    btnNext.addEventListener('click', (e)=>{ e.stopPropagation(); showNext(+1); });
-    btnClose.addEventListener('click', (e)=>{ e.stopPropagation(); closeLightbox(); });
-
-    /* Klávesy: Esc, ←, → */
-    window.addEventListener('keydown', (e)=>{
-        if(!isOpen) return;
-        if(e.key === 'Escape') closeLightbox();
-        else if(e.key === 'ArrowRight') showNext(+1);
-        else if(e.key === 'ArrowLeft') showNext(-1);
+    // --- REVERSE SCROLL BUTTON ---
+    document.getElementById('reverse-btn').addEventListener('click', () => {
+        window.scrollTo({
+            top: 0,
+            behavior: 'smooth'
+        });
     });
+
+    // --- GLITCH TEXT RANDOMIZER ---
+    // Occasionally changes the clip-path randomly for extra chaos
+    const glitchHeader = document.querySelector('.glitch-text');
+    setInterval(() => {
+        if(Math.random() > 0.95) {
+            glitchHeader.style.transform = `translateX(${Math.random() * 4 - 2}px)`;
+            setTimeout(() => {
+                glitchHeader.style.transform = 'translateX(0)';
+            }, 100);
+        }
+    }, 2000);
+
 </script>
-
 </body>
 </html>
-

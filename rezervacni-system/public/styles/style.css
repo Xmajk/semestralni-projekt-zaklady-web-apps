@@ -75,13 +75,14 @@ span .required{
 }
 
 .pagination-wrap {
-    border-top: 1px solid #eeeeee;
     margin-top: 1em;
+    margin-right: 1em;
+    padding-bottom: 1em;
     padding-top: 0.5em;
     font: 1.2em sans-serif;
 
     display: flex;
-    justify-content: center;
+    justify-content: right;
 }
 
 .pagination {
@@ -101,11 +102,16 @@ span .required{
     border: 1px solid #999999;
     border-radius: 0.2em;
     text-decoration: none;
+    color: var(--primary-kacubo) !important; ;
 }
 
 .pagination a[aria-current="page"] {
-    background-color: #333333;
-    color: white;
+    background-color: var(--primary-kacubo);
+    color: white !important;
+}
+.pagination a[aria-current="page"]:hover {
+    background-color: var(--primary-kacubo-hover);
+    color: white !important;
 }
 /*template*/
 body {
