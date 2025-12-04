@@ -75,13 +75,13 @@ span .required{
 }
 
 .pagination-wrap {
-    margin-top: 1em;
     margin-right: 1em;
     padding-bottom: 1em;
     padding-top: 0.5em;
     font: 1.2em sans-serif;
 
     display: flex;
+    margin-top: auto;
     justify-content: right;
 }
 
@@ -116,7 +116,7 @@ span .required{
 /*template*/
 body {
     /*width: 100vw;*/
-    height: 100vh;
+    min-height: 100vh;
     font-family: Arial, sans-serif;
     background-color:var(--primary-background-color);
     color:#333;

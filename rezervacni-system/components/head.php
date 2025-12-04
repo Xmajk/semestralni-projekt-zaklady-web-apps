@@ -8,5 +8,6 @@ require_once __DIR__ . "/utils/links.php";
 <link href="<?= createStylesLink("/style.css") ?>" rel="stylesheet" type="text/css">
 <link href="<?= createStylesLink("/index.css") ?>" rel="stylesheet" type="text/css">
 <link href="<?= createStylesLink("/forms.css") ?>" rel="stylesheet" type="text/css">
+<link href="<?= createStylesLink("/printstyle.css") ?>" rel="stylesheet" type="text/css">
 <script src="<?= createScriptLink("/constants.js") ?>"></script>
 <script src="<?= createScriptLink("/cookies.js") ?>"></script>

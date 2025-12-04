@@ -2,7 +2,7 @@
 use components\objects\Event;
 use components\objects\Registration;
 
-const EVENTS_PER_PAGE = 1;
+const EVENTS_PER_PAGE = 3;
 
 
 require_once __DIR__ . "/components/objects/Event.php";
@@ -75,94 +75,65 @@ $userEvents = [];
     <?php include "components/navbar.php"; ?>
 </header>
 <div class="events-container">
-
-    <?php foreach ($events as $event): ?>
-        <div class="event-card <?php
-            if(userIsRegistered($user_id, $event->id)){
-                echo "joined";
-            }else if(eventIsLocked($event)){
-                echo "locked";
-            } else{
-                echo "available";
-            };
-        ?>">
-            <img height="300" class="event-image" src="<?= create_small_image_link($event->image_filename??"default.jpg") ?>">
-            <!--<div class="event-image" style="background-image:url('/rezervacni-system/public/imgs/default-event-bg.png');"></div>-->
-            <div class="event-content">
-                <div class="event-title"><?= htmlspecialchars($event->name) ?></div>
-                <div class="event-date">Datum konání: 25. listopadu 2025</div>
-                <div class="event-date">Registrace do: 25. listopadu 2025</div>
-                <div class="event-location">Praha, Karlín</div>
-                <div class="event-description">
-                    Přijďte poznat naše projekty, tým a zúčastněte se workshopů.
+    <?php if($numberOfEvents!=0): ?>
+        <?php foreach ($events as $event): ?>
+            <div class="event-card <?php
+                if(userIsRegistered($user_id, $event->id)){
+                    echo "joined";
+                }else if(eventIsLocked($event)){
+                    echo "locked";
+                } else{
+                    echo "available";
+                };
+            ?>">
+                <img class="event-image" src="<?= create_small_image_link($event->image_filename??"default.jpg") ?>">
+                <!--<div class="event-image" style="background-image:url('/rezervacni-system/public/imgs/default-event-bg.png');"></div>-->
+                <div class="event-content">
+                    <div class="event-title"><?= htmlspecialchars($event->name) ?></div>
+                    <div class="event-date">Datum konání: <?= htmlspecialchars(convertStringToDateTime($event->start_datetime)->format("d. m. Y H:i")) ?></div>
+                    <div class="event-date">Registrace do: <?= htmlspecialchars(convertStringToDateTime($event->registration_deadline)->format("d. m. Y H:i")) ?></div>
+                    <div class="event-location"><?= htmlspecialchars($event->location) ?></div>
+                    <div class="event-description">
+                        <?= htmlspecialchars($event->description) ?>
+                    </div>
+                </div>
+                <div class="event-actions">
+                    <a class="link-as-btn rounded" href="<?= createLink("/event.php?".http_build_query(["id"=>$event->id])) ?>">Více informací</a>
                 </div>
             </div>
-            <div class="event-actions">
-                <a class="link-as-btn rounded" href="<?= createLink("/event.php?".http_build_query(["id"=>$event->id])) ?>">Více informací</a>
-            </div>
-        </div>
-    <?php endforeach; ?>
-
-    <div class="event-card joined">
-        <div class="event-image" style="background-image:url('https://www.kacubo.cz/favicon.ico');"></div>
-        <div class="event-content">
-            <div class="event-title">Hackathon Kacubo 2025</div>
-            <div class="event-date">12.–14. prosince 2025</div>
-            <div class="event-location">Brno</div>
-            <div class="event-description">
-                48hodinový maraton programování zaměřený na webové technologie.
-            </div>
-        </div>
-        <div class="event-actions">
-            <button onclick="window.location.href='/info'">Zobrazit detail</button>
-        </div>
-    </div>
-
-    <div class="event-card locked">
-        <div class="event-image" style="background-image:url('https://www.kacubo.cz/header/143.jpg');"></div>
-        <div class="event-content">
-            <div class="event-title">Interní školení</div>
-            <div class="event-date">20. října 2025</div>
-            <div class="event-location">Online (Teams)</div>
-            <div class="event-description">
-                Uzavřený kurz pro zaměstnance o nových postupech v DevOps.
-            </div>
-        </div>
-        <div class="event-actions">
-            <button disabled>Nelze se přihlásit</button>
-        </div>
-    </div>
+        <?php endforeach; ?>
+    <?php else: ?>
+        <p>Nejsou žádné eventy</p>
+    <?php endif ?>
 
 </div>
-<div class="pagination-wrap">
-    <ul class="pagination">
-        <li>
-            <a href="<?= createLink("/index.php?".http_build_query(["page"=>1])) ?>">
-                <span aria-hidden="true">&laquo;</span>
-                <span class="visuallyhidden">previous set of pages</span>
-            </a>
-        </li>
-        <li>
-            <a href=""><span class="visuallyhidden">page </span>1</a>
-        </li>
-        <li>
-            <a href="" aria-current="page">
-                <span class="visuallyhidden">page </span>2
-            </a>
-        </li>
-        <li>
-            <a href=""> <span class="visuallyhidden">page </span>3 </a>
-        </li>
-        <li>
-            <a href=""> <span class="visuallyhidden">page </span>4 </a>
-        </li>
-        <li>
-            <a href="<?= createLink("/index.php?".http_build_query(["page"=>"max"])) ?>">
-        <span class="visuallyhidden">next set of pages</span
-        ><span aria-hidden="true">&raquo;</span>
-            </a>
-        </li>
-    </ul>
-</div>
+<?php if($numberOfPages>1): ?>
+    <div class="pagination-wrap">
+        <ul class="pagination">
+            <li>
+                <a href="<?= createLink("/index.php?".http_build_query(["page"=>1])) ?>">
+                    <span aria-hidden="true">&laquo;</span>
+                    <span class="visuallyhidden">previous set of pages</span>
+                </a>
+            </li>
+
+            <?php foreach ($pagination as $page): ?>
+                <li>
+                    <a href="<?= createLink("/index.php?" . http_build_query(["page" => $page])) ?>"
+                            <?php if($currentPage == $page): ?>
+                                aria-current="page"
+                            <?php endif ?>
+                    ><span class="visuallyhidden">page </span><?= $page ?></a>
+                </li>
+            <?php endforeach ?>
+            <li>
+                <a href="<?= createLink("/index.php?".http_build_query(["page"=>"max"])) ?>">
+            <span class="visuallyhidden">next set of pages</span
+            ><span aria-hidden="true">&raquo;</span>
+                </a>
+            </li>
+        </ul>
+    </div>
+<?php endif ?>
 </body>
 </html>

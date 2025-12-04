@@ -4,7 +4,9 @@ body#home-body {
     background-color: #f7f7f7;
     font-family: 'Lato', Arial, sans-serif;
     color: #333;
-    padding: 40px 0;
+    padding-top: var(--navbar-margin);
+    display: flex;
+    flex-direction: column;
 }
 
 /* Container */
@@ -15,6 +17,7 @@ body#home-body {
     max-width: 1200px;
     margin: 0 auto;
     padding: 20px;
+    min-width: 50%;
 }
 
 /* Event Card Base */
@@ -28,6 +31,9 @@ body#home-body {
     justify-content: space-between;
     transition: all 0.25s ease;
     position: relative;
+
+    width: 350px;
+    aspect-ratio: 1/1.5;
 }
 
 .event-card:hover {
@@ -145,5 +151,8 @@ body#home-body {
     }
     .event-card:hover {
         transform: none;
+    }
+    .event-card{
+        width: 100% !important;
     }
 }
