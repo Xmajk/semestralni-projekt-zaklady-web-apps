@@ -21,6 +21,8 @@
     --navbar-margin: 55px;
     --gap-size: 30px;
     --radius-card: 12px;
+    --joined-color: #198754;
+    --lock-color:#555;
 }
 
 /*===COMPONENTS===*/
@@ -116,7 +118,7 @@ span .required{
 /*template*/
 body {
     /*width: 100vw;*/
-    min-height: 100vh;
+    /*min-height: 100vh;*/
     font-family: Arial, sans-serif;
     background-color:var(--primary-background-color);
     color:#333;

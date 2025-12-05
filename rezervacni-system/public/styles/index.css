@@ -1,6 +1,7 @@
 /* HOME PAGE STYLES - KACUBO THEME */
 
 body#home-body {
+    min-height: 100vh;
     background-color: #f7f7f7;
     font-family: 'Lato', Arial, sans-serif;
     color: #333;
@@ -12,16 +13,26 @@ body#home-body {
 /* Container */
 .events-container {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
     gap: 25px;
+
+    max-width: 1200px;
+    width: 100%;
+    box-sizing: border-box;
+    margin: 0 auto;
+    padding: 20px;
+
+    /*
     max-width: 1200px;
     margin: 0 auto;
     padding: 20px;
     min-width: 50%;
+    max-width: 1200px;*/
 }
 
 /* Event Card Base */
 .event-card {
+    //margin: 0 auto;
     background: white;
     border-radius: 10px;
     box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
@@ -32,8 +43,9 @@ body#home-body {
     transition: all 0.25s ease;
     position: relative;
 
+    /*
     width: 350px;
-    aspect-ratio: 1/1.5;
+    aspect-ratio: 1/1.5;*/
 }
 
 .event-card:hover {
@@ -112,7 +124,7 @@ body#home-body {
     position: absolute;
     top: 10px;
     right: 10px;
-    background: #198754;
+    background: var(--joined-color);
     color: white;
     font-size: 0.8rem;
     font-weight: bold;
@@ -133,15 +145,30 @@ body#home-body {
     top: 10px;
     /* left: 10px; */
     right: 10px;
-    background: #555;
+    background: var(--lock-color);
     color: white;
     font-size: 0.8rem;
     font-weight: bold;
     padding: 5px 10px;
     border-radius: 4px;
 }
+.stat-tape::after{
+    display: none;
+    font-size: 1.2rem;
+    padding: 0 10px;
+    color: white;
+ }
 
-/* Responsive tweaks */
+.event-card.joined>.stat-tape::after{
+    content: "✓ Přihlášen";
+    background-color: var(--joined-color);
+}
+.event-card.locked>.stat-tape::after{
+    content: "🔒 Uzamčeno";
+    background-color: var(--lock-color);
+}
+
+
 @media (max-width: 768px) {
     .events-container {
         grid-template-columns: 1fr;
@@ -154,5 +181,13 @@ body#home-body {
     }
     .event-card{
         width: 100% !important;
+    }
+    .event-card.joined::before,
+    .event-card.locked::before{
+        display: none;
+    }
+    .event-card.joined>.stat-tape::after,
+    .event-card.locked>.stat-tape::after{
+        display: block;
     }
 }

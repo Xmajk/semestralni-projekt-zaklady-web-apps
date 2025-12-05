@@ -86,6 +86,7 @@ $userEvents = [];
                     echo "available";
                 };
             ?>">
+                <div class="stat-tape"></div>
                 <img class="event-image" src="<?= create_small_image_link($event->image_filename??"default.jpg") ?>">
                 <!--<div class="event-image" style="background-image:url('/rezervacni-system/public/imgs/default-event-bg.png');"></div>-->
                 <div class="event-content">

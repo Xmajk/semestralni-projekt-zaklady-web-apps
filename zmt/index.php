@@ -145,17 +145,6 @@
 </head>
 <body class="antialiased">
 
-<!-- Custom Cursor -->
-<div class="cursor-dot" id="cursor-dot"></div>
-<div class="cursor-outline" id="cursor-outline"></div>
-
-<!-- Navigation (Minimal)
-<nav class="fixed top-0 w-full z-50 flex justify-between items-center p-6 mix-blend-difference text-white">
-    <div class="text-xl font-bold tracking-[0.2em]">OPERACE: AREPO</div>
-    <div class="text-xs tracking-widest opacity-70 hidden md:block">ENTROPIE SE ZVYŠUJE</div>
-</nav> -->
-
-<!-- Hero Section -->
 <header class="relative h-screen flex flex-col items-center justify-center overflow-hidden bg-grid">
     <div class="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-[#050505]"></div>
 
@@ -163,12 +152,10 @@
         INVERZE
     </h1>
 
-    <!-- Decorative Lines -->
     <div class="absolute w-[1px] h-screen bg-gradient-to-b from-transparent via-red-600 to-transparent left-1/4 opacity-20"></div>
     <div class="absolute w-[1px] h-screen bg-gradient-to-t from-transparent via-cyan-400 to-transparent right-1/4 opacity-20"></div>
 </header>
-
-<!-- Project Description -->
+<!--
 <section class="max-w-8xl mx-auto px-6 py-24 md:py-32 relative flex flex-col md:flex-row">
     <div class="flex flex-col md:flex-row gap-12 items-start mb-5">
         <div class="md:w-1/4 ml-4">
@@ -193,8 +180,87 @@
         </div>
     </div>
 </section>
+<section class="max-w-8xl mx-auto px-6 pt-0 pb-24 md:pb-32 relative flex flex-col md:flex-row">
+    <div class="flex flex-col md:flex-row gap-12 items-start mb-5">
+        <div class="md:w-1/4 ml-4">
+            <h2 class="text-xs text-red-500 tracking-[0.2em] font-bold mb-4 uppercase">informace o videu</h2>
+            <div class="w-12 h-1 bg-white mb-6"></div>
+        </div>
+        <div class="md:w-3/4">
+            <p class="text-xl md:text-2xl leading-relaxed text-gray-300 reveal mb-8">
+                Video je exportováno ve formátu .mov v rozlišení 1920x1080 30FPS s velikostí 370MB
+            </p>
+        </div>
+    </div>
+    <div class="flex flex-col md:flex-row gap-12 items-start mb-5">
+        <div class="md:w-1/4 ml-4">
+            <h2 class="text-xs text-red-500 tracking-[0.2em] font-bold mb-4 uppercase">prezentace</h2>
+            <div class="w-12 h-1 bg-white mb-6"></div>
+        </div>
+        <div class="md:w-3/4">
+            <p class="text-xl md:text-2xl leading-relaxed text-gray-300 reveal mb-8">
+                Prezentace formou webové stránky je hostovaná na serveru <strong class="mark">zwa.toad</strong>, který slouží k odevzdávání semestrálních projektů na předmět <strong class="mark">ZWA</strong>. Stránka je tvořena pomocí frontendové knihovny <strong class="mark">tailwind</strong a pomocí custom animací <strong class="mark">glitche textu</strong>.
+            </p>
+        </div>
+    </div>
+</section> -->
 
-<!-- Main Video Section (Rickroll) -->
+<section class="max-w-8xl mx-auto px-6 py-24 md:py-32 relative grid grid-cols-1 md:grid-cols-2 gap-12 items-start">
+
+    <div class="flex flex-col items-start">
+        <div class="w-full mb-2">
+            <h2 class="text-xs text-red-500 tracking-[0.2em] font-bold mb-4 uppercase">vize projektu</h2>
+            <div class="w-12 h-1 bg-white mb-6"></div>
+        </div>
+        <div class="w-full">
+            <p class="text-xl md:text-2xl leading-relaxed text-gray-300 reveal mb-8">
+                Projekt je inspirován filmem <strong class="mark">TENET</strong>, který je o tajném agentovi, který má zabránit konci světa, ale háček je v tom, že v tomhle světě <strong class="mark">jde čas i pozpátku</strong>.
+            </p>
+        </div>
+    </div>
+
+    <div class="flex flex-col items-start">
+        <div class="w-full mb-2">
+            <h2 class="text-xs text-red-500 tracking-[0.2em] font-bold mb-4 uppercase">technologie</h2>
+            <div class="w-12 h-1 bg-white mb-6"></div>
+        </div>
+        <div class="w-full">
+            <p class="text-xl md:text-2xl leading-relaxed text-gray-300 reveal mb-8">
+                Videa jsou točená na <strong class="mark">Xiaomi 15</strong>. O postprodukci se pak postaralo kombo <strong class="mark">GIMP (na fotky)</strong> a <strong class="mark">Audacity (na audio)</strong>. Všechno jsme to nakonec sestříhali v <strong class="mark">DaVinci Resolve</strong>.
+            </p>
+        </div>
+    </div>
+
+</section>
+
+<section class="max-w-8xl mx-auto px-6 pt-0 pb-24 md:pb-32 relative grid grid-cols-1 md:grid-cols-2 gap-12 items-start">
+
+    <div class="flex flex-col items-start">
+        <div class="w-full mb-2">
+            <h2 class="text-xs text-red-500 tracking-[0.2em] font-bold mb-4 uppercase">informace o videu</h2>
+            <div class="w-12 h-1 bg-white mb-6"></div>
+        </div>
+        <div class="w-full">
+            <p class="text-xl md:text-2xl leading-relaxed text-gray-300 reveal mb-8">
+                Video je exportováno ve formátu .mov v rozlišení 1920x1080 30FPS s velikostí 370MB.
+            </p>
+        </div>
+    </div>
+
+    <div class="flex flex-col items-start">
+        <div class="w-full mb-2">
+            <h2 class="text-xs text-red-500 tracking-[0.2em] font-bold mb-4 uppercase">prezentace</h2>
+            <div class="w-12 h-1 bg-white mb-6"></div>
+        </div>
+        <div class="w-full">
+            <p class="text-xl md:text-2xl leading-relaxed text-gray-300 reveal mb-8">
+                Prezentace formou webové stránky je hostovaná na serveru <strong class="mark">zwa.toad</strong>, který slouží k odevzdávání semestrálních projektů na předmět <strong class="mark">ZWA</strong>. Stránka je tvořena pomocí frontendové knihovny <strong class="mark">tailwind</strong> a pomocí custom animací <strong class="mark">glitche textu</strong>.
+            </p>
+        </div>
+    </div>
+
+</section>
+
 <section class="w-full bg-white text-black py-20 overflow-hidden relative group">
     <div class="absolute inset-0 bg-black opacity-0 group-hover:opacity-10 transition-opacity duration-500 pointer-events-none"></div>
 
@@ -203,18 +269,16 @@
             <h2 class="text-4xl md:text-6xl font-bold tracking-tighter uppercase">Naše veledílo</h2>
         </div>
 
-        <!-- Video Container -->
         <div class="relative w-full aspect-video bg-black shadow-[20px_20px_0px_0px_rgba(255,0,76,1)] transition-transform duration-500 hover:translate-x-[-5px] hover:translate-y-[-5px]">
             <iframe
                     class="w-full h-full object-cover opacity-90 hover:opacity-100 transition-opacity duration-300"
-                    src="https://www.youtube.com/embed/dQw4w9WgXcQ?controls=0&rel=0&modestbranding=1"
-                    title="Main Project Video"
+                    src="https://www.youtube.com/embed/k6j9g7JJBR4"
+                    title="INVERZE"
                     frameborder="0"
                     allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                     allowfullscreen>
             </iframe>
 
-            <!-- Overlay details -->
             <div class="absolute top-4 left-4 border border-white/20 px-2 py-1 text-[10px] text-white/50 font-mono tracking-widest pointer-events-none">
                 ISO 800 // F 2.8
             </div>
@@ -225,43 +289,36 @@
     </div>
 </section>
 
-<!-- Process / Gallery Section -->
 <section class="max-w-7xl mx-auto px-6 py-32">
     <div class="flex flex-col items-center mb-16">
         <h2 class="text-3xl font-bold tracking-[0.5em] text-center mb-2 uppercase">PROCES TVORBY</h2>
     </div>
 
     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-        <!-- Item 1 -->
         <div class="relative group reveal magnetic-element">
             <div class="overflow-hidden bg-gray-900 aspect-[4/5] mb-4 relative border border-gray-800">
                 <img src="1000003541.jpg" alt="Process 1" class="w-full h-full object-cover duality-img">
                 <div class="absolute bottom-0 left-0 w-full p-4 bg-gradient-to-t from-black to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                    <span class="text-cyan-400 text-xs font-mono">FÁZE 01</span>
                 </div>
             </div>
             <h3 class="text-lg font-bold uppercase tracking-wide">Natáčení</h3>
             <p class="text-gray-500 text-sm mt-1">Večer natáčení</p>
         </div>
 
-        <!-- Item 2 -->
         <div class="relative group reveal magnetic-element" style="transition-delay: 100ms;">
             <div class="overflow-hidden bg-gray-900 aspect-[4/5] mb-4 relative border border-gray-800">
                 <img src="1000003557.jpg" alt="Process 2" class="w-full h-full object-cover duality-img">
                 <div class="absolute bottom-0 left-0 w-full p-4 bg-gradient-to-t from-black to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                    <span class="text-cyan-400 text-xs font-mono">FÁZE 02</span>
                 </div>
             </div>
             <h3 class="text-lg font-bold uppercase tracking-wide">Střih</h3>
             <p class="text-gray-500 text-sm mt-1">Ukázka střihu</p>
         </div>
 
-        <!-- Item 3 -->
         <div class="relative group reveal magnetic-element" style="transition-delay: 200ms;">
             <div class="overflow-hidden bg-gray-900 aspect-[4/5] mb-4 relative border border-gray-800">
                 <img src="1000003559.jpg" alt="Process 3" class="w-full h-full object-cover duality-img">
                 <div class="absolute bottom-0 left-0 w-full p-4 bg-gradient-to-t from-black to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                    <span class="text-cyan-400 text-xs font-mono">FÁZE 03</span>
                 </div>
             </div>
             <h3 class="text-lg font-bold uppercase tracking-wide">Proces střihu</h3>
@@ -275,20 +332,27 @@
             <h3 class="text-lg font-bold uppercase tracking-wide">Davinci</h3>
         </div>
 
+        <div class="relative group reveal magnetic-element" style="transition-delay: 200ms;">
+            <div class="overflow-hidden bg-gray-900 aspect-[4/5] mb-4 relative border border-gray-800">
+                <img src="audacity zmt.png" alt="Process 3" class="w-full h-full object-cover duality-img">
+            </div>
+            <h3 class="text-lg font-bold uppercase tracking-wide">Audacity</h3>
+        </div>
+
+        <div class="relative group reveal magnetic-element" style="transition-delay: 200ms;">
+            <div class="overflow-hidden bg-gray-900 aspect-[4/5] mb-4 relative border border-gray-800">
+                <img src="gimp%20zmt.png" alt="Process 3" class="w-full h-full object-cover duality-img">
+            </div>
+            <h3 class="text-lg font-bold uppercase tracking-wide">Gimp</h3>
+        </div>
+
     </div>
 </section>
-
-<!-- Authors Section -->
 <section class="bg-zinc-900 border-t border-zinc-800 py-24 relative overflow-hidden">
-    <!-- Abstract background blur
-    <div class="absolute top-0 right-0 w-96 h-96 bg-red-600 rounded-full mix-blend-multiply filter blur-[128px] opacity-10 animate-pulse"></div>
-    <div class="absolute bottom-0 left-0 w-96 h-96 bg-cyan-600 rounded-full mix-blend-multiply filter blur-[128px] opacity-10 animate-pulse" style="animation-delay: 1s;"></div>
-    -->
     <div class="max-w-6xl mx-auto px-6 relative z-10">
         <h2 class="text-5xl font-bold mb-16 text-center tracking-tighter">TVŮRCI</h2>
 
         <div class="flex flex-col md:flex-row justify-center gap-16">
-            <!-- Author 1 -->
             <div class="text-center group reveal">
                 <div class="relative w-48 h-48 mx-auto mb-6 rounded-full p-1 border border-zinc-700 group-hover:border-red-500 transition-colors duration-500">
                     <div class="w-full h-full rounded-full overflow-hidden relative">
@@ -296,10 +360,8 @@
                     </div>
                 </div>
                 <h3 class="text-2xl font-bold text-white">Michal Hoda</h3>
-                <p class="text-red-500 text-sm tracking-[0.2em] uppercase mt-2">Režie / Hlavní role / Střih</p>
+                <p class="text-red-500 text-sm tracking-[0.2em] uppercase mt-2">Režie / Hlavní role / Mistr střihu</p>
             </div>
-
-            <!-- Author 2 -->
             <div class="text-center group reveal" style="transition-delay: 200ms;">
                 <div class="relative w-48 h-48 mx-auto mb-6 rounded-full p-1 border border-zinc-700 group-hover:border-cyan-400 transition-colors duration-500">
                     <div class="w-full h-full rounded-full overflow-hidden relative">
@@ -312,39 +374,18 @@
         </div>
     </div>
 </section>
-
-<!-- Footer -->
 <footer class="bg-black py-12 border-t border-zinc-900 text-center">
     <div class="flex flex-col items-center justify-center gap-4">
         <p class="text-zinc-600 text-xs tracking-widest uppercase">
-            &copy; 2025 Projekt na ZMP Michal Hrouda a Michal Hrouda
+            &copy; 2025 Projekt na ZMP Michal Hoda a Michal Hrouda
         </p>
     </div>
 </footer>
 
 <script>
-    // --- CUSTOM CURSOR LOGIC ---
     const cursorDot = document.getElementById("cursor-dot");
     const cursorOutline = document.getElementById("cursor-outline");
 
-    /*
-    window.addEventListener("mousemove", (e) => {
-        const posX = e.clientX;
-        const posY = e.clientY;
-
-        // Dot follows immediately
-        cursorDot.style.left = `${posX}px`;
-        cursorDot.style.top = `${posY}px`;
-
-        // Outline follows with slight delay (animation handled by CSS transition usually, but let's force strict follow for snappy feel)
-        cursorOutline.animate({
-            left: `${posX}px`,
-            top: `${posY}px`
-        }, { duration: 500, fill: "forwards" });
-    });
-    */
-
-    // Hover effects for cursor
     document.querySelectorAll('a, button, .duality-img').forEach(el => {
         el.addEventListener('mouseenter', () => {
             cursorOutline.style.transform = 'translate(-50%, -50%) scale(1.5)';
@@ -384,6 +425,7 @@
     // Subtle movement of elements towards the cursor
     const magnets = document.querySelectorAll('.magnetic-element');
 
+    /*
     magnets.forEach((magnet) => {
         magnet.addEventListener('mousemove', (e) => {
             const position = magnet.getBoundingClientRect();
@@ -397,7 +439,7 @@
             magnet.style.transform = 'translate(0px, 0px)';
         });
     });
-
+*/
     // --- REVERSE SCROLL BUTTON ---
     document.getElementById('reverse-btn').addEventListener('click', () => {
         window.scrollTo({
