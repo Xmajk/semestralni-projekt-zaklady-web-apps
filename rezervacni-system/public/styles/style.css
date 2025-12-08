@@ -23,6 +23,9 @@
     --radius-card: 12px;
     --joined-color: #198754;
     --lock-color:#555;
+
+    /*===RESPONSIVITY===*/
+    --mobile-width: 600px;
 }
 
 /*===COMPONENTS===*/
@@ -420,12 +423,6 @@ login-bg-imagage1{
                 flex: 40%;
                 min-width: 400px;
             }
-
-            @media (min-width: 600px) {
-                div{
-
-                }
-            }
         }
 
         * > input{
@@ -440,6 +437,18 @@ login-bg-imagage1{
 
     .table-wrap{
         overflow-x: auto;
+
+        td,th{
+            white-space: nowrap;
+        }
+
+        .lname-col{
+            display: none;
+        }
+
+        .bdate-col{
+            white-space: nowrap
+        }
 
         thead{
             position: sticky;
@@ -618,11 +627,16 @@ input.input-error:focus {
 
     @media (max-width: 900px) {
         flex-direction: column;
+        padding-left: 0;
+        > #update-user-div{
+            padding: 0 15px;
+        }
         > #registrations-div{
             width: 100%;
             max-width: none;
             margin: 0;
         }
+
     }
 }
 

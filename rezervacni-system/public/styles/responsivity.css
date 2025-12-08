@@ -1,0 +1,11 @@
+@media (max-width: 900px) {
+    /* /admin/users */
+    #admin-users-body > #page-content{
+        #names-wrapper{
+            flex-direction: column !important;
+            div{
+              min-width: auto !important;
+            }
+        }
+    }
+}

@@ -88,6 +88,7 @@ $users = User::getAllOrdered();
 <head>
     <?php include __DIR__ . "/../components/head.php" ?>
     <script src="<?= createScriptLink("/validation/users.js") ?>"></script>
+    <link href="<?= createStylesLink("/printstyles/users.css") ?>" rel="stylesheet" type="text/css">
 </head>
 <body id="admin-users-body">
 <header>
@@ -184,22 +185,24 @@ $users = User::getAllOrdered();
         <table class="table">
             <thead>
             <tr>
-                <th class="sortable" aria-sort="none">Uživatelské jméno</th>
-                <th>Jméno</th>
-                <th>Datum narození</th>
-                <th>Admin</th>
-                <th></th>
-                <th></th>
+                <th class="sortable username-col" aria-sort="none">Uživatelské jméno</th>
+                <th class="fname-col">Jméno</th>
+                <th class="lname-col">Příjmení</th>
+                <th class="bdate-col">Datum narození</th>
+                <th class="admin-col">Admin</th>
+                <th class="edit-col"></th>
+                <th class="delete-col"></th>
             </tr>
             </thead>
             <tbody>
             <?php foreach ($users as $user): ?>
                 <tr>
                     <td class="clip username-col"><?= htmlspecialchars($user->username) ?></td>
-                    <td class="muted"><?= htmlspecialchars($user->firstname) ?></td>
-                    <td class="muted"><?= htmlspecialchars($user->bdate) ?></td>
+                    <td class="muted fname-col"><?= htmlspecialchars($user->firstname) ?></td>
+                    <td class="muted lname-col"><?= htmlspecialchars($user->lastname) ?></td>
+                    <td class="muted bdate-col"><?= htmlspecialchars($user->bdate) ?></td>
 
-                    <td><span class="badge badge--ok">
+                    <td class="admin-col"><span class="badge badge--ok">
                         <?php if ($user->is_admin == 1):
                             echo "ano";
                         else:
@@ -207,8 +210,8 @@ $users = User::getAllOrdered();
                         endif;
                         ?>
                         </span></td>
-                    <td><a href="<?= createLink("/admin/user.php?id=".$user->id) ?>">upravit</a></td>
-                    <td><a href="<?= createLink("/admin/user.php?action=delete&id=".$user->id)?>">vymazat</a></td>
+                    <td class="edit-col"><a href="<?= createLink("/admin/user.php?id=".$user->id) ?>">upravit</a></td>
+                    <td class="delete-col"><a href="<?= createLink("/admin/user.php?action=delete&id=".$user->id)?>">vymazat</a></td>
                 </tr>
             <?php endforeach; ?>
             </tbody>

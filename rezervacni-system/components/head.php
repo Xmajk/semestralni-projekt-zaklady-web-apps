@@ -12,5 +12,6 @@ require_once __DIR__ . "/utils/links.php";
 <link href="<?= createStylesLink("/printstyle.css") ?>" rel="stylesheet" type="text/css">
 <link href="<?= createStylesLink("/breadcrumb.css") ?>" rel="stylesheet" type="text/css">
 <link href="<?= createStylesLink("/toogleswitch.css") ?>" rel="stylesheet" type="text/css">
+<link href="<?= createStylesLink("/responsivity.css") ?>" rel="stylesheet" type="text/css">
 <script src="<?= createScriptLink("/constants.js") ?>"></script>
 <script src="<?= createScriptLink("/cookies.js") ?>"></script>
