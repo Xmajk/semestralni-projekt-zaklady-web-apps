@@ -7,6 +7,7 @@ require_once __DIR__ . "/components/objects/Registration.php";
 require_once __DIR__ . "/components/utils/links.php";
 require_once __DIR__ . "/components/utils/date_time.php";
 require_once __DIR__ . "/components/check_auth.php";
+require_once __DIR__ . "/components/breadcrumb.php";
 
 check_auth_user();
 $current_user_id = $_COOKIE['user_id'] ?? null;
@@ -81,105 +82,113 @@ $image_src = create_large_image_link($event->image_filename ?? "default.jpg");
 <header>
     <?php include "components/navbar.php"; ?>
 </header>
-
 <div id="event-detail-content">
-    <main class="event-main">
-        <img src="<?= $image_src ?>" alt="<?= htmlspecialchars($event->name) ?>" class="event-hero-image">
+    <?= generateBreadcrumbs(["Home", "Event"]) ?>
+    <div class="event-wrap">
+        <main class="event-main">
+            <img src="<?= $image_src ?>" alt="<?= htmlspecialchars($event->name) ?>" class="event-hero-image">
 
-        <?php if ($is_registered): ?>
-            <div class="status-badge status-badge-mobile badge-registered">Jste přihlášen(a)</div>
-        <?php elseif ($event_started): ?>
-            <div class="status-badge status-badge-mobile badge-closed">Událost již začala</div>
-        <?php elseif ($is_past_deadline && !$is_full): ?>
-            <div class="status-badge status-badge-mobile badge-closed">Registrace uzavřena</div>
-        <?php elseif ($is_full): ?>
-            <div class="status-badge status-badge-mobile badge-closed">Kapacita naplněna</div>
-        <?php else: ?>
-            <div class="status-badge status-badge-mobile badge-open">Registrace otevřena</div>
-        <?php endif; ?>
+            <?php if ($is_registered): ?>
+                <div class="status-badge status-badge-mobile badge-registered">Jste přihlášen(a)</div>
+            <?php elseif ($event_started): ?>
+                <div class="status-badge status-badge-mobile badge-closed">Událost již začala</div>
+            <?php elseif ($is_past_deadline && !$is_full): ?>
+                <div class="status-badge status-badge-mobile badge-closed">Registrace uzavřena</div>
+            <?php elseif ($is_full): ?>
+                <div class="status-badge status-badge-mobile badge-closed">Kapacita naplněna</div>
+            <?php else: ?>
+                <div class="status-badge status-badge-mobile badge-open">Registrace otevřena</div>
+            <?php endif; ?>
 
-        <div class="event-content-wrapper">
-            <div id="countdown-container" class="countdown-box"
-                 data-deadline="<?= $deadline->format('c') ?>"
-                 data-start="<?= $start_date->format('c') ?>">
-                <div class="countdown-label" id="countdown-label">Zbývá času</div>
-                <div class="countdown-timer" id="countdown-timer">...</div>
+            <div class="event-content-wrapper">
+                <div id="countdown-container" class="countdown-box"
+                     data-deadline="<?= $deadline->format('c') ?>"
+                     data-start="<?= $start_date->format('c') ?>">
+                    <div class="countdown-label" id="countdown-label">Zbývá času</div>
+                    <div class="countdown-timer" id="countdown-timer">...</div>
+                </div>
+                <h1 class="event-title"><?= htmlspecialchars($event->name) ?></h1>
+                <div class="event-description"><?= nl2br(htmlspecialchars($event->description ?? "Bez popisu.")) ?></div>
             </div>
-            <h1 class="event-title"><?= htmlspecialchars($event->name) ?></h1>
-            <div class="event-description"><?= nl2br(htmlspecialchars($event->description ?? "Bez popisu.")) ?></div>
-        </div>
-    </main>
+        </main>
 
-    <form class="event-sidebar" method="POST" id="registration-form">
+        <form class="event-sidebar" method="POST" id="registration-form">
 
-        <input type="hidden" name="registerEventID" value="<?= $event->id ?>">
-        <input type="hidden" name="registerUserID" value="<?= htmlspecialchars($current_user_id) ?>">
-        <input type="hidden" name="registrationExists" value="<?= ($is_registered)?"true":"false" ?>">
+            <input type="hidden" name="registerEventID" value="<?= $event->id ?>">
+            <input type="hidden" name="registerUserID" value="<?= htmlspecialchars($current_user_id) ?>">
+            <input type="hidden" name="registrationExists" value="<?= ($is_registered)?"true":"false" ?>">
 
-        <?php if ($is_registered): ?>
-            <div class="status-badge badge-registered">Jste přihlášen(a)</div>
-        <?php elseif ($event_started): ?>
-            <div class="status-badge badge-closed">Událost již začala</div>
-        <?php elseif ($is_past_deadline && !$is_full): ?>
-            <div class="status-badge badge-closed">Registrace uzavřena</div>
-        <?php elseif ($is_full): ?>
-            <div class="status-badge badge-closed">Kapacita naplněna</div>
-        <?php else: ?>
-            <div class="status-badge badge-open">Registrace otevřena</div>
-        <?php endif; ?>
+            <?php if ($is_registered): ?>
+                <div class="status-badge badge-registered">Jste přihlášen(a)</div>
+            <?php elseif ($event_started): ?>
+                <div class="status-badge badge-closed">Událost již začala</div>
+            <?php elseif ($is_past_deadline && !$is_full): ?>
+                <div class="status-badge badge-closed">Registrace uzavřena</div>
+            <?php elseif ($is_full): ?>
+                <div class="status-badge badge-closed">Kapacita naplněna</div>
+            <?php else: ?>
+                <div class="status-badge badge-open">Registrace otevřena</div>
+            <?php endif; ?>
 
-        <div class="info-row">
-            <span class="info-label">Datum a čas</span>
-            <span class="info-value"><?= $start_date->format('d. m. Y H:i') ?></span>
-        </div>
+            <div class="info-row">
+                <span class="info-label">Datum a čas</span>
+                <span class="info-value"><?= $start_date->format('d. m. Y H:i') ?></span>
+            </div>
 
-        <div class="info-row">
-            <span class="info-label">Konec registrací</span>
-            <span class="info-value highlight <?= (!$is_past_deadline) ? 'past-deadline-active' : 'past-deadline-inactive' ?>">
+            <div class="info-row">
+                <span class="info-label">Konec registrací</span>
+                <span class="info-value highlight <?= (!$is_past_deadline) ? 'past-deadline-active' : 'past-deadline-inactive' ?>">
                 <?= $deadline->format('d. m. Y H:i') ?>
             </span>
-        </div>
-
-        <div class="info-row">
-            <span class="info-label">Cena</span>
-            <span class="info-value price"><?= ($price == 0) ? "ZDARMA" : htmlspecialchars($price) . " Kč" ?></span>
-        </div>
-
-        <div class="info-row">
-            <span class="info-label">Místo konání</span>
-            <span class="info-value"><?= $location ?></span>
-        </div>
-
-        <div class="info-row">
-            <span class="info-label">Kapacita</span>
-            <span class="info-value"><?= $occupancy ?> / <?= $capacity ?> účastníků</span>
-            <?php $percent = ($capacity > 0) ? min(100, round(($occupancy / $capacity) * 100)) : 0; ?>
-            <div class="capacity-bar-wrapper">
-                <div class="capacity-bar-fill" style="width: <?= $percent ?>%;"></div>
             </div>
-            <div class="percent-status"><?= $percent ?>% zaplněno</div>
-        </div>
 
-        <?php if ($is_registered): ?>
-            <button type="submit" <?php if($is_past_deadline): ?>disabled<?php endif; ?> name="action" value="remove" class="btn-action btn-cancel">
-                Zrušit registraci
-            </button>
+            <div class="info-row">
+                <span class="info-label">Cena</span>
+                <span class="info-value price"><?= ($price == 0) ? "ZDARMA" : htmlspecialchars($price) . " Kč" ?></span>
+            </div>
 
-        <?php elseif (!$event_started): ?>
-            <?php if (!$is_past_deadline && !$is_full): ?>
-                <button type="submit" name="action" value="add" class="btn-action btn-register">
-                    Registrovat se
-                </button>
-            <?php elseif ($is_full): ?>
-                <button type="button" class="btn-action btn-disabled">Plná kapacita</button>
+            <div class="info-row">
+                <span class="info-label">Místo konání</span>
+                <span class="info-value"><?= $location ?></span>
+            </div>
+
+            <div class="info-row">
+                <span class="info-label">Kapacita</span>
+                <span class="info-value"><?= $occupancy ?> / <?= $capacity ?> účastníků</span>
+                <?php $percent = ($capacity > 0) ? min(100, round(($occupancy / $capacity) * 100)) : 0; ?>
+                <div class="capacity-bar-wrapper">
+                    <div class="capacity-bar-fill" style="width: <?= $percent ?>%;"></div>
+                </div>
+                <div class="percent-status"><?= $percent ?>% zaplněno</div>
+            </div>
+
+            <?php if ($is_registered): ?>
+                <?php if($is_past_deadline): ?>
+                    <button type="submit" disabled name="action" value="remove" class="btn-action btn-locked">
+                        Registrace ukončena
+                    </button>
+                <?php else: ?>
+                    <button type="submit" <?php if($is_past_deadline): ?>disabled<?php endif; ?> name="action" value="remove" class="btn-action btn-cancel">
+                        Zrušit registraci
+                    </button>
+                <?php endif; ?>
+
+            <?php elseif (!$event_started): ?>
+                <?php if (!$is_past_deadline && !$is_full): ?>
+                    <button type="submit" name="action" value="add" class="btn-action btn-register">
+                        Registrovat se
+                    </button>
+                <?php elseif ($is_full): ?>
+                    <button type="button" class="btn-action btn-disabled">Plná kapacita</button>
+                <?php else: ?>
+                    <button type="button" class="btn-action btn-disabled">Registrace ukončena</button>
+                <?php endif; ?>
             <?php else: ?>
-                <button type="button" class="btn-action btn-disabled">Registrace ukončena</button>
+                <button type="button" class="btn-action btn-disabled">Událost ukončena</button>
             <?php endif; ?>
-        <?php else: ?>
-            <button type="button" class="btn-action btn-disabled">Událost ukončena</button>
-        <?php endif; ?>
 
-    </form>
+        </form>
+    </div>
 </div>
 
 <script>

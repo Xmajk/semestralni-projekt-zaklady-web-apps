@@ -4,6 +4,7 @@ require_once __DIR__ . "/../components/objects/User.php";
 require_once __DIR__ . "/../components/utils/crypto.php";
 require_once __DIR__ . "/../components/utils/links.php";
 require_once __DIR__ . "/../components/check_auth.php";
+require_once __DIR__ . "/../components/breadcrumb.php";
 
 session_start();
 check_auth_admin();
@@ -87,6 +88,9 @@ else if($_SERVER["REQUEST_METHOD"] == "POST"){
     <?php include "../components/navbar.php"; ?>
 </header>
 <div id="page-content">
+
+    <?= generateBreadcrumbs(["Home","Admin","Admin-users","Admin-users-update"]) ?>
+
     <form id="add-user-form" autocomplete="off" method="post">
         <span id="form-error" class="error">
             <?php

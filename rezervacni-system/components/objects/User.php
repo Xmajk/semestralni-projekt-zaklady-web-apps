@@ -16,6 +16,18 @@ class User
     public $email;
     public $is_admin;
 
+    public function fill($data)
+    {
+        $this->id = $data["id"];
+        $this->firstname = $data["firstname"];
+        $this->lastname = $data["lastname"];
+        $this->bdate = $data["bdate"];
+        $this->username = $data["username"];
+        $this->password = $data["password"];
+        $this->email = $data["email"];
+        $this->is_admin = $data["is_admin"];
+    }
+
     static function check_credentials($username, $password)
     {
         return false;
@@ -87,6 +99,55 @@ class User
             $user->firstname = $row['firstname'] ?? null;
             $user->lastname = $row['lastname'] ?? null;
             $user->bdate = $row['bdate'] ?? null; // pokud chceš DateTime, můžeš zde použít new \DateTime(...)
+            $user->username = $row['username'] ?? null;
+            $user->password = $row['password'] ?? null;
+            $user->email = $row['email'] ?? null;
+            $user->is_admin = isset($row['is_admin']) ? (bool)$row['is_admin'] : false;
+
+            $result->free();
+            $stmt->close();
+            $conn->close();
+
+            return $user;
+        } catch (\Throwable $e) {
+            return null;
+        }
+    }
+
+    static function getUserByUsername($username)
+    {
+        try {
+            $conn = connect();
+            $id = $username;
+            $sql = "SELECT * FROM users WHERE username = ? LIMIT 1";
+            $stmt = $conn->prepare($sql);
+            if ($stmt === false) {
+                $conn->close();
+                return null;
+            }
+
+            $stmt->bind_param("s", $id);
+
+            if (!$stmt->execute()) {
+                $stmt->close();
+                $conn->close();
+                return null;
+            }
+
+            $result = $stmt->get_result();
+            if (!$result || $result->num_rows === 0) {
+                $stmt->close();
+                $conn->close();
+                return null;
+            }
+
+            $row = $result->fetch_assoc();
+
+            $user = new User();
+            $user->id = isset($row['id']) ? (int)$row['id'] : null;
+            $user->firstname = $row['firstname'] ?? null;
+            $user->lastname = $row['lastname'] ?? null;
+            $user->bdate = $row['bdate'] ?? null;
             $user->username = $row['username'] ?? null;
             $user->password = $row['password'] ?? null;
             $user->email = $row['email'] ?? null;

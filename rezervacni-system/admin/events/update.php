@@ -7,6 +7,7 @@
     require_once __DIR__ . "/../../components/objects/Registration.php";
     require_once __DIR__ . "/../../components/utils/links.php";
     require_once __DIR__ . "/../../components/check_auth.php";
+    require_once __DIR__ . "/../../components/breadcrumb.php";
 
     session_start();
     check_auth_admin();
@@ -24,6 +25,9 @@
 
     $errors = $_SESSION['form_errors'] ?? [];
     $formData = $_SESSION['form_data'] ?? [];
+    $_SESSION['form_data'] = [];
+    $_SESSION['form_errors'] = [];
+
     if($_SERVER["REQUEST_METHOD"] === "POST"){
         $formData = [
                 "name" => $_POST["name"],
@@ -81,7 +85,7 @@
         redirect_to(createLink("/admin/events/update.php?".http_build_query(["id" => $event_id])));
     }elseif ($_SERVER["REQUEST_METHOD"] === "GET"){
         $_SESSION["redirectto"]=createLink("/admin/events/update.php?".http_build_query(["id" => $event_id]));
-        $registrations = Registration::findEventRegistrationsByEventId($event_id);
+        $users = Registration::findEventRegistrationsByEventId($event_id);
     }
 
 ?>
@@ -95,6 +99,7 @@
 <header>
     <?php include "../../components/navbar.php"; ?>
 </header>
+<?= generateBreadcrumbs(["Home","Admin","Admin-events","Admin-events-update"]) ?>
 <div id="page-content">
     <div id="update-user-div">
         <form id="add-event-form" autocomplete="off" method="post" enctype="multipart/form-data">
@@ -166,46 +171,24 @@
         </form>
     </div>
     <div id="registrations-div">
-        <form action="/pridat-uzivatele.php" method="POST">
-            <div id="add-registration-wrap">
-                <input id="add-registration" name="nove_jmeno" placeholder="Jméno">
-                <button id="add-registration-btn" type="submit">přidat</button>
-            </div>
+        <form action="<?= createLink("/admin/registrations/create_r.php"); ?>" method="post">
+            <input hidden="hidden" name="event_id" value="<?= $event_id ?>">
+            <input autocomplete="off" name="username">
+            <button>+</button>
         </form>
-
+        <span class="validation-error  <?= isset($errors['r_username']) ? 'active' : '' ?>"><?= $errors["r_username"]??"" ?></span>
         <p><u>Registrace</u></p>
-
-        <div class="registration-wrap">
-            <p>Hroudaa 1</p>
-            <form class="delete-form" action="/cilova-stranka-pro-smazani.php" method="POST">
-                <input type="hidden" name="uzivatel_ke_smazani" value="Hroudaa 1">
-
-                <button class="btn-trash" type="submit" title="Smazat">
-                    <img src="https://www.reshot.com/preview-assets/icons/2Z6MPSCH3V/trash-bin-2Z6MPSCH3V.svg" width="20">
-                </button>
-            </form>
-        </div>
-
-        <div class="registration-wrap">
-            <p>Hroudaa 2</p>
-            <form class="delete-form" action="/cilova-stranka-pro-smazani.php" method="POST">
-                <input type="hidden" name="uzivatel_ke_smazani" value="Hroudaa 2">
-                <button class="btn-trash" type="submit">
-                    <img src="https://www.reshot.com/preview-assets/icons/2Z6MPSCH3V/trash-bin-2Z6MPSCH3V.svg" width="20">
-                </button>
-            </form>
-        </div>
-
-        <div class="registration-wrap">
-            <p>Hroudaa 3</p>
-            <form class="delete-form" action="/cilova-stranka-pro-smazani.php" method="POST">
-                <input type="hidden" name="uzivatel_ke_smazani" value="Hroudaa 3">
-                <button class="btn-trash" type="submit">
-                    <img src="https://www.reshot.com/preview-assets/icons/2Z6MPSCH3V/trash-bin-2Z6MPSCH3V.svg" width="20">
-                </button>
-            </form>
-        </div>
-
+        <?php foreach (array_keys($users) as $rId): ?>
+            <div class="registration-wrap">
+                <p><?= $users[$rId]->username ?></p>
+                <form class="delete-form" action="<?= createLink("/admin/registrations/delete_r.php") ?>" method="POST">
+                    <input type="hidden" hidden="hidden" name="registration_id" value="<?= $rId ?>">
+                    <button class="btn-trash" type="submit" title="Smazat">
+                        <img src="https://www.reshot.com/preview-assets/icons/2Z6MPSCH3V/trash-bin-2Z6MPSCH3V.svg" width="20">
+                    </button>
+                </form>
+            </div>
+        <?php endforeach; ?>
     </div>
 </div>
 <script src="<?= createScriptLink("/validation/events.js") ?>"></script>

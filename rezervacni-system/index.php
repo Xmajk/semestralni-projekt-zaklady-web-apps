@@ -2,7 +2,9 @@
 use components\objects\Event;
 use components\objects\Registration;
 
-const EVENTS_PER_PAGE = 3;
+require_once __DIR__ . "/components/breadcrumb.php";
+
+const EVENTS_PER_PAGE = 8;
 
 
 require_once __DIR__ . "/components/objects/Event.php";
@@ -61,19 +63,13 @@ $userEvents = [];
 <!DOCTYPE html>
 <html lang="cs">
 <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link href="public/styles/style.css" rel="stylesheet" type="text/css">
-    <link href="public/styles/index.css" rel="stylesheet" type="text/css">
-    <link rel="icon" type="image/x-icon" href="https://www.kacubo.cz/favicon.ico">
-    <title>Rezervace – Kacubó Kenrikai</title>
-    <link rel="stylesheet" href="/rezervacni-system/public/styles/forms.css">
-    <link rel="stylesheet" href="/rezervacni-system/public/styles/toogleswitch.css">
+    <?php include __DIR__ . "/components/head.php" ?>
 </head>
 <body id="home-body">
 <header>
     <?php include "components/navbar.php"; ?>
 </header>
+<?= generateBreadcrumbs(["Home"]) ?>
 <div class="events-container">
     <?php if($numberOfEvents!=0): ?>
         <?php foreach ($events as $event): ?>
@@ -87,7 +83,7 @@ $userEvents = [];
                 };
             ?>">
                 <div class="stat-tape"></div>
-                <img class="event-image" src="<?= create_small_image_link($event->image_filename??"default.jpg") ?>">
+                <img alt="Event image" class="event-image" src="<?= create_small_image_link($event->image_filename??"default.jpg") ?>">
                 <!--<div class="event-image" style="background-image:url('/rezervacni-system/public/imgs/default-event-bg.png');"></div>-->
                 <div class="event-content">
                     <div class="event-title"><?= htmlspecialchars($event->name) ?></div>

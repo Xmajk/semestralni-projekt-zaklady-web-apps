@@ -78,10 +78,6 @@ class Registration
         return $row["count(*)"];
     }
 
-    public static function findEventRegistrationsByEventId(int $eventId):array{
-        return array();
-    }
-
     public static function existsByUserIdAndEventId(int $userId, int $eventId): bool|null{
         $conn = connect();
         $sql = "SELECT count(*) FROM registrations where id_event = ? and id_user = ?";
@@ -220,7 +216,7 @@ class Registration
 
         $sql = "
             SELECT e.* FROM events e 
-            JOIN registrations r ON e.id = r.id_event 
+            INNER JOIN registrations r ON e.id = r.id_event 
             WHERE r.id_user = ?
             ORDER BY e.start_datetime DESC
         ";
@@ -288,5 +284,103 @@ class Registration
         $conn->close();
 
         return $exists;
+    }
+
+    public static function findEventRegistrationsByEventId(int $eventId): array
+    {
+        $users = [];
+        $conn = connect();
+
+        // Zachování konzistence transakcí a zámků jako v metodě getEventsByUser
+        $conn->autocommit(false);
+        // Zamykáme tabulky users a registrations pro čtení (s aliasy, pokud to DB driver podporuje, nebo bez)
+        $conn->query("LOCK TABLES users u READ, registrations r READ");
+
+        $sql = "
+            SELECT u.*, r.id as 'r_id'FROM users u 
+            JOIN registrations r ON u.id = r.id_user 
+            WHERE r.id_event = ?
+            ORDER BY u.id ASC
+        ";
+
+        $stmt = $conn->prepare($sql);
+        if ($stmt === false) {
+            $conn->rollback();
+            $conn->query("UNLOCK TABLES");
+            $conn->close();
+            return [];
+        }
+
+        $stmt->bind_param("i", $eventId);
+
+        if ($stmt->execute()) {
+            $result = $stmt->get_result();
+            while ($row = $result->fetch_assoc()) {
+                // Vytvoření instance User
+                // Poznámka: Zde předpokládám, že třída User má veřejné vlastnosti
+                // odpovídající sloupcům v databázi (stejně jako to děláš u Event).
+                // Uprav přiřazení níže podle skutečných názvů sloupců v tabulce 'users'.
+
+                $r_id = $row['r_id'];
+                $user = new User();
+                $user->fill($row);
+
+                // Příklad mapování běžných polí (odkomentuj/uprav dle reality):
+                // $user->username = $row['username'] ?? null;
+                // $user->email = $row['email'] ?? null;
+                // $user->name = $row['name'] ?? null;
+                // $user->surname = $row['surname'] ?? null;
+
+                // Pokud třída User nemá definované veřejné vlastnosti, ale používá magic metody,
+                // nebo pokud chceš dynamicky přiřadit vše, co přišlo z DB:
+                /*
+                foreach ($row as $key => $value) {
+                    if (property_exists($user, $key)) {
+                        $user->$key = $value;
+                    }
+                }
+                */
+
+                $users[$r_id] = $user;
+            }
+        }
+
+        $stmt->close();
+        $conn->commit();
+        $conn->query("UNLOCK TABLES");
+        $conn->close();
+
+        return $users;
+    }
+
+    public static function getRegistrationById(int $id): ?Registration
+    {
+        $conn = connect();
+        $sql = "SELECT * FROM registrations WHERE id = ?";
+
+        $stmt = $conn->prepare($sql);
+        if ($stmt === false) {
+            $conn->close();
+            return null;
+        }
+
+        $stmt->bind_param("i", $id);
+
+        if ($stmt->execute()) {
+            $result = $stmt->get_result();
+            if ($row = $result->fetch_assoc()) {
+                // Využijeme existující metodu hydrate, která se postará
+                // i o načtení User a Event objektů
+                $registration = self::hydrate($row);
+
+                $stmt->close();
+                $conn->close();
+                return $registration;
+            }
+        }
+
+        $stmt->close();
+        $conn->close();
+        return null;
     }
 }
