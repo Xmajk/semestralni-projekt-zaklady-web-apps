@@ -4,7 +4,7 @@ use components\objects\Registration;
 
 require_once __DIR__ . "/components/breadcrumb.php";
 
-const EVENTS_PER_PAGE = 8;
+const EVENTS_PER_PAGE = 1;
 
 
 require_once __DIR__ . "/components/objects/Event.php";

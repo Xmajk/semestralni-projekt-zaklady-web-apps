@@ -66,7 +66,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
         $newUser->email      = $formData["email"];
         $newUser->bdate      = $formData["bdate"];
         $newUser->is_admin   = $formData["is_admin"];
-        $newUser->password   = hashSHA256($password);
+        $newUser->password   = password_hash($password,PASSWORD_DEFAULT);
 
         try{
             $newUser->insert();

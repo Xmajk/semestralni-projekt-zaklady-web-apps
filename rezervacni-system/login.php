@@ -22,9 +22,9 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     if ($result->num_rows == 0) {
         $error = "Uživatel nebyl nalezen";
     } else {
-        $user = $result->fetch_assoc(); // ✅ načtení dat z řádku jako pole
+        $user = $result->fetch_assoc();
 
-        if ($user['password'] != hashSHA256($password)) {
+        if (!password_verify($password,$user['password'])) {
             $error = "Heslo není správné";
         } else {
             setcookie("is_logged", true);

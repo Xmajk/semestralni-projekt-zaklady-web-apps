@@ -682,7 +682,7 @@ input.input-error:focus {
                 display: block;
             }
             .event-content-wrapper { padding: 40px; }
-            .event-title { font-family: 'Montserrat', sans-serif; font-size: 2.2rem; color: var(--primary-kacubo); margin: 0 0 20px; line-height: 1.2; }
+            .event-title { font-family: 'Montserrat', sans-serif; font-size: 2.2rem; color: var(--primary-kacubo); margin: 20px 0 20px; line-height: 1.2; }
             .event-description { font-size: 1.1rem; line-height: 1.8; color: #444; margin-bottom: 40px; white-space: pre-line; }
 
             .event-content-wrapper{
