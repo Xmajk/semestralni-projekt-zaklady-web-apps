@@ -79,8 +79,6 @@ else if($_SERVER["REQUEST_METHOD"] == "POST"){
 <head>
     <?php include __DIR__ . "/../components/head.php" ?>
     <link rel="stylesheet" href="<?= createStylesLink("/forms.css") ?>">
-    <link rel="stylesheet" href="/rezervacni-system/public/styles/forms.css">
-    <link rel="stylesheet" href="/rezervacni-system/public/styles/toogleswitch.css">
     <script src="<?= createScriptLink("/validation/users.js") ?>"></script>
 </head>
 <body id="admin-user-body">
