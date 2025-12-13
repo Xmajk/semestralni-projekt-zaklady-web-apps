@@ -614,6 +614,7 @@ input.input-error:focus {
             display: flex;
             flex-direction: row;
             width: 100%;
+            margin-bottom: 10px;
             p{
                 margin: 0;
                 flex-shrink: 1;
@@ -621,6 +622,23 @@ input.input-error:focus {
             a{
                 flex-shrink: 0;
                 min-width: 30px;
+            }
+            >form{
+                border: none;
+                height: auto;
+                padding: 0;
+                margin: 0;
+                button{
+                    color: white;
+                    padding: 6px 10px;
+                    background-color: var(--primary-kacubo);
+                }
+                button:hover{
+                    background-color: var(--primary-kacubo-hover);
+                }
+                button:focus{
+                    background-color: var(--primary-kacubo-focus);
+                }
             }
         }
     }
@@ -649,16 +667,14 @@ input.input-error:focus {
     flex-wrap: wrap;
     flex-direction: column;
 
-    * {
-        .status-badge { display: inline-block; padding: 8px 12px; border-radius: 6px; font-size: 0.95rem; font-weight: bold; text-align: center; width: 100%; }
-        .badge-registered { background-color: #d1e7dd; color: #0f5132; border: 1px solid #badbcc; }
-        .badge-registered::before { content: "✓ "; }
-        .badge-open { background-color: #cfe2ff; color: #084298; border: 1px solid #b6d4fe; }
-        .badge-closed { background-color: #f8d7da; color: #842029; border: 1px solid #f5c2c7; }
-        .status-badge-mobile{
-            visibility: hidden;
-            display: none;
-        }
+    .status-badge { display: inline-block; padding: 8px 12px; border-radius: 6px; font-size: 0.95rem; font-weight: bold; text-align: center; width: 100%; }
+    .badge-registered { background-color: #d1e7dd; color: #0f5132; border: 1px solid #badbcc; }
+    .badge-registered::before { content: "✓ "; }
+    .badge-open { background-color: #cfe2ff; color: #084298; border: 1px solid #b6d4fe; }
+    .badge-closed { background-color: #f8d7da; color: #842029; border: 1px solid #f5c2c7; }
+    .status-badge-mobile{
+        visibility: hidden;
+        display: none;
     }
 
     div.breadcrumb-container{

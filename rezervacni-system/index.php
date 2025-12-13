@@ -71,7 +71,7 @@ $userEvents = [];
 </header>
 <?= generateBreadcrumbs(["Home"]) ?>
 <div class="events-container">
-    <?php if($numberOfEvents!=0): ?>
+    <?php if($numberOfEvents>0): ?>
         <?php foreach ($events as $event): ?>
             <div class="event-card <?php
                 if(userIsRegistered($user_id, $event->id)){
@@ -100,7 +100,7 @@ $userEvents = [];
             </div>
         <?php endforeach; ?>
     <?php else: ?>
-        <p>Nejsou žádné eventy</p>
+        <p>Nejsou žádné události</p>
     <?php endif ?>
 
 </div>

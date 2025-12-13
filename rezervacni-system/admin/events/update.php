@@ -1,4 +1,5 @@
 <?php
+    namespace components\utils;
     use components\objects;
     use components\objects\Event;
     use components\objects\Registration;
@@ -8,6 +9,7 @@
     require_once __DIR__ . "/../../components/utils/links.php";
     require_once __DIR__ . "/../../components/check_auth.php";
     require_once __DIR__ . "/../../components/breadcrumb.php";
+    require_once __DIR__ . "/../../components/utils/image_helper.php";
 
     session_start();
     check_auth_admin();
@@ -43,7 +45,7 @@
         $_SESSION['form_data'] = $formData;
         $newEvent = new Event();
         $event = Event::getById($event_id);
-        $errors = $event->fill($formData);
+        $errors = $event->fill($formData,true);
         $_SESSION['form_errors'] = $errors;
 
         if (isset($formData['image']) && $formData['image']['error'] === UPLOAD_ERR_OK) {
@@ -60,8 +62,8 @@
                 $extension = ($image_type == IMAGETYPE_JPEG) ? '.jpg' : '.png';
                 $event->image_filename = $base_filename . $extension;
 
-                $dir_large = __DIR__ . "/../public/imgs/events/large/";
-                $dir_thumb = __DIR__ . "/../public/imgs/events/thumb/";
+                $dir_large = __DIR__ . "/../../public/imgs/events/large/";
+                $dir_thumb = __DIR__ . "/../../public/imgs/events/thumb/";
                 if (!is_dir($dir_large)) @mkdir($dir_large, 0777, true);
                 if (!is_dir($dir_thumb)) @mkdir($dir_thumb, 0777, true);
 
@@ -172,8 +174,8 @@
     </div>
     <div id="registrations-div">
         <form action="<?= createLink("/admin/registrations/create_r.php"); ?>" method="post">
-            <input hidden="hidden" name="event_id" value="<?= $event_id ?>">
-            <input autocomplete="off" name="username">
+            <input id="add-user-input" hidden="hidden" name="event_id" value="<?= $event_id ?>">
+            <input autocomplete="off" placeholder="Uživatelské jméno" name="username">
             <button>+</button>
         </form>
         <span class="validation-error  <?= isset($errors['r_username']) ? 'active' : '' ?>"><?= $errors["r_username"]??"" ?></span>

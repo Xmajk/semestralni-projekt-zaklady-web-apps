@@ -23,7 +23,7 @@ class Event
     public ?int $price = null;
 
 
-    public function fill(array $formData): array{
+    public function fill(array $formData, bool $update=false): array{
         $errors = [];
         $this->name = $formData["name"] ?? null;
         if(!isset($this->name)){
@@ -68,9 +68,9 @@ class Event
         }else{
             $this->price = 0;
         }
-        return array_merge($errors,$this->validate());
+        return array_merge($errors,$this->validate($update));
     }
-    public function validate():array{
+    public function validate($update=false):array{
         $errors = [];
 
         if(isset($this->description)){
@@ -97,27 +97,28 @@ class Event
 
 
         $pass=true;
-        if(isset($this->registration_deadline)){
-            if(convertStringToDateTime($this->registration_deadline)->getTimestamp()<=time()){
-                $errors["registration_deadline"] = 'Datum a čas konce registrace musí být v budoucnosti';
-                $pass=false;
+        if(!$update){
+            if(isset($this->registration_deadline)){
+                if(convertStringToDateTime($this->registration_deadline)->getTimestamp()<=time()){
+                    $errors["registration_deadline"] = 'Datum a čas konce registrace musí být v budoucnosti';
+                    $pass=false;
+                }
+            }
+
+            if(isset($this->start_datetime)){
+                if(convertStringToDateTime($this->start_datetime)->getTimestamp()<= time()){
+                    $errors["start_datetime"] = 'Konec registrace musí být před začátkem';
+                    $pass=false;
+                }
+            }
+
+            if ( $pass && isset($this->registration_deadline) && isset($this->start_datetime)){
+                if(convertStringToDateTime($this->start_datetime)->getTimestamp()<convertStringToDateTime($this->registration_deadline)->getTimestamp()){
+                    $tmp = "Konec registrace musí být před začátkem";
+                    $errors["registration_deadline"] = $tmp;
+                }
             }
         }
-
-        if(isset($this->start_datetime)){
-            if(convertStringToDateTime($this->start_datetime)->getTimestamp()<= time()){
-                $errors["start_datetime"] = 'Konec registrace musí být před začátkem';
-                $pass=false;
-            }
-        }
-
-        if ( $pass && isset($this->registration_deadline) && isset($this->start_datetime)){
-            if(convertStringToDateTime($this->start_datetime)->getTimestamp()<convertStringToDateTime($this->registration_deadline)->getTimestamp()){
-                $tmp = "Konec registrace musí být před začátkem";
-                $errors["registration_deadline"] = $tmp;
-            }
-        }
-
         return $errors;
     }
 
@@ -213,19 +214,41 @@ class Event
     }
 
     public static function getPage(int $pageSize, int $page): array{
-        $page-=1;
-        $events = [];
-        $conn = connect();
-        $sql = "SELECT * FROM events ORDER BY start_datetime DESC LIMIT " . (int)$pageSize . " OFFSET " . ((int)$page * (int)$pageSize);
-        $result = $conn->query($sql);
-        if ($result) {
-            while ($row = $result->fetch_assoc()) {
-                $events[] = self::hydrate($row);
-            }
-            $result->free();
+        // 1. Ošetření vstupu: Stránka musí být minimálně 1
+        if ($page < 1) {
+            $page = 1;
         }
 
-        $conn->close();
+        // 2. Výpočet offsetu (strana 1 má offset 0)
+        $offset = ($page - 1) * $pageSize;
+
+        $events = [];
+
+        // Použití try-catch-finally pro bezpečné uzavření spojení i v případě chyby
+        $conn = connect();
+
+        try {
+            // SQL dotaz s ošetřenými proměnnými
+            $sql = "SELECT * FROM events ORDER BY start_datetime DESC LIMIT " . (int)$pageSize . " OFFSET " . (int)$offset;
+
+            $result = $conn->query($sql);
+
+            if ($result) {
+                while ($row = $result->fetch_assoc()) {
+                    $events[] = self::hydrate($row);
+                }
+                $result->free();
+            }
+        } catch (\Throwable $e) {
+            // Volitelné: Zde můžete chybu zalogovat
+            // Prozatím jen zachytíme, aby stránka nespadla, a vrátíme prázdné pole
+        } finally {
+            // Spojení se uzavře vždy, i když dojde k chybě
+            if (isset($conn)) {
+                $conn->close();
+            }
+        }
+
         return $events;
     }
 

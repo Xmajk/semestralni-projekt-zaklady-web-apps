@@ -5,6 +5,7 @@ require_once __DIR__ . "/../components/utils/crypto.php";
 require_once __DIR__ . "/../components/utils/links.php";
 require_once __DIR__ . "/../components/check_auth.php";
 require_once __DIR__ . "/../components/breadcrumb.php";
+require_once __DIR__ . "/../components/utils/date_time.php";
 
 session_start();
 check_auth_admin();
@@ -89,6 +90,8 @@ $users = User::getAllOrdered();
     <?php include __DIR__ . "/../components/head.php" ?>
     <script src="<?= createScriptLink("/validation/users.js") ?>"></script>
     <link href="<?= createStylesLink("/printstyles/users.css") ?>" rel="stylesheet" type="text/css">
+    <link rel="stylesheet" href="<?= createStylesLink("/toogleswitch.css") ?>">
+    <script src="<?= createScriptLink("/validation/users.js") ?>"></script>
 </head>
 <body id="admin-users-body">
 <header>
@@ -200,7 +203,7 @@ $users = User::getAllOrdered();
                     <td class="clip username-col"><?= htmlspecialchars($user->username) ?></td>
                     <td class="muted fname-col"><?= htmlspecialchars($user->firstname) ?></td>
                     <td class="muted lname-col"><?= htmlspecialchars($user->lastname) ?></td>
-                    <td class="muted bdate-col"><?= htmlspecialchars($user->bdate) ?></td>
+                    <td class="muted bdate-col"><?= htmlspecialchars(convertStringToDateTime($user->bdate)->format("d.m.Y")) ?></td>
 
                     <td class="admin-col"><span class="badge badge--ok">
                         <?php if ($user->is_admin == 1):

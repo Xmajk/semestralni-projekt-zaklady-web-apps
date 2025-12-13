@@ -80,6 +80,7 @@ else if($_SERVER["REQUEST_METHOD"] == "POST"){
     <?php include __DIR__ . "/../components/head.php" ?>
     <link rel="stylesheet" href="<?= createStylesLink("/forms.css") ?>">
     <script src="<?= createScriptLink("/validation/users.js") ?>"></script>
+    <link rel="stylesheet" href="<?= createStylesLink("/toogleswitch.css") ?>">
 </head>
 <body id="admin-user-body">
 <header>

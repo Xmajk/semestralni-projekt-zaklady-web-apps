@@ -2,6 +2,12 @@ const NAME_LEN = [3,40]
 const DESCRIPTION_LEN = [0,1_000]
 const PLACE_LEN = [0,100]
 
+function isUpdate(){
+    const path = window.location.pathname;
+    const search = window.location.search;
+    return path.includes('update') || search.includes('id=');
+}
+
 function displayGeneralError(message) {
     if (errorDisplay) {
         errorDisplay.textContent = message;
@@ -101,16 +107,16 @@ async function validateField(inputElement) {
             case 'form-start-datetime':
                 if(value===''){
                     errorMessage = 'Datum a čas konání je povinné'
-                }else if(new Date(value)<new Date()){
+                }else if(!isUpdate() && (new Date(value)<new Date())){
                     errorMessage = 'Datum a čas konání musí být v budoucnosti'
                 }
                 break;
             case 'form-registration-deadline':
                 if(value===''){
                     errorMessage = 'Datum a čas konce registrace je povinné'
-                }else if(new Date(value)<new Date()){
+                }else if(!isUpdate() && (new Date(value)<new Date())){
                     errorMessage = 'Datum a čas konce registrace musí být v budoucnosti'
-                }else if(!validationDatesConnection()){
+                }else if(!isUpdate() && !validationDatesConnection()){
                     errorMessage = 'Konec registrace musí být před začátkem'
                 }
                 break;
@@ -185,21 +191,18 @@ if(filterInput) {
         const filterValue = this.value.toLowerCase().trim();
 
         rows.forEach(row => {
-            // Ujistěte se, že buňka existuje a má atribut 'mark'
             const nameCell = row.querySelector('.filter-element');
 
-            if (nameCell) { // Pokud je to řádek s událostí
+            if (nameCell) {
                 const name = nameCell.textContent.toLowerCase();
                 if (name.includes(filterValue)) {
-                    row.style.display = ''; // Zobrazit řádek
+                    row.style.display = '';
                 } else {
-                    row.style.display = 'none'; // Skrýt řádek
+                    row.style.display = 'none';
                 }
             } else if (filterValue === "" && row.querySelector('td[colspan]')) {
-                // Zobrazit zprávu "Zatím nebyly vytvořeny..." pokud je filtr prázdný
                 row.style.display = '';
             } else if (row.querySelector('td[colspan]')) {
-                // Skrýt zprávu "Zatím nebyly vytvořeny..." pokud se filtruje
                 row.style.display = 'none';
             }
         });
