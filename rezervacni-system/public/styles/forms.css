@@ -97,6 +97,10 @@ input:checked + .slider:after {
 }
 
 /* Wrapper pro label a switch */
+#switch-wrapper{
+    display: flex;
+    align-items: center;
+}
 #isadmin-wrapper {
     display: flex;
     align-items: center;

@@ -90,8 +90,7 @@ $users = User::getAllOrdered();
     <?php include __DIR__ . "/../components/head.php" ?>
     <script src="<?= createScriptLink("/validation/users.js") ?>"></script>
     <link href="<?= createStylesLink("/printstyles/users.css") ?>" rel="stylesheet" type="text/css">
-    <link rel="stylesheet" href="<?= createStylesLink("/toogleswitch.css") ?>">
-    <script src="<?= createScriptLink("/validation/users.js") ?>"></script>
+    <link rel="stylesheet" href="<?= createStylesLink("/forms.css") ?>">
 </head>
 <body id="admin-users-body">
 <header>
