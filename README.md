@@ -5,7 +5,7 @@ username: test
 password: heslo123
 ```
 
-[Dokumentace projektu](https://zwa.toad.cz/~hroudmi5/docs/)
+[Dokumentace projektu](https://zwa.toad.cz/~hroudmi5/docs/) <br>
 [Odkaz na projekt](https://zwa.toad.cz/~hroudmi5/)
 
 > [!NOTE]
