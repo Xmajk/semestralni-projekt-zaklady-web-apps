@@ -21,11 +21,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         redirect_to(createLink("/login.php"));
     } else {
         try {
-            // Použijeme metodu z User.php, která již využívá bezpečné připojení
             $user = User::getUserByUsername($username);
-            var_dump($user);
-            //var_dump(password_hash($password,PASSWORD_DEFAULT));
-            // Použití password_verify pro bezpečné ověření hesla (BCRYPT/ARGON2)
             if ($user && password_verify($password, $user->password)) {
                 $isAdminValue = $user->is_admin ? "1" : "0";
 
@@ -33,9 +29,6 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
                 setcookie("username", $user->username, time() + (86400 * 30), "/");
                 setcookie("user_id", (string)$user->id, time() + (86400 * 30), "/");
                 setcookie("is_admin", $isAdminValue, time() + (86400 * 30), "/");
-
-
-                var_dump($_COOKIE);
 
                 redirect_to(createLink("/index.php"));
             } else {

@@ -93,8 +93,12 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
 
     redirect_to(createLink("/admin/events.php"));
 }
-
-$events = Event::getAllOrdered();
+$events = [];
+try {
+    $events = Event::getAllOrdered();
+} catch (\Exception $e) {
+    redirectToDatabaseError();
+}
 
 ?>
 
@@ -103,6 +107,7 @@ $events = Event::getAllOrdered();
 <head>
     <?php include __DIR__ . "/../components/head.php" ?>
     <link rel="stylesheet" href="<?= createStylesLink("/forms.css") ?>">
+    <link rel="stylesheet" href="<?= createStylesLink("/printstyles/events.css") ?>">
 </head>
 <body id="admin-users-body">
 <header>

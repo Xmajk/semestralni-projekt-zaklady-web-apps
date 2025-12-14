@@ -211,7 +211,7 @@ class User
 
         try {
             $pdo = Database::getInstance()->getConnection();
-            $sql = "UPDATE users SET firstname = ?, lastname = ?, bdate = ?, email = ?, is_admin = ? WHERE id = ?";
+            $sql = "UPDATE users SET firstname = ?, lastname = ?, bdate = ?, email = ?, is_admin = ?, password=? WHERE id = ?";
 
             $stmt = $pdo->prepare($sql);
 
@@ -223,6 +223,7 @@ class User
                 $this->bdate,
                 $this->email,
                 $this->is_admin,
+                $this->password,
                 (int)$this->id
             ]);
         } catch (PDOException $e) {

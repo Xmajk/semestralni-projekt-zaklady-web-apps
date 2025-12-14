@@ -1,0 +1,102 @@
+/* public/styles/print.css */
+
+@media print {
+    .breadcrumb-container{
+        display: none !important;
+    }
+    /* --- ZÁKLADNÍ RESET --- */
+    body {
+        background-color: white !important;
+        color: black !important;
+        font-family: "Times New Roman", Times, serif; /* Pro tisk vhodnější */
+        font-size: 12pt;
+        margin: 0;
+        padding: 0;
+    }
+
+    /* --- SKRYTÍ NEPOTŘEBNÝCH PRVKŮ --- */
+    /* Skryje hlavičku s navigací */
+    header,
+    nav.navbar {
+        display: none !important;
+    }
+
+    /* Skryje ovládací prvky stránky: tlačítko přidat, formulář, filtry */
+    .expand-btn,
+    #add-event-form,
+    .filter-wrapper,
+    .events-container .event-actions {
+        display: none !important;
+    }
+
+    /* Skryje případné debug výpisy (pokud jsou v <pre>) */
+    pre {
+        display: none !important;
+    }
+
+    /* --- ÚPRAVA ROZLOŽENÍ --- */
+    #page-content {
+        padding: 0 !important;
+        margin: 0 !important;
+        width: 100% !important;
+        background: white !important;
+    }
+
+    /* Přidání nadpisu pro tisk */
+    #page-content::before {
+        content: "Seznam událostí – Kacubó Kenrikai";
+        display: block;
+        font-size: 24px;
+        font-weight: bold;
+        margin-bottom: 20px;
+        text-align: center;
+        padding-bottom: 10px;
+    }
+
+    /* --- STYLOVÁNÍ TABULKY --- */
+    .table-wrap {
+        box-shadow: none !important;
+        border: none !important;
+        overflow: visible !important; /* Odstraní scrollbary */
+    }
+
+    table.table {
+        width: 100% !important;
+        border-collapse: collapse !important;
+        border: 1px solid black !important;
+    }
+
+    table.table th,
+    table.table td {
+        border: 1px solid black !important;
+        padding: 5px 10px !important;
+        color: black !important;
+        vertical-align: middle;
+    }
+
+    table.table th {
+        background-color: #f0f0f0 !important;
+        font-weight: bold;
+        -webkit-print-color-adjust: exact; /* Vynutí tisk pozadí v Chrome/Safari */
+        print-color-adjust: exact;
+    }
+
+    /* --- SKRYTÍ AKČNÍCH SLOUPCŮ --- */
+    /* Skryje sloupce Upravit, Smazat a Download (4., 5. a 6. sloupec) */
+    table.table th:nth-child(n+4),
+    table.table td:nth-child(n+4) {
+        display: none !important;
+    }
+
+    /* --- DALŠÍ ÚPRAVY --- */
+    /* Zajištění, že se řádek tabulky neroztrhne mezi stránkami */
+    tr {
+        page-break-inside: avoid;
+    }
+
+    /* Zobrazení celých odkazů místo textu (volitelné, zde vypnuto pro čistotu) */
+    a {
+        text-decoration: none !important;
+        color: black !important;
+    }
+}
