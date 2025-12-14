@@ -67,8 +67,6 @@ if (isset($_COOKIE['is_logged'])) {
                             <?php if ($isAdmin): ?>
                                 <li><a href="<?= createLink("/admin/index.php")?>">Admin</a></li>
                             <?php endif; ?>
-                            <li><a href="<?= $external_url ?>/zakladniinfo.htm">Účet</a></li>
-
                             <li><a href="<?= createLink("/index.php")?>">Události</a></li>
                             <li><a id="logoutBtn" class="tw-cursor-pointer" href="<?= createLink("/logout.php") ?>">Odhlásit se</a></li>
                         </ul>

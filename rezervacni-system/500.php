@@ -13,60 +13,7 @@ $homeLink = createLink("/index.php");
 <html lang="cs">
 <head>
     <?php include __DIR__ . "/components/head.php"; ?>
-    <title>Chyba - Rezervační systém</title>
-    <style>
-        body#error-page-body {
-            background-color: var(--primary-background-color, #f7f7f7);
-            display: flex;
-            flex-direction: column;
-            min-height: 100vh;
-            width: 100vw;
-            overflow-x: hidden;
-        }
-
-        .error-container {
-            text-align: center;
-            background-color: rgba(255, 255, 255, 0.95);
-            padding: 40px;
-            border-radius: 8px;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-            margin: auto;
-            max-width: 700px;
-            width: 90%;
-            margin-top: 120px;
-        }
-
-        .error-container h1 {
-            color: var(--primary-kacubo, #a20d0d);
-            font-size: 2.5rem;
-            margin-bottom: 20px;
-            overflow: auto;
-        }
-
-        .error-container .error-message {
-            font-size: 1.2rem;
-            color: #333;
-            margin-bottom: 30px;
-            line-height: 1.6;
-        }
-
-        .error-container .back-link {
-            display: inline-block;
-            padding: 12px 25px;
-            background-color: var(--primary-kacubo, #a20d0d);
-            color: white;
-            text-decoration: none;
-            border-radius: 4px;
-            font-size: 1rem;
-            font-weight: bold;
-            transition: background-color 0.2s;
-        }
-
-        .error-container .back-link:hover {
-            background-color: var(--primary-kacubo-hover, #8c0b0b);
-            text-decoration: none;
-        }
-    </style>
+    <link href="<?= createStylesLink("/responsivity.css") ?>" rel="stylesheet" type="text/css">
 </head>
 <body id="error-page-body">
 <header>

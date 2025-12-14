@@ -44,29 +44,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="public/styles/style.css" rel="stylesheet" type="text/css">
     <link rel="icon" type="image/x-icon" href="https://www.kacubo.cz/favicon.ico">
-<title>Přihlášení – Kacubó Kenrikai</title>
-<style>
-@media(max-width:480px){
-  .navbar__menu{display:none;}
-  .login-container{padding:20px;}
-}
-
-#switch-wrapper{
-  height: 20px;
-  margin: 10px 0 10px 0;
-  width: 100%;
-  display: flex;
-  flex-direction: row;
-}
-#switch-wrapper > -.switch{
-  flex: 1;
-}
-#switch-wrapper > -#remember-label{
-  flex: 9;
-}
-
-
-</style>
+<title>Rezervace</title>
 <link rel="stylesheet" href="/rezervacni-system/public/styles/forms.css">
 <link rel="stylesheet" href="/rezervacni-system/public/styles/toogleswitch.css">
 </head>

@@ -84,7 +84,6 @@ $userEvents = [];
             ?>">
                 <div class="stat-tape"></div>
                 <img alt="Event image" class="event-image" src="<?= create_small_image_link($event->image_filename??"default.jpg") ?>">
-                <!--<div class="event-image" style="background-image:url('/rezervacni-system/public/imgs/default-event-bg.png');"></div>-->
                 <div class="event-content">
                     <div class="event-title"><?= htmlspecialchars($event->name) ?></div>
                     <div class="event-date">Datum konání: <?= htmlspecialchars(convertStringToDateTime($event->start_datetime)->format("d. m. Y H:i")) ?></div>

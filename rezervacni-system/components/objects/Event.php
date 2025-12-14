@@ -29,6 +29,7 @@ class Event
         if(!isset($this->name)){
             $errors["name"] = "Toto pole je povinné";
         }
+
         $this->description = $formData["description"]??"";
         $this->location = $formData["location"]??null;
         if(!isset($this->location)){

@@ -58,6 +58,7 @@ body#home-body {
     object-fit: cover;
     background-size: cover;
     background-position: center;
+    height: 300px;
 }
 
 /* Content */

@@ -114,7 +114,7 @@ $events = Event::getAllOrdered();
 
         <div id="description-wrapper" class="form-wrapper">
             <label for="form-description">Popis</label>
-            <textarea id="form-description" name="description" value="<?= $formData["description"] ?? "" ?>" placeholder="Podrobný popis události..."></textarea>
+            <textarea id="form-description" name="description" placeholder="Podrobný popis události..."><?= $formData["description"] ?? "" ?></textarea>
             <span id="error-description" class="validation-error <?= isset($errors['description']) ? 'active' : '' ?>">
                 <?= htmlspecialchars($errors['description'] ?? '') ?>
             </span>
@@ -185,7 +185,7 @@ $events = Event::getAllOrdered();
                 <th>Registrace</th>
                 <th>Upravit</th>
                 <th>Smazat</th>
-                <th>Stáhnout</th>
+                <!--<th>Stáhnout</th>-->
             </tr>
             </thead>
             <tbody>
@@ -211,7 +211,7 @@ $events = Event::getAllOrdered();
                     <td><?= htmlspecialchars(strval(Registration::numberOfRegistrationsByEventId($event->id))."/".strval($event->capacity)) ?></td>
                     <td><a href="<?= createEventUpdateLink($event->id) ?>">upravit</a></td>
                     <td><a href="<?= createEventDeleteLink($event->id) ?>">vymazat</a></td>
-                    <td><a class="download-link" href="events.php"><img src="<?= createPublicLink("/icons/dwnload.svg") ?>"></a></td>
+                    <!--<td><a class="download-link" href="events.php"><img src="<?= createPublicLink("/icons/dwnload.svg") ?>"></a></td>-->
                 </tr>
             <?php endforeach; ?>
             </tbody>

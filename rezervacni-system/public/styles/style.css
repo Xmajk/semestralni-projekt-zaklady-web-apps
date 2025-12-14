@@ -696,6 +696,7 @@ input.input-error:focus {
                 width: 100%;
                 object-fit: cover;
                 display: block;
+                height: 300px;
             }
             .event-content-wrapper { padding: 40px; }
             .event-title { font-family: 'Montserrat', sans-serif; font-size: 2.2rem; color: var(--primary-kacubo); margin: 20px 0 20px; line-height: 1.2; }
@@ -714,7 +715,6 @@ input.input-error:focus {
             }
         }
         form.event-sidebar {
-            position: sticky; top: 0px;
             background: white; border-radius: var(--radius-card);
             padding: 30px; box-shadow: 0 4px 20px rgba(0,0,0,0.08);
             border-top: 5px solid var(--primary-kacubo);
@@ -804,7 +804,6 @@ input.input-error:focus {
 
 
             .event-main, form.event-sidebar { flex-basis: 100%; }
-            .event-hero-image { height: 300px; }
             form.event-sidebar { position: static ; }
 
 

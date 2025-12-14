@@ -79,7 +79,6 @@
         if (count($errors)==0) {
             if ($event->update()) {
                 $_SESSION['form_data'] = [];
-                redirect_to(createLink("/admin/events.php"));
             } else {
                 $errors["db_error"] = "Chyba při ukládání události do databáze.";
             }
@@ -115,7 +114,7 @@
 
             <div id="description-wrapper" class="form-wrapper">
                 <label for="form-description">Popis</label>
-                <textarea id="form-description" name="description" value="<?= htmlspecialchars($formData["description"] ?? $event->description ?? "")  ?>" placeholder="Podrobný popis události..."></textarea>
+                <textarea id="form-description" name="description" placeholder="Podrobný popis události..."><?= htmlspecialchars($formData["description"] ?? $event->description ?? "")  ?></textarea>
                 <span id="error-description" class="validation-error <?= isset($errors['description']) ? 'active' : '' ?>">
                 <?= htmlspecialchars($errors['description'] ?? '') ?>
             </span>
