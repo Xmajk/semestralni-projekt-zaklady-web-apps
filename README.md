@@ -5,8 +5,11 @@ username: test
 password: heslo123
 ```
 
+[Dokumentace projektu](https://zwa.toad.cz/~hroudmi5/docs/)
+[Odkaz na projekt](https://zwa.toad.cz/~hroudmi5/)
+
 > [!NOTE]
-> navázaná podmínka na inputy, jeden z parametrů je u vytváření nového eventu začátek eventu musí být později než deadline přihlášení, viz HODNOCEN9 SEMESTRÁLKY.ods v repozitáři
+> navázaná podmínka na inputy, jeden z parametrů je u vytváření nového eventu začátek eventu musí být později než deadline přihlášení, viz HODNOCENÍ SEMESTRÁLKY.ods v repozitáři
 
 ## Zadání
 
