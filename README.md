@@ -5,7 +5,7 @@
 > username: test
 > password: heslo123
 
-> [!INFO]
+> [!NOTE]
 > navázaná podmínka na inputy, jeden z parametrů je u vytváření nového eventu začátek eventu musí být později než deadline přihlášení, viz HODNOCEN9 SEMESTRÁLKY.ods v repozitáři
 
 ## Zadání
