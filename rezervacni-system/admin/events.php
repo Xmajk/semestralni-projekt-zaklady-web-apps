@@ -52,25 +52,29 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
         $image_type = exif_imagetype($source_path);
         $allowed_types = [IMAGETYPE_JPEG, IMAGETYPE_PNG];
 
-        if (!in_array($image_type, $allowed_types)) {
-            $errors["image"] = "Neplatný formát obrázku. Povoleny jsou pouze JPEG a PNG.";
-        } else {
-            $base_filename = "event_" . uniqid();
-            $extension = ($image_type == IMAGETYPE_JPEG) ? '.jpg' : '.png';
-            $newEvent->image_filename = $base_filename . $extension;
+        try{
+            if (!in_array($image_type, $allowed_types)) {
+                $errors["image"] = "Neplatný formát obrázku. Povoleny jsou pouze JPEG a PNG.";
+            } else {
+                $base_filename = "event_" . uniqid();
+                $extension = ($image_type == IMAGETYPE_JPEG) ? '.jpg' : '.png';
+                $newEvent->image_filename = $base_filename . $extension;
 
-            $dir_large = __DIR__ . "/../public/imgs/events/large/";
-            $dir_thumb = __DIR__ . "/../public/imgs/events/thumb/";
-            if (!is_dir($dir_large)) @mkdir($dir_large, 0777, true);
-            if (!is_dir($dir_thumb)) @mkdir($dir_thumb, 0777, true);
+                $dir_large = __DIR__ . "/../public/imgs/events/large/";
+                $dir_thumb = __DIR__ . "/../public/imgs/events/thumb/";
+                if (!is_dir($dir_large)) @mkdir($dir_large, 0777, true);
+                if (!is_dir($dir_thumb)) @mkdir($dir_thumb, 0777, true);
 
-            $success_large = processUploadedImage($source_path, $image_type, $dir_large, $newEvent->image_filename, 1200);
-            $success_thumb = processUploadedImage($source_path, $image_type, $dir_thumb, $newEvent->image_filename, 300);
+                $success_large = processUploadedImage($source_path, $image_type, $dir_large, $newEvent->image_filename, 1200);
+                $success_thumb = processUploadedImage($source_path, $image_type, $dir_thumb, $newEvent->image_filename, 300);
 
-            if (!$success_large || !$success_thumb) {
-                $errors["general"] = "Chyba při ukládání obrázku. Zkontrolujte práva zápisu do adresáře 'public/imgs/events/'.";
-                $newEvent->image_filename = DEFAULT_IMAGE_NAME; // Reset
+                if (!$success_large || !$success_thumb) {
+                    $errors["general"] = "Chyba při ukládání obrázku. Zkontrolujte práva zápisu do adresáře 'public/imgs/events/'.";
+                    $newEvent->image_filename = DEFAULT_IMAGE_NAME; // Reset
+                }
             }
+        }catch (\Exception $e){
+            redirect_to(create_error_link("Chyba ukládání obrázku"));
         }
     }
     $_SESSION['form_errors'] = $errors;

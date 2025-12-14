@@ -1,9 +1,12 @@
 <?php
 namespace components\objects;
 
-use mysql_xdevapi\Exception;
+use components\Database;
+use \Exception;
+use \PDOException;
 
-require_once __DIR__."/../dbconnector.php";
+// Předpokládáme, že Database.php je ve správné cestě, případně uprav require
+require_once __DIR__ . "/../Database.php";
 
 class User
 {
@@ -16,325 +19,242 @@ class User
     public $email;
     public $is_admin;
 
-    public function fill($data)
+    /**
+     * Naplní objekt daty z pole (např. z formuláře)
+     */
+    public function fill(array $data)
     {
-        $this->id = $data["id"];
-        $this->firstname = $data["firstname"];
-        $this->lastname = $data["lastname"];
-        $this->bdate = $data["bdate"];
-        $this->username = $data["username"];
-        $this->password = $data["password"];
-        $this->email = $data["email"];
-        $this->is_admin = $data["is_admin"];
+        $this->id = $data["id"] ?? null;
+        $this->firstname = $data["firstname"] ?? null;
+        $this->lastname = $data["lastname"] ?? null;
+        $this->bdate = $data["bdate"] ?? null;
+        $this->username = $data["username"] ?? null;
+        $this->password = $data["password"] ?? null;
+        $this->email = $data["email"] ?? null;
+        $this->is_admin = $data["is_admin"] ?? 0;
     }
 
-    static function check_credentials($username, $password)
+    /**
+     * Pomocná metoda pro převedení řádku z DB na objekt User
+     */
+    private static function hydrate(array $row): User
     {
-        return false;
+        $user = new User();
+        $user->id = isset($row['id']) ? (int)$row['id'] : null;
+        $user->firstname = $row['firstname'] ?? null;
+        $user->lastname = $row['lastname'] ?? null;
+        $user->bdate = $row['bdate'] ?? null;
+        $user->username = $row['username'] ?? null;
+        $user->password = $row['password'] ?? null;
+        $user->email = $row['email'] ?? null;
+        $user->is_admin = isset($row['is_admin']) ? (bool)$row['is_admin'] : false;
+        return $user;
     }
 
-    static function check_combination($id,$username){
-        $sql = "SELECT * FROM users WHERE username = '$username' AND id = $id LIMIT 1";
-        $conn = connect();
-        $result = $conn->query($sql);
-        return $result->num_rows > 0;
+    /**
+     * Zkontroluje, zda sedí ID a username (pro ověření session/cookie)
+     */
+    static function check_combination($id, $username)
+    {
+        try {
+            $pdo = Database::getInstance()->getConnection();
+            $sql = "SELECT id FROM users WHERE username = ? AND id = ? LIMIT 1";
+            $stmt = $pdo->prepare($sql);
+            $stmt->execute([$username, $id]);
+
+            // fetchColumn vrátí hodnotu sloupce nebo false
+            return $stmt->fetchColumn() !== false;
+        } catch (PDOException $e) {
+            throw new Exception("Chyba při ověřování uživatele: " . $e->getMessage());
+        }
     }
 
-    static function check_username($username){
-        $sql = "SELECT * FROM users WHERE username = ? LIMIT 1";
-        $conn = connect();
-        $stmt = $conn->prepare($sql);
-        if ($stmt === false) {
-            $conn->close();
-            return null;
+    /**
+     * Zkontroluje, zda uživatelské jméno již existuje
+     */
+    static function check_username($username)
+    {
+        try {
+            $pdo = Database::getInstance()->getConnection();
+            $sql = "SELECT id FROM users WHERE username = ? LIMIT 1";
+            $stmt = $pdo->prepare($sql);
+            $stmt->execute([$username]);
+
+            return $stmt->fetchColumn() !== false;
+        } catch (PDOException $e) {
+            throw new Exception("Chyba při kontrole uživatelského jména: " . $e->getMessage());
         }
-        $stmt->bind_param("s", $username);
-        if (!$stmt->execute()) {
-            $stmt->close();
-            $conn->close();
-            throw new Exception("Db execute error");
-        }
-        $result = $stmt->get_result();
-        if (!$result || $result->num_rows === 0) {
-            $stmt->close();
-            $conn->close();
-            return false;
-        }
-        $row = $result->fetch_assoc();
-        return !is_null($row);
     }
 
+    /**
+     * Najde uživatele podle ID
+     */
     static function getUserById($id)
     {
         try {
-            $conn = connect();
-            $id = (int)$id;
-            // Prepared statement pro bezpečnost
-            $sql = "SELECT * FROM users WHERE id = ? LIMIT 1";
-            $stmt = $conn->prepare($sql);
-            if ($stmt === false) {
-                $conn->close();
+            $pdo = Database::getInstance()->getConnection();
+            $stmt = $pdo->prepare("SELECT * FROM users WHERE id = ? LIMIT 1");
+            $stmt->execute([(int)$id]);
+
+            $row = $stmt->fetch();
+
+            if (!$row) {
                 return null;
             }
 
-            $stmt->bind_param("i", $id);
-
-            if (!$stmt->execute()) {
-                $stmt->close();
-                $conn->close();
-                return null;
-            }
-
-            $result = $stmt->get_result();
-            if (!$result || $result->num_rows === 0) {
-                $stmt->close();
-                $conn->close();
-                return null;
-            }
-
-            $row = $result->fetch_assoc();
-
-            $user = new User();
-            $user->id = isset($row['id']) ? (int)$row['id'] : null;
-            $user->firstname = $row['firstname'] ?? null;
-            $user->lastname = $row['lastname'] ?? null;
-            $user->bdate = $row['bdate'] ?? null; // pokud chceš DateTime, můžeš zde použít new \DateTime(...)
-            $user->username = $row['username'] ?? null;
-            $user->password = $row['password'] ?? null;
-            $user->email = $row['email'] ?? null;
-            $user->is_admin = isset($row['is_admin']) ? (bool)$row['is_admin'] : false;
-
-            $result->free();
-            $stmt->close();
-            $conn->close();
-
-            return $user;
-        } catch (\Throwable $e) {
-            return null;
+            return self::hydrate($row);
+        } catch (PDOException $e) {
+            throw new Exception("Chyba při načítání uživatele podle ID: " . $e->getMessage());
         }
     }
 
+    /**
+     * Najde uživatele podle Username
+     */
     static function getUserByUsername($username)
     {
         try {
-            $conn = connect();
-            $id = $username;
-            $sql = "SELECT * FROM users WHERE username = ? LIMIT 1";
-            $stmt = $conn->prepare($sql);
-            if ($stmt === false) {
-                $conn->close();
+            $pdo = Database::getInstance()->getConnection();
+            $stmt = $pdo->prepare("SELECT * FROM users WHERE username = ? LIMIT 1");
+            $stmt->execute([$username]);
+
+            $row = $stmt->fetch();
+
+            if (!$row) {
                 return null;
             }
 
-            $stmt->bind_param("s", $id);
-
-            if (!$stmt->execute()) {
-                $stmt->close();
-                $conn->close();
-                return null;
-            }
-
-            $result = $stmt->get_result();
-            if (!$result || $result->num_rows === 0) {
-                $stmt->close();
-                $conn->close();
-                return null;
-            }
-
-            $row = $result->fetch_assoc();
-
-            $user = new User();
-            $user->id = isset($row['id']) ? (int)$row['id'] : null;
-            $user->firstname = $row['firstname'] ?? null;
-            $user->lastname = $row['lastname'] ?? null;
-            $user->bdate = $row['bdate'] ?? null;
-            $user->username = $row['username'] ?? null;
-            $user->password = $row['password'] ?? null;
-            $user->email = $row['email'] ?? null;
-            $user->is_admin = isset($row['is_admin']) ? (bool)$row['is_admin'] : false;
-
-            $result->free();
-            $stmt->close();
-            $conn->close();
-
-            return $user;
-        } catch (\Throwable $e) {
-            return null;
+            return self::hydrate($row);
+        } catch (PDOException $e) {
+            throw new Exception("Chyba při načítání uživatele podle jména: " . $e->getMessage());
         }
     }
 
-
+    /**
+     * Vrátí seznam všech uživatelů seřazený podle admin práv a jména
+     */
     static function getAllOrdered(): array
     {
-        $users = [];
-
         try {
-            $conn = connect();
-
+            $users = [];
+            $pdo = Database::getInstance()->getConnection();
             $sql = "SELECT * FROM users ORDER BY is_admin DESC, username ASC";
-            $result = $conn->query($sql);
+            $stmt = $pdo->query($sql); // Zde stačí query, nemáme parametry
 
-            if (!$result) {
-                return $users;
+            while ($row = $stmt->fetch()) {
+                $users[] = self::hydrate($row);
             }
 
-            while ($row = $result->fetch_assoc()) {
-                $user = new User();
-                $user->id = isset($row['id']) ? (int)$row['id'] : null;
-                $user->firstname = $row['firstname'] ?? null;
-                $user->lastname = $row['lastname'] ?? null;
-                $user->bdate = $row['bdate'] ?? null;
-                $user->username = $row['username'] ?? null;
-                $user->password = $row['password'] ?? null;
-                $user->email = $row['email'] ?? null;
-                $user->is_admin = isset($row['is_admin']) ? (bool)$row['is_admin'] : false;
-
-                $users[] = $user;
-            }
-
-            $result->free();
-            $conn->close();
-        } catch (\Throwable $e) {
             return $users;
+        } catch (PDOException $e) {
+            throw new Exception("Chyba při načítání seznamu uživatelů: " . $e->getMessage());
         }
-
-        return $users;
     }
 
+    /**
+     * Smaže uživatele podle ID
+     */
     static function deleteById($id): bool
     {
         try {
-            $conn = connect();
-            $id = (int)$id;
-
-            $sql = "DELETE FROM users WHERE id = ? LIMIT 1";
-            $stmt = $conn->prepare($sql);
-
-            if (!$stmt) {
-                $conn->close();
-                return false;
-            }
-
-            $stmt->bind_param("i", $id);
-            $result = $stmt->execute();
-
-            $stmt->close();
-            $conn->close();
-
+            $pdo = Database::getInstance()->getConnection();
+            $stmt = $pdo->prepare("DELETE FROM users WHERE id = ? LIMIT 1");
+            $result = $stmt->execute([(int)$id]);
             return $result;
-        } catch (\Throwable $e) {
-            return false;
+        } catch (PDOException $e) {
+            throw new Exception("Chyba při mazání uživatele: " . $e->getMessage());
         }
     }
 
-    public function insert() {
-        $conn = connect();
+    /**
+     * Vloží nového uživatele do databáze
+     */
+    public function insert()
+    {
+        try {
+            $pdo = Database::getInstance()->getConnection();
+            $sql = "INSERT INTO users (username, firstname, lastname, bdate, email, is_admin, password) VALUES (?, ?, ?, ?, ?, ?, ?)";
 
-        $sql = "
-        INSERT INTO users (username, firstname, lastname, bdate, email, is_admin, password)
-        VALUES (?, ?, ?, ?, ?, ?, ?)
-    ";
+            $stmt = $pdo->prepare($sql);
 
-        $stmt = $conn->prepare($sql);
+            $this->is_admin = (int)$this->is_admin;
 
-        if (!$stmt) {
-            return false;
+            $result = $stmt->execute([
+                $this->username,
+                $this->firstname,
+                $this->lastname,
+                $this->bdate,
+                $this->email,
+                $this->is_admin,
+                $this->password
+            ]);
+
+            if ($result) {
+                // Nastavíme ID nově vytvořeného záznamu
+                $this->id = (int)$pdo->lastInsertId();
+            }
+
+            return $result;
+        } catch (PDOException $e) {
+            throw new Exception("Chyba při vkládání uživatele: " . $e->getMessage());
         }
-
-        $this->is_admin = (int)$this->is_admin;
-
-        $stmt->bind_param(
-            "sssssis",
-            $this->username,
-            $this->firstname,
-            $this->lastname,
-            $this->bdate,
-            $this->email,
-            $this->is_admin,
-            $this->password
-        );
-
-        $result = $stmt->execute();
-
-        $stmt->close();
-        $conn->close();
-
-        return $result;
     }
 
     /**
      * Aktualizuje data uživatele v databázi (bez hesla).
-     * @return bool
      */
-    public function update() {
-        $conn = connect();
-
-        $sql = "
-        UPDATE users SET
-            firstname = ?,
-            lastname = ?,
-            bdate = ?,
-            email = ?,
-            is_admin = ?
-        WHERE id = ?
-    ";
-
-        $stmt = $conn->prepare($sql);
-
-        if (!$stmt) {
-            $conn->close();
-            return false;
+    public function update()
+    {
+        if (empty($this->id)) {
+            throw new Exception("Nelze aktualizovat uživatele bez ID.");
         }
 
-        $this->is_admin = (int)$this->is_admin;
+        try {
+            $pdo = Database::getInstance()->getConnection();
+            $sql = "UPDATE users SET firstname = ?, lastname = ?, bdate = ?, email = ?, is_admin = ? WHERE id = ?";
 
-        $stmt->bind_param(
-            "ssssii",
-            $this->firstname,
-            $this->lastname,
-            $this->bdate,
-            $this->email,
-            $this->is_admin,
-            $this->id
-        );
+            $stmt = $pdo->prepare($sql);
 
-        $result = $stmt->execute();
+            $this->is_admin = (int)$this->is_admin;
 
-        $stmt->close();
-        $conn->close();
-
-        return $result;
+            return $stmt->execute([
+                $this->firstname,
+                $this->lastname,
+                $this->bdate,
+                $this->email,
+                $this->is_admin,
+                (int)$this->id
+            ]);
+        } catch (PDOException $e) {
+            throw new Exception("Chyba při aktualizaci uživatele: " . $e->getMessage());
+        }
     }
 
     /**
      * Aktualizuje pouze heslo uživatele.
-     * @return bool
      */
-    public function updatePassword() {
+    public function updatePassword()
+    {
         if (empty($this->password) || empty($this->id)) {
             return false;
         }
 
-        $conn = connect();
-        $sql = "UPDATE users SET password = ? WHERE id = ?";
-        $stmt = $conn->prepare($sql);
+        try {
+            $pdo = Database::getInstance()->getConnection();
+            $sql = "UPDATE users SET password = ? WHERE id = ?";
+            $stmt = $pdo->prepare($sql);
 
-        if (!$stmt) {
-            $conn->close();
-            return false;
+            return $stmt->execute([
+                $this->password,
+                (int)$this->id
+            ]);
+        } catch (PDOException $e) {
+            throw new Exception("Chyba při změně hesla: " . $e->getMessage());
         }
-
-        $stmt->bind_param("si", $this->password, $this->id);
-        $result = $stmt->execute();
-
-        $stmt->close();
-        $conn->close();
-
-        return $result;
     }
 
-    public static function validation($user,$errors){
+    public static function validation($user, $errors){
+        // Zde můžeš doplnit validaci, aktuálně vrací true
         return true;
     }
-
 }

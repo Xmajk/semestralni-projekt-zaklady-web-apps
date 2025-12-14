@@ -1,38 +1,45 @@
 <?php
-$error = "";
-if ($_SERVER["REQUEST_METHOD"] === "POST") {
-    require_once __DIR__ . "/components/dbconnector.php";
-    require_once __DIR__ . "/components/utils/crypto.php";
-    $conn = connect();
 
+use components\objects\User;
+
+require_once __DIR__ . "/components/objects/User.php";
+require_once __DIR__ . "/components/dbconnector.php";
+require_once __DIR__ . "/components/utils/crypto.php";
+require_once __DIR__ . "/components/utils/links.php";
+
+session_start();
+$error = $_SESSION["errors"]["login"]??null;
+$_SESSION["errors"]=[];
+if ($_SERVER["REQUEST_METHOD"] === "POST") {
     $username = trim($_POST["username"] ?? "");
     $password = trim($_POST["password"] ?? "");
 
-    if (empty($username)) {
-        $error = "uživatelské jméno je povinné";
-    }
-
-    if (empty($password)) {
-        $error = "heslo je povinné";
-    }
-
-    $sql = "SELECT * FROM users WHERE username = '$username' LIMIT 1";
-    $result = $conn->query($sql);
-
-    if ($result->num_rows == 0) {
-        $error = "Uživatel nebyl nalezen";
+    if (empty($username) || empty($password)) {
+        $_SESSION["errors"] = [
+                "login" => "Chybné uživatelské jméno nebo heslo"
+        ];
+        redirect_to(createLink("/login.php"));
     } else {
-        $user = $result->fetch_assoc();
+        try {
+            // Použijeme metodu z User.php, která již využívá bezpečné připojení
+            $user = User::getUserByUsername($username);
 
-        if (!password_verify($password,$user['password'])) {
-            $error = "Heslo není správné";
-        } else {
-            setcookie("is_logged", true);
-            setcookie("username", $username);
-            setcookie("user_id", $user['id']);
-            setcookie("is_admin", $user['is_admin']);
-            header("Location: index.php");
-            exit;
+            // Použití password_verify pro bezpečné ověření hesla (BCRYPT/ARGON2)
+            if ($user && password_verify($password, $user->password)) {
+                setcookie("is_logged", "true", time() + (86400 * 30), "/");
+                setcookie("username", $user->username, time() + (86400 * 30), "/");
+                setcookie("user_id", (string)$user->id, time() + (86400 * 30), "/");
+                setcookie("is_admin", $user->is_admin ? "1" : "0", time() + (86400 * 30), "/");
+
+                redirect_to(createLink("index.php"));
+            } else {
+                $_SESSION["errors"] = [
+                        "login" => "Chybné uživatelské jméno nebo heslo"
+                ];
+                redirect_to(createLink("/login.php"));
+            }
+        } catch (Exception $e) {
+            redirectToDatabaseError();
         }
     }
 }

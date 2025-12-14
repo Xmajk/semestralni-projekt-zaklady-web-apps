@@ -1,8 +1,14 @@
 <?php
 
 namespace components\objects;
-require_once __DIR__."/../dbconnector.php";
-require_once __DIR__."/../utils/date_time.php";
+
+use components\Database;
+use \Exception;
+use \PDOException;
+
+// Předpokládáme existenci těchto souborů
+require_once __DIR__ . "/../Database.php";
+require_once __DIR__ . "/../utils/date_time.php";
 
 /**
  * Class Event
@@ -71,6 +77,7 @@ class Event
         }
         return array_merge($errors,$this->validate($update));
     }
+
     public function validate($update=false):array{
         $errors = [];
 
@@ -99,6 +106,7 @@ class Event
 
         $pass=true;
         if(!$update){
+            // Předpokládáme, že funkce convertStringToDateTime existuje v utils/date_time.php
             if(isset($this->registration_deadline)){
                 if(convertStringToDateTime($this->registration_deadline)->getTimestamp()<=time()){
                     $errors["registration_deadline"] = 'Datum a čas konce registrace musí být v budoucnosti';
@@ -139,8 +147,8 @@ class Event
         $event->start_datetime = $row['start_datetime'] ?? null;
         $event->registration_deadline = $row['registration_deadline'] ?? null;
         $event->image_filename = $row['image_filename'] ?? null;
-        $event->capacity = (int)$row['capacity'] ?? null;
-        $event->price = (int)$row['price'] ?? null;
+        $event->capacity = isset($row['capacity']) ? (int)$row['capacity'] : null;
+        $event->price = isset($row['price']) ? (int)$row['price'] : null;
         return $event;
     }
 
@@ -151,67 +159,49 @@ class Event
      */
     public static function getById(int $id): ?Event
     {
-        $conn = connect();
-        $sql = "SELECT * FROM events WHERE id = ? LIMIT 1";
+        try {
+            $pdo = Database::getInstance()->getConnection();
+            $stmt = $pdo->prepare("SELECT * FROM events WHERE id = ? LIMIT 1");
+            $stmt->execute([(int)$id]);
 
-        $stmt = $conn->prepare($sql);
-        if ($stmt === false) {
-            $conn->close();
-            return null;
+            $row = $stmt->fetch();
+
+            if (!$row) {
+                return null;
+            }
+
+            return self::hydrate($row);
+        } catch (PDOException $e) {
+            throw new Exception("Chyba při načítání události: " . $e->getMessage());
         }
-
-        $stmt->bind_param("i", $id);
-        if (!$stmt->execute()) {
-            $stmt->close();
-            $conn->close();
-            return null;
-        }
-
-        $result = $stmt->get_result();
-        if (!$result || $result->num_rows === 0) {
-            $stmt->close();
-            $conn->close();
-            return null;
-        }
-
-        $row = $result->fetch_assoc();
-        $event = self::hydrate($row);
-
-        $result->free();
-        $stmt->close();
-        $conn->close();
-
-        return $event;
     }
 
     public static function getAllOrdered(): array
     {
-        $events = [];
-        $conn = connect();
-        $sql = "SELECT * FROM events ORDER BY start_datetime DESC";
+        try {
+            $events = [];
+            $pdo = Database::getInstance()->getConnection();
+            $stmt = $pdo->query("SELECT * FROM events ORDER BY start_datetime DESC");
 
-        $result = $conn->query($sql);
-        if ($result) {
-            while ($row = $result->fetch_assoc()) {
+            while ($row = $stmt->fetch()) {
                 $events[] = self::hydrate($row);
             }
-            $result->free();
-        }
 
-        $conn->close();
-        return $events;
+            return $events;
+        } catch (PDOException $e) {
+            throw new Exception("Chyba při načítání seznamu událostí: " . $e->getMessage());
+        }
     }
 
     public static function countEvents(): int
     {
-        $events = [];
-        $conn = connect();
-        $sql = "SELECT count(*) FROM events";
-
-        $result = $conn->query($sql);
-        $row = $result->fetch_assoc();
-        $conn->close();
-        return $row["count(*)"];
+        try {
+            $pdo = Database::getInstance()->getConnection();
+            $stmt = $pdo->query("SELECT count(*) FROM events");
+            return (int)$stmt->fetchColumn();
+        } catch (PDOException $e) {
+            throw new Exception("Chyba při počítání událostí: " . $e->getMessage());
+        }
     }
 
     public static function getPage(int $pageSize, int $page): array{
@@ -223,34 +213,24 @@ class Event
         // 2. Výpočet offsetu (strana 1 má offset 0)
         $offset = ($page - 1) * $pageSize;
 
-        $events = [];
-
-        // Použití try-catch-finally pro bezpečné uzavření spojení i v případě chyby
-        $conn = connect();
-
         try {
-            // SQL dotaz s ošetřenými proměnnými
+            $events = [];
+            $pdo = Database::getInstance()->getConnection();
+
+            // LIMIT a OFFSET v PDO jsou bezpečné pokud jsou int, ale pro jistotu je přetypujeme
+            // Některé ovladače mají problém s bindováním LIMITu, takže vložení (int) hodnoty je bezpečné a spolehlivé
             $sql = "SELECT * FROM events ORDER BY start_datetime DESC LIMIT " . (int)$pageSize . " OFFSET " . (int)$offset;
 
-            $result = $conn->query($sql);
+            $stmt = $pdo->query($sql);
 
-            if ($result) {
-                while ($row = $result->fetch_assoc()) {
-                    $events[] = self::hydrate($row);
-                }
-                $result->free();
+            while ($row = $stmt->fetch()) {
+                $events[] = self::hydrate($row);
             }
-        } catch (\Throwable $e) {
-            // Volitelné: Zde můžete chybu zalogovat
-            // Prozatím jen zachytíme, aby stránka nespadla, a vrátíme prázdné pole
-        } finally {
-            // Spojení se uzavře vždy, i když dojde k chybě
-            if (isset($conn)) {
-                $conn->close();
-            }
+
+            return $events;
+        } catch (PDOException $e) {
+            throw new Exception("Chyba při načítání stránky událostí: " . $e->getMessage());
         }
-
-        return $events;
     }
 
     /**
@@ -259,93 +239,60 @@ class Event
      */
     public function insert(): bool
     {
-        $conn = connect();
-        $sql = "
-            INSERT INTO events (name, description, location, start_datetime, registration_deadline, image_filename, price, capacity)
-            VALUES (?, ?, ?, ?, ?, ?,?,?)
-        ";
+        try {
+            $pdo = Database::getInstance()->getConnection();
+            $sql = "INSERT INTO events (name, description, location, start_datetime, registration_deadline, image_filename, price, capacity) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
 
-        $stmt = $conn->prepare($sql);
-        if ($stmt === false) {
-            $conn->close();
+            $stmt = $pdo->prepare($sql);
+
+            $result = $stmt->execute([
+                $this->name,
+                $this->description,
+                $this->location,
+                $this->start_datetime,
+                $this->registration_deadline,
+                $this->image_filename,
+                $this->price,
+                $this->capacity
+            ]);
+
+            if ($result) {
+                $this->id = (int)$pdo->lastInsertId();
+                return true;
+            }
+
             return false;
+        } catch (PDOException $e) {
+            throw new Exception("Chyba při vkládání události: " . $e->getMessage());
         }
-
-        $stmt->bind_param(
-            "ssssssii",
-            $this->name,
-            $this->description,
-            $this->location,
-            $this->start_datetime,
-            $this->registration_deadline,
-            $this->image_filename,
-            $this->price,
-            $this->capacity
-        );
-
-        $result = $stmt->execute();
-
-        if ($result) {
-            $this->id = $conn->insert_id;
-        }else{
-            return false;
-        }
-
-        $stmt->close();
-        $conn->close();
-
-        return true;
     }
 
     public function update(): bool
     {
         if ($this->id === null) {
-            // Nelze aktualizovat záznam, který nemá ID
-            return false;
+            throw new Exception("Nelze aktualizovat událost bez ID.");
         }
 
-        $conn = connect();
+        try {
+            $pdo = Database::getInstance()->getConnection();
+            $sql = "UPDATE events SET name=?, description=?, location=?, start_datetime=?, registration_deadline=?, image_filename=?, price=?, capacity=? WHERE id=?";
 
-        // Přidány sloupce price a capacity
-        $sql = "
-            UPDATE events SET 
-                name = ?, 
-                description = ?, 
-                location = ?, 
-                start_datetime = ?, 
-                registration_deadline = ?, 
-                image_filename = ?,
-                price = ?,
-                capacity = ?
-            WHERE id = ?
-        ";
+            $stmt = $pdo->prepare($sql);
 
-        $stmt = $conn->prepare($sql);
-        if ($stmt === false) {
-            $conn->close();
-            return false;
+            return $stmt->execute([
+                $this->name,
+                $this->description,
+                $this->location,
+                $this->start_datetime,
+                $this->registration_deadline,
+                $this->image_filename,
+                $this->price,
+                $this->capacity,
+                (int)$this->id
+            ]);
+        } catch (PDOException $e) {
+            throw new Exception("Chyba při aktualizaci události: " . $e->getMessage());
         }
-
-        // Typy parametrů: s (string) x 6, i (integer) x 3 (price, capacity, id)
-        $stmt->bind_param(
-            "ssssssiii",
-            $this->name,
-            $this->description,
-            $this->location,
-            $this->start_datetime,
-            $this->registration_deadline,
-            $this->image_filename,
-            $this->price,
-            $this->capacity,
-            $this->id
-        );
-
-        $result = $stmt->execute();
-
-        $stmt->close();
-        $conn->close();
-
-        return $result;
     }
 
     /**
@@ -355,21 +302,12 @@ class Event
      */
     public static function deleteById(int $id): bool
     {
-        $conn = connect();
-        $sql = "DELETE FROM events WHERE id = ? LIMIT 1";
-
-        $stmt = $conn->prepare($sql);
-        if ($stmt === false) {
-            $conn->close();
-            return false;
+        try {
+            $pdo = Database::getInstance()->getConnection();
+            $stmt = $pdo->prepare("DELETE FROM events WHERE id = ? LIMIT 1");
+            return $stmt->execute([(int)$id]);
+        } catch (PDOException $e) {
+            throw new Exception("Chyba při mazání události: " . $e->getMessage());
         }
-
-        $stmt->bind_param("i", $id);
-        $result = $stmt->execute();
-
-        $stmt->close();
-        $conn->close();
-
-        return $result;
     }
 }

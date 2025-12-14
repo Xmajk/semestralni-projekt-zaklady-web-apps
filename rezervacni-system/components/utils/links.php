@@ -117,3 +117,8 @@ function create_large_image_link($imagname){
 function create_small_image_link($imagname){
     return createPublicLink("/imgs/events/thumb/".$imagname);
 }
+
+function redirectToDatabaseError()
+{
+    redirect_to(create_error_link("Chyba databáze"));
+}

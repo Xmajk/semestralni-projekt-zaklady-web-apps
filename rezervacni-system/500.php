@@ -14,6 +14,7 @@ $homeLink = createLink("/index.php");
 <head>
     <?php include __DIR__ . "/components/head.php"; ?>
     <link href="<?= createStylesLink("/responsivity.css") ?>" rel="stylesheet" type="text/css">
+    <link href="<?= createStylesLink("/errorPage.css") ?>" rel="stylesheet" type="text/css">
 </head>
 <body id="error-page-body">
 <header>

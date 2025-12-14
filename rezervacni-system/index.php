@@ -29,12 +29,17 @@ function userIsRegistered(int $user_id, int $event_id):bool{
     }
     return $result;
 }
-
+session_start();
 check_auth_user();
 $error = "";
 $now = new DateTime();
 $user_id = isset($_COOKIE["user_id"]) ? (int)$_COOKIE["user_id"] : 0;
-$numberOfEvents = Event::countEvents();
+$numberOfEvents = 0;
+try{
+    $numberOfEvents = Event::countEvents();
+}catch (Exception $exception){
+    redirectToDatabaseError();
+}
 $numberOfPages = ceil($numberOfEvents / EVENTS_PER_PAGE);
 $currentPage=$_GET["page"]??"1";
 if(!is_numeric($currentPage) && $currentPage != "max"){
@@ -57,7 +62,12 @@ $pagination[]=$currentPage;
 if($currentPage!=$numberOfPages){
     $pagination[]=$currentPage+1;
 }
-$events = Event::getPage(EVENTS_PER_PAGE, $currentPage);
+$events = [];
+try{
+    $events = Event::getPage(EVENTS_PER_PAGE, $currentPage);
+}catch (Exception $exception){
+    redirectToDatabaseError();
+}
 $userEvents = [];
 ?>
 <!DOCTYPE html>

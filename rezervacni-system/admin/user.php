@@ -61,7 +61,7 @@ else if($_SERVER["REQUEST_METHOD"] == "POST"){
             $errors["password"] = "heslo musí být dlouhé minimálně 6 znaků";
             reload();
         }
-        $user->password=hashSHA256($form_data["password"]);
+        $user->password= password_hash($form_data["password"],PASSWORD_DEFAULT);;
     }
 
     $errors = array();
