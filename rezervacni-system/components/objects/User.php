@@ -5,22 +5,64 @@ use components\Database;
 use \Exception;
 use \PDOException;
 
-// Předpokládáme, že Database.php je ve správné cestě, případně uprav require
 require_once __DIR__ . "/../Database.php";
 
+/**
+ * Class User
+ *
+ * Represents a user in the system.
+ * This class handles user data encapsulation and provides methods for
+ * CRUD operations, authentication checks, and session validation.
+ *
+ * @package components\objects
+ */
 class User
 {
+    /**
+     * @var int|null The unique identifier of the user (Primary Key).
+     */
     public $id;
+
+    /**
+     * @var string|null The user's first name.
+     */
     public $firstname;
+
+    /**
+     * @var string|null The user's last name.
+     */
     public $lastname;
+
+    /**
+     * @var string|null The birth date of the user (format: Y-m-d).
+     */
     public $bdate;
+
+    /**
+     * @var string|null The unique username used for login.
+     */
     public $username;
+
+    /**
+     * @var string|null The hashed password string.
+     */
     public $password;
+
+    /**
+     * @var string|null The user's email address.
+     */
     public $email;
+
+    /**
+     * @var bool|int Indicates if the user has administrative privileges (1/true or 0/false).
+     */
     public $is_admin;
 
     /**
-     * Naplní objekt daty z pole (např. z formuláře)
+     * Populates the object properties from an associative array (e.g., $_POST data).
+     *
+     * @param array $data The source data array.
+     * @return void
      */
     public function fill(array $data)
     {
@@ -35,7 +77,10 @@ class User
     }
 
     /**
-     * Pomocná metoda pro převedení řádku z DB na objekt User
+     * Internal factory method to hydrate a User object from a database row.
+     *
+     * @param array $row Associative array representing a database row.
+     * @return User A populated User instance.
      */
     private static function hydrate(array $row): User
     {
@@ -52,7 +97,13 @@ class User
     }
 
     /**
-     * Zkontroluje, zda sedí ID a username (pro ověření session/cookie)
+     * Verifies if a specific ID and Username combination exists in the database.
+     * Useful for validating session or cookie data integrity.
+     *
+     * @param int|string $id The user ID.
+     * @param string $username The username.
+     * @return bool True if the combination matches a record, false otherwise.
+     * @throws Exception If a database error occurs.
      */
     static function check_combination($id, $username)
     {
@@ -62,7 +113,6 @@ class User
             $stmt = $pdo->prepare($sql);
             $stmt->execute([$username, $id]);
 
-            // fetchColumn vrátí hodnotu sloupce nebo false
             return $stmt->fetchColumn() !== false;
         } catch (PDOException $e) {
             throw new Exception("Chyba při ověřování uživatele: " . $e->getMessage());
@@ -70,7 +120,11 @@ class User
     }
 
     /**
-     * Zkontroluje, zda uživatelské jméno již existuje
+     * Checks if a username is already taken.
+     *
+     * @param string $username The username to check.
+     * @return bool True if the username exists, false if it is available.
+     * @throws Exception If a database error occurs.
      */
     static function check_username($username)
     {
@@ -87,7 +141,11 @@ class User
     }
 
     /**
-     * Najde uživatele podle ID
+     * Retrieves a user by their unique ID.
+     *
+     * @param int|string $id The user ID.
+     * @return User|null The User object if found, or null.
+     * @throws Exception If a database error occurs.
      */
     static function getUserById($id)
     {
@@ -109,7 +167,11 @@ class User
     }
 
     /**
-     * Najde uživatele podle Username
+     * Retrieves a user by their username.
+     *
+     * @param string $username The username.
+     * @return User|null The User object if found, or null.
+     * @throws Exception If a database error occurs.
      */
     static function getUserByUsername($username)
     {
@@ -131,7 +193,11 @@ class User
     }
 
     /**
-     * Vrátí seznam všech uživatelů seřazený podle admin práv a jména
+     * Retrieves all users from the database.
+     * Results are ordered by admin status (admins first) and then by username.
+     *
+     * @return User[] An array of User objects.
+     * @throws Exception If a database error occurs.
      */
     static function getAllOrdered(): array
     {
@@ -139,7 +205,7 @@ class User
             $users = [];
             $pdo = Database::getInstance()->getConnection();
             $sql = "SELECT * FROM users ORDER BY is_admin DESC, username ASC";
-            $stmt = $pdo->query($sql); // Zde stačí query, nemáme parametry
+            $stmt = $pdo->query($sql);
 
             while ($row = $stmt->fetch()) {
                 $users[] = self::hydrate($row);
@@ -152,7 +218,11 @@ class User
     }
 
     /**
-     * Smaže uživatele podle ID
+     * Deletes a user record by ID.
+     *
+     * @param int|string $id The ID of the user to delete.
+     * @return bool True on success, false on failure.
+     * @throws Exception If a database error occurs.
      */
     static function deleteById($id): bool
     {
@@ -167,7 +237,11 @@ class User
     }
 
     /**
-     * Vloží nového uživatele do databáze
+     * Inserts the current User object into the database as a new record.
+     * If successful, the object's ID property is updated with the new auto-increment ID.
+     *
+     * @return bool True on success, false on failure.
+     * @throws Exception If a database error occurs.
      */
     public function insert()
     {
@@ -190,7 +264,6 @@ class User
             ]);
 
             if ($result) {
-                // Nastavíme ID nově vytvořeného záznamu
                 $this->id = (int)$pdo->lastInsertId();
             }
 
@@ -201,7 +274,11 @@ class User
     }
 
     /**
-     * Aktualizuje data uživatele v databázi (bez hesla).
+     * Updates the existing user record in the database.
+     * Requires the ID property to be set.
+     *
+     * @return bool True on success, false on failure.
+     * @throws Exception If ID is missing or a database error occurs.
      */
     public function update()
     {
@@ -232,7 +309,10 @@ class User
     }
 
     /**
-     * Aktualizuje pouze heslo uživatele.
+     * Updates only the user's password in the database.
+     *
+     * @return bool True on success, false on failure (or if properties are empty).
+     * @throws Exception If a database error occurs.
      */
     public function updatePassword()
     {
@@ -254,8 +334,14 @@ class User
         }
     }
 
+    /**
+     * Validates user data.
+     *
+     * @param User $user The user object to validate.
+     * @param array $errors Reference to an array where errors will be stored.
+     * @return bool True if valid, false otherwise.
+     */
     public static function validation($user, $errors){
-        // Zde můžeš doplnit validaci, aktuálně vrací true
         return true;
     }
 }

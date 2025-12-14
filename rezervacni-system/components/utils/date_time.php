@@ -1,4 +1,5 @@
 <?php
+
 /**
  * The default timezone identifier used for date and time operations.
  *
@@ -21,9 +22,14 @@ function convertStringToDateTime(string $date): DateTime{
 }
 
 /**
- * @throws Exception
+ * Retrieves the current date and time.
+ *
+ * Creates a DateTime object representing the current moment,
+ * configured with the application's default timezone.
+ *
+ * @return DateTime The current date and time.
+ * @throws Exception If the timezone identifier is invalid.
  */
 function getDateTimeNow(): DateTime{
     return new DateTime(timezone:new DateTimeZone(TIMEZONE));
 }
-?>

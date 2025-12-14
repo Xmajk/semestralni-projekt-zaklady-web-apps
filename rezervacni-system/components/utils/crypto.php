@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Generates a SHA-256 hash of the input string.
  *
@@ -12,5 +13,3 @@
 function hashSHA256(string $input): string {
     return hash('sha256', $input);
 }
-
-?>

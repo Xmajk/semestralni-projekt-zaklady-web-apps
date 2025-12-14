@@ -76,12 +76,13 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         <label for="password" class="">Heslo</label>
         <input type="password" id="password" name="password" required>
       </div>
+        <!--
       <div>
         <div class="chckbox-wrapper">
             <input type="checkbox">
             <label>zobrazit heslo</label>
         </div>
-      </div>
+      </div>-->
       <button type="submit">Přihlásit se</button>
     </form>
   </div>

@@ -11,29 +11,72 @@ require_once __DIR__ . "/Event.php";
 require_once __DIR__ . "/User.php";
 require_once __DIR__ . "/../Database.php";
 
+/**
+ * Class Registration
+ *
+ * Manages the many-to-many relationship between Users and Events.
+ * This class handles the creation, deletion, and retrieval of registration records,
+ * including logic for enforcing event capacities and preventing duplicate sign-ups.
+ *
+ * @package components\objects
+ */
 class Registration
 {
+    /**
+     * @var int The unique identifier for the registration record.
+     */
     public int $id;
+
+    /**
+     * @var int The ID of the user associated with this registration.
+     */
     public int $id_user;
+
+    /**
+     * @var User The full User object associated with this registration.
+     */
     public User $user;
+
+    /**
+     * @var int The ID of the event associated with this registration.
+     */
     public int $id_event;
+
+    /**
+     * @var Event The full Event object associated with this registration.
+     */
     public Event $event;
 
+    /**
+     * @var string The timestamp of when the registration was created.
+     */
     public string $registration_datetime;
 
+    /**
+     * Creates a Registration object instance from a database row.
+     * Note: This method automatically fetches the associated User and Event objects.
+     *
+     * @param array $data Associative array containing database column data.
+     * @return Registration The hydrated Registration object.
+     */
     public static function hydrate(array $data): Registration
     {
         $registration = new Registration();
         $registration->id = (int)$data['id'];
         $registration->id_user = (int)$data['id_user'];
         $registration->id_event = (int)$data['id_event'];
-        // Načtení objektů User a Event (může vyvolat další DB dotazy)
         $registration->event = Event::getById($registration->id_event);
         $registration->user = User::getUserById($registration->id_user);
 
         return $registration;
     }
 
+    /**
+     * Retrieves all registrations existing in the system, ordered by ID descending.
+     *
+     * @return Registration[] An array of Registration objects.
+     * @throws Exception If the database query fails.
+     */
     public static function getAllOrdered(): array
     {
         try {
@@ -50,6 +93,13 @@ class Registration
         }
     }
 
+    /**
+     * Counts the total number of registrations for a specific event.
+     *
+     * @param int $eventId The ID of the event to count.
+     * @return int|null The count of registrations, or null on error context.
+     * @throws Exception If the database query fails.
+     */
     public static function numberOfRegistrationsByEventId(int $eventId): ?int
     {
         try {
@@ -62,6 +112,14 @@ class Registration
         }
     }
 
+    /**
+     * Checks if a specific user is already registered for a specific event.
+     *
+     * @param int $userId The ID of the user.
+     * @param int $eventId The ID of the event.
+     * @return bool|null True if a registration exists, false otherwise.
+     * @throws Exception If the database query fails.
+     */
     public static function existsByUserIdAndEventId(int $userId, int $eventId): ?bool
     {
         try {
@@ -74,6 +132,17 @@ class Registration
         }
     }
 
+    /**
+     * Creates a new registration record transactionally.
+     * This method utilizes database row locking (FOR UPDATE) to prevent race conditions
+     * where multiple users might try to register for the last available slot simultaneously.
+     *
+     *
+     *
+     * @param Registration $registration The registration object containing the user and event IDs.
+     * @return bool True if the registration was successful.
+     * @throws Exception If the event is not found, the user is already registered, or capacity is full.
+     */
     public static function createRegistration(Registration $registration): bool
     {
         $pdo = Database::getInstance()->getConnection();
@@ -81,7 +150,6 @@ class Registration
         try {
             $pdo->beginTransaction();
 
-            // Zámek řádku události pro kontrolu kapacity (FOR UPDATE)
             $stmtEvent = $pdo->prepare("SELECT capacity FROM events WHERE id = ? FOR UPDATE");
             $stmtEvent->execute([$registration->id_event]);
             $capacity = $stmtEvent->fetchColumn();
@@ -91,14 +159,12 @@ class Registration
             }
             $capacity = (int)$capacity;
 
-            // Kontrola existence registrace
             $stmtCheck = $pdo->prepare("SELECT count(*) FROM registrations WHERE id_event = ? AND id_user = ?");
             $stmtCheck->execute([$registration->id_event, $registration->id_user]);
             if ($stmtCheck->fetchColumn() > 0) {
                 throw new Exception("Uživatel je již registrován.");
             }
 
-            // Kontrola kapacity
             if ($capacity > 0) {
                 $stmtCount = $pdo->prepare("SELECT count(*) FROM registrations WHERE id_event = ?");
                 $stmtCount->execute([$registration->id_event]);
@@ -107,7 +173,6 @@ class Registration
                 }
             }
 
-            // Vložení registrace
             $stmtInsert = $pdo->prepare("INSERT INTO registrations (id_event, id_user, register_time) VALUES (?, ?, ?)");
             $stmtInsert->execute([
                 $registration->id_event,
@@ -126,6 +191,13 @@ class Registration
         }
     }
 
+    /**
+     * Removes a registration record from the database.
+     *
+     * @param Registration $registration The registration object to delete.
+     * @return bool True if the deletion was successful.
+     * @throws Exception If the database operation fails.
+     */
     public static function deleteRegistration(Registration $registration): bool
     {
         $pdo = Database::getInstance()->getConnection();
@@ -149,6 +221,14 @@ class Registration
     }
 
     /*===PROFILE===*/
+
+    /**
+     * Retrieves a list of events that a specific user has registered for.
+     *
+     * @param int $userId The ID of the user.
+     * @return Event[] An array of Event objects.
+     * @throws Exception If the database query fails.
+     */
     public static function getEventsByUser(int $userId): array
     {
         try {
@@ -166,7 +246,6 @@ class Registration
 
             $events = [];
             while ($row = $stmt->fetch()) {
-                // Manuální hydratace Eventu, protože Event::hydrate je private
                 $event = new Event();
                 $event->id = (int)$row['id'];
                 $event->name = $row['name'] ?? null;
@@ -187,6 +266,14 @@ class Registration
         }
     }
 
+    /**
+     * Determines if a user is currently registered for an event.
+     *
+     * @param int $userId The ID of the user.
+     * @param int $eventId The ID of the event.
+     * @return bool True if the user is registered, false otherwise.
+     * @throws Exception If the database query fails.
+     */
     public static function isUserRegistered(int $userId, int $eventId): bool
     {
         try {
@@ -200,6 +287,13 @@ class Registration
         }
     }
 
+    /**
+     * Retrieves all users registered for a specific event.
+     *
+     * @param int $eventId The ID of the event.
+     * @return User[] An array of User objects, keyed by the registration ID.
+     * @throws Exception If the database query fails.
+     */
     public static function findEventRegistrationsByEventId(int $eventId): array
     {
         try {
@@ -218,7 +312,7 @@ class Registration
             while ($row = $stmt->fetch()) {
                 $r_id = $row['r_id'];
                 $user = new User();
-                $user->fill($row); // User má veřejnou metodu fill
+                $user->fill($row);
                 $users[$r_id] = $user;
             }
             return $users;
@@ -228,6 +322,13 @@ class Registration
         }
     }
 
+    /**
+     * Retrieves a single registration record by its ID.
+     *
+     * @param int $id The ID of the registration.
+     * @return Registration|null The Registration object, or null if not found.
+     * @throws Exception If the database query fails.
+     */
     public static function getRegistrationById(int $id): ?Registration
     {
         try {

@@ -6,29 +6,75 @@ use components\Database;
 use \Exception;
 use \PDOException;
 
-// Předpokládáme existenci těchto souborů
+// We assume the existence of these files
 require_once __DIR__ . "/../Database.php";
 require_once __DIR__ . "/../utils/date_time.php";
 
 /**
  * Class Event
- * Reprezentuje jednu událost v systému.
- * Odpovídá tabulce 'events' v databázi.
+ *
+ * Represents a single event in the system.
+ * Maps directly to the 'events' table in the database.
+ * Handles data validation, hydration, and CRUD operations.
+ *
+ * @package components\objects
  */
 class Event
 {
-    // Vlastnosti odpovídající sloupcům v tabulce 'events'
+    /**
+     * @var int|null The unique identifier of the event (Primary Key).
+     */
     public ?int $id = null;
+
+    /**
+     * @var string|null The name or title of the event.
+     */
     public ?string $name = null;
+
+    /**
+     * @var string|null Detailed description of the event.
+     */
     public ?string $description = null;
+
+    /**
+     * @var string|null Physical location or address where the event takes place.
+     */
     public ?string $location = null;
+
+    /**
+     * @var string|null The start date and time of the event (format: Y-m-d H:i:s).
+     */
     public ?string $start_datetime = null;
+
+    /**
+     * @var string|null The deadline for user registration (format: Y-m-d H:i:s).
+     */
     public ?string $registration_deadline = null;
+
+    /**
+     * @var string|null The filename of the associated image (e.g., 'event_123.jpg').
+     */
     public ?string $image_filename = null;
+
+    /**
+     * @var int|null Maximum number of attendees allowed.
+     */
     public ?int $capacity = null;
+
+    /**
+     * @var int|null The price of admission (0 usually implies free).
+     */
     public ?int $price = null;
 
 
+    /**
+     * Populates the object properties using an associative array (usually from $_POST).
+     * performs initial type checking and existence validation.
+     *
+     * @param array $formData The raw data from the form.
+     * @param bool $update Indicates if this is an update operation (defaults to false).
+     * @return array An associative array of error messages. If empty, population was successful.
+     */
     public function fill(array $formData, bool $update=false): array{
         $errors = [];
         $this->name = $formData["name"] ?? null;
@@ -78,6 +124,13 @@ class Event
         return array_merge($errors,$this->validate($update));
     }
 
+    /**
+     * Validates the logical constraints of the object properties.
+     * Checks string lengths, numeric ranges, and date logical order (e.g., start date > deadline).
+     *
+     * @param bool $update If set to true, certain date checks might be skipped or handled differently.
+     * @return array An associative array of validation errors.
+     */
     public function validate($update=false):array{
         $errors = [];
 
@@ -106,7 +159,6 @@ class Event
 
         $pass=true;
         if(!$update){
-            // Předpokládáme, že funkce convertStringToDateTime existuje v utils/date_time.php
             if(isset($this->registration_deadline)){
                 if(convertStringToDateTime($this->registration_deadline)->getTimestamp()<=time()){
                     $errors["registration_deadline"] = 'Datum a čas konce registrace musí být v budoucnosti';
@@ -132,10 +184,12 @@ class Event
     }
 
     /*===DATABASE===*/
+
     /**
-     * Interní pomocná funkce pro "hydrataci" objektu z databázového řádku.
-     * @param array $row Asociativní pole dat z databáze.
-     * @return Event Instance této třídy s naplněnými daty.
+     * Internal helper method to hydrate an object instance from a database row.
+     *
+     * @param array $row Associative array representing a database row.
+     * @return Event A populated instance of the Event class.
      */
     private static function hydrate(array $row): Event
     {
@@ -153,9 +207,11 @@ class Event
     }
 
     /**
-     * Načte jednu událost z databáze podle jejího ID.
-     * @param int $id ID události.
-     * @return Event|null Vrací objekt Event, nebo null, pokud událost nebyla nalezena.
+     * Retrieves a single event from the database by its ID.
+     *
+     * @param int $id The unique identifier of the event.
+     * @return Event|null Returns the Event object if found, or null if not.
+     * @throws Exception If there is a database error.
      */
     public static function getById(int $id): ?Event
     {
@@ -176,6 +232,12 @@ class Event
         }
     }
 
+    /**
+     * Retrieves all events from the database, ordered by start datetime descending.
+     *
+     * @return Event[] An array of Event objects.
+     * @throws Exception If there is a database error.
+     */
     public static function getAllOrdered(): array
     {
         try {
@@ -193,6 +255,12 @@ class Event
         }
     }
 
+    /**
+     * Counts the total number of events in the database.
+     *
+     * @return int The total count of events.
+     * @throws Exception If there is a database error.
+     */
     public static function countEvents(): int
     {
         try {
@@ -204,21 +272,28 @@ class Event
         }
     }
 
+    /**
+     * Retrieves a specific page of events for pagination.
+     *
+     * @param int $pageSize The number of events per page.
+     * @param int $page The current page number (1-based index).
+     * @return Event[] An array of Event objects for the requested page.
+     * @throws Exception If there is a database error.
+     */
     public static function getPage(int $pageSize, int $page): array{
-        // 1. Ošetření vstupu: Stránka musí být minimálně 1
+        // 1. Input sanitization: Page must be at least 1
         if ($page < 1) {
             $page = 1;
         }
 
-        // 2. Výpočet offsetu (strana 1 má offset 0)
+        // 2. Offset calculation (page 1 has offset 0)
         $offset = ($page - 1) * $pageSize;
 
         try {
             $events = [];
             $pdo = Database::getInstance()->getConnection();
 
-            // LIMIT a OFFSET v PDO jsou bezpečné pokud jsou int, ale pro jistotu je přetypujeme
-            // Některé ovladače mají problém s bindováním LIMITu, takže vložení (int) hodnoty je bezpečné a spolehlivé
+            // LIMIT and OFFSET in PDO are safe if they are ints, but casting ensures safety.
             $sql = "SELECT * FROM events ORDER BY start_datetime DESC LIMIT " . (int)$pageSize . " OFFSET " . (int)$offset;
 
             $stmt = $pdo->query($sql);
@@ -234,8 +309,11 @@ class Event
     }
 
     /**
-     * Uloží novou událost (nový záznam) do databáze.
-     * @return bool Vrací true při úspěchu, false při selhání.
+     * Inserts the current event object as a new record in the database.
+     * Upon success, the object's ID property is updated with the new insert ID.
+     *
+     * @return bool True on success, false on failure.
+     * @throws Exception If there is a database insert error.
      */
     public function insert(): bool
     {
@@ -267,6 +345,13 @@ class Event
         }
     }
 
+    /**
+     * Updates an existing event record in the database.
+     * The object must have a valid ID set.
+     *
+     * @return bool True on success, false on failure.
+     * @throws Exception If the ID is missing or a database error occurs.
+     */
     public function update(): bool
     {
         if ($this->id === null) {
@@ -296,9 +381,11 @@ class Event
     }
 
     /**
-     * Smaže událost z databáze podle zadaného ID.
-     * @param int $id ID události ke smazání.
-     * @return bool Vrací true při úspěchu, false při selhání.
+     * Deletes an event from the database by its ID.
+     *
+     * @param int $id The ID of the event to delete.
+     * @return bool True on success, false on failure.
+     * @throws Exception If there is a database error.
      */
     public static function deleteById(int $id): bool
     {
