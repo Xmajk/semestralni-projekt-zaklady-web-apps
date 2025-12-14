@@ -175,7 +175,7 @@ try {
 
         <div id="image-wrapper" class="form-wrapper">
             <label for="form-image">Obrázek události (JPG, PNG)</label>
-            <input id="form-image" type="file" name="image" accept="image/jpeg, image/png" value="<?= $formData["image"] ?? "" ?>">
+            <input id="form-image" type="file" name="image" accept="image/jpeg, image/png">
             <span id="error-image" class="validation-error <?= isset($errors['image']) ? 'active' : '' ?>">
                 <?= htmlspecialchars($errors['image'] ?? '') ?>
             </span>
@@ -186,14 +186,14 @@ try {
 
     <div class="filter-wrapper">
         <label for="filter">Filtrovat podle názvu:</label>
-        <input name="filter" id="event-filter" type="text" placeholder="Zadejte název události...">
+        <input id="filter" name="filter" id="event-filter" type="text" placeholder="Zadejte název události...">
     </div>
 
     <div class="table-wrap" data-density="comfy">
         <table class="table">
             <thead>
             <tr>
-                <th classs="sortable" aria-sort="descending">Název události</th>
+                <th class="sortable" aria-sort="descending">Název události</th>
                 <th>Datum registrace do</th>
                 <th>Registrace</th>
                 <th>Upravit</th>

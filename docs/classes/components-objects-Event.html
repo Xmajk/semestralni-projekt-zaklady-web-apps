@@ -77,6 +77,16 @@
     <a href="packages/Application.html" class="">Application</a>
 </h4>
 
+                                    <h4 class="phpdocumentor-sidebar__root-namespace">
+    <a href="packages/components.html" class="">components</a>
+</h4>
+    <ul class="phpdocumentor-list">
+                    <li>
+                <a href="packages/components-objects.html" class="">objects</a>
+                
+            </li>
+            </ul>
+
                         </section>
             
     <section class="phpdocumentor-sidebar__category">
@@ -107,7 +117,8 @@
             <div class="phpdocumentor-element__package">
             in package
             <ul class="phpdocumentor-breadcrumbs">
-                                    <li class="phpdocumentor-breadcrumb"><a href="packages/Application.html">Application</a></li>
+                                    <li class="phpdocumentor-breadcrumb"><a href="packages/components.html">components</a></li>
+                                    <li class="phpdocumentor-breadcrumb"><a href="packages/components-objects.html">objects</a></li>
                             </ul>
         </div>
     
@@ -122,14 +133,15 @@
         <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="rezervacni-system/components/objects/Event.php"><a href="files/rezervacni-system-components-objects-event.html"><abbr title="rezervacni-system/components/objects/Event.php">Event.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">12</span>
+    <span class="phpdocumentor-element-found-in__line">22</span>
 
     </aside>
 
-            <p class="phpdocumentor-summary">Class Event
-Reprezentuje jednu událost v systému.</p>
+            <p class="phpdocumentor-summary">Class Event</p>
 
-    <section class="phpdocumentor-description"><p>Odpovídá tabulce 'events' v databázi.</p>
+    <section class="phpdocumentor-description"><p>Represents a single event in the system.
+Maps directly to the 'events' table in the database.
+Handles data validation, hydration, and CRUD operations.</p>
 </section>
 
 
@@ -223,64 +235,70 @@ Reprezentuje jednu událost v systému.</p>
     <span>
                                 &nbsp;: int    </span>
 </dt>
+<dd>Counts the total number of events in the database.</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -method -public">
     <a href="classes/components-objects-Event.html#method_deleteById">deleteById()</a>
     <span>
                                 &nbsp;: bool    </span>
 </dt>
-<dd>Smaže událost z databáze podle zadaného ID.</dd>
+<dd>Deletes an event from the database by its ID.</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -method -public">
     <a href="classes/components-objects-Event.html#method_fill">fill()</a>
     <span>
                                 &nbsp;: array&lt;string|int, mixed&gt;    </span>
 </dt>
+<dd>Populates the object properties using an associative array (usually from $_POST).</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -method -public">
     <a href="classes/components-objects-Event.html#method_getAllOrdered">getAllOrdered()</a>
     <span>
-                                &nbsp;: array&lt;string|int, mixed&gt;    </span>
+                                &nbsp;: array&lt;string|int, <a href="classes/components-objects-Event.html"><abbr title="\components\objects\Event">Event</abbr></a>&gt;    </span>
 </dt>
+<dd>Retrieves all events from the database, ordered by start datetime descending.</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -method -public">
     <a href="classes/components-objects-Event.html#method_getById">getById()</a>
     <span>
                                 &nbsp;: <a href="classes/components-objects-Event.html"><abbr title="\components\objects\Event">Event</abbr></a>|null    </span>
 </dt>
-<dd>Načte jednu událost z databáze podle jejího ID.</dd>
+<dd>Retrieves a single event from the database by its ID.</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -method -public">
     <a href="classes/components-objects-Event.html#method_getPage">getPage()</a>
     <span>
-                                &nbsp;: array&lt;string|int, mixed&gt;    </span>
+                                &nbsp;: array&lt;string|int, <a href="classes/components-objects-Event.html"><abbr title="\components\objects\Event">Event</abbr></a>&gt;    </span>
 </dt>
+<dd>Retrieves a specific page of events for pagination.</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -method -public">
     <a href="classes/components-objects-Event.html#method_insert">insert()</a>
     <span>
                                 &nbsp;: bool    </span>
 </dt>
-<dd>Uloží novou událost (nový záznam) do databáze.</dd>
+<dd>Inserts the current event object as a new record in the database.</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -method -public">
     <a href="classes/components-objects-Event.html#method_update">update()</a>
     <span>
                                 &nbsp;: bool    </span>
 </dt>
+<dd>Updates an existing event record in the database.</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -method -public">
     <a href="classes/components-objects-Event.html#method_validate">validate()</a>
     <span>
                                 &nbsp;: array&lt;string|int, mixed&gt;    </span>
 </dt>
+<dd>Validates the logical constraints of the object properties.</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -method -private">
     <a href="classes/components-objects-Event.html#method_hydrate">hydrate()</a>
     <span>
                                 &nbsp;: <a href="classes/components-objects-Event.html"><abbr title="\components\objects\Event">Event</abbr></a>    </span>
 </dt>
-<dd>Interní pomocná funkce pro &quot;hydrataci&quot; objektu z databázového řádku.</dd>
+<dd>Internal helper method to hydrate an object instance from a database row.</dd>
 
     </dl>
 
@@ -313,7 +331,7 @@ Reprezentuje jednu událost v systému.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="rezervacni-system/components/objects/Event.php"><a href="files/rezervacni-system-components-objects-event.html"><abbr title="rezervacni-system/components/objects/Event.php">Event.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">22</span>
+    <span class="phpdocumentor-element-found-in__line">62</span>
 
     </aside>
 
@@ -325,7 +343,9 @@ Reprezentuje jednu událost v systému.</p>
      = <span class="phpdocumentor-signature__default-value">null</span></code>
 
     
-    
+        <section class="phpdocumentor-description"><p>Maximum number of attendees allowed.</p>
+</section>
+
     
 
 </article>
@@ -346,7 +366,7 @@ Reprezentuje jednu událost v systému.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="rezervacni-system/components/objects/Event.php"><a href="files/rezervacni-system-components-objects-event.html"><abbr title="rezervacni-system/components/objects/Event.php">Event.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">17</span>
+    <span class="phpdocumentor-element-found-in__line">37</span>
 
     </aside>
 
@@ -358,7 +378,9 @@ Reprezentuje jednu událost v systému.</p>
      = <span class="phpdocumentor-signature__default-value">null</span></code>
 
     
-    
+        <section class="phpdocumentor-description"><p>Detailed description of the event.</p>
+</section>
+
     
 
 </article>
@@ -379,7 +401,7 @@ Reprezentuje jednu událost v systému.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="rezervacni-system/components/objects/Event.php"><a href="files/rezervacni-system-components-objects-event.html"><abbr title="rezervacni-system/components/objects/Event.php">Event.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">15</span>
+    <span class="phpdocumentor-element-found-in__line">27</span>
 
     </aside>
 
@@ -391,7 +413,9 @@ Reprezentuje jednu událost v systému.</p>
      = <span class="phpdocumentor-signature__default-value">null</span></code>
 
     
-    
+        <section class="phpdocumentor-description"><p>The unique identifier of the event (Primary Key).</p>
+</section>
+
     
 
 </article>
@@ -412,7 +436,7 @@ Reprezentuje jednu událost v systému.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="rezervacni-system/components/objects/Event.php"><a href="files/rezervacni-system-components-objects-event.html"><abbr title="rezervacni-system/components/objects/Event.php">Event.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">21</span>
+    <span class="phpdocumentor-element-found-in__line">57</span>
 
     </aside>
 
@@ -424,7 +448,9 @@ Reprezentuje jednu událost v systému.</p>
      = <span class="phpdocumentor-signature__default-value">null</span></code>
 
     
-    
+        <section class="phpdocumentor-description"><p>The filename of the associated image (e.g., 'event_123.jpg').</p>
+</section>
+
     
 
 </article>
@@ -445,7 +471,7 @@ Reprezentuje jednu událost v systému.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="rezervacni-system/components/objects/Event.php"><a href="files/rezervacni-system-components-objects-event.html"><abbr title="rezervacni-system/components/objects/Event.php">Event.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">18</span>
+    <span class="phpdocumentor-element-found-in__line">42</span>
 
     </aside>
 
@@ -457,7 +483,9 @@ Reprezentuje jednu událost v systému.</p>
      = <span class="phpdocumentor-signature__default-value">null</span></code>
 
     
-    
+        <section class="phpdocumentor-description"><p>Physical location or address where the event takes place.</p>
+</section>
+
     
 
 </article>
@@ -478,7 +506,7 @@ Reprezentuje jednu událost v systému.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="rezervacni-system/components/objects/Event.php"><a href="files/rezervacni-system-components-objects-event.html"><abbr title="rezervacni-system/components/objects/Event.php">Event.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">16</span>
+    <span class="phpdocumentor-element-found-in__line">32</span>
 
     </aside>
 
@@ -490,7 +518,9 @@ Reprezentuje jednu událost v systému.</p>
      = <span class="phpdocumentor-signature__default-value">null</span></code>
 
     
-    
+        <section class="phpdocumentor-description"><p>The name or title of the event.</p>
+</section>
+
     
 
 </article>
@@ -511,7 +541,7 @@ Reprezentuje jednu událost v systému.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="rezervacni-system/components/objects/Event.php"><a href="files/rezervacni-system-components-objects-event.html"><abbr title="rezervacni-system/components/objects/Event.php">Event.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">23</span>
+    <span class="phpdocumentor-element-found-in__line">67</span>
 
     </aside>
 
@@ -523,7 +553,9 @@ Reprezentuje jednu událost v systému.</p>
      = <span class="phpdocumentor-signature__default-value">null</span></code>
 
     
-    
+        <section class="phpdocumentor-description"><p>The price of admission (0 usually implies free).</p>
+</section>
+
     
 
 </article>
@@ -544,7 +576,7 @@ Reprezentuje jednu událost v systému.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="rezervacni-system/components/objects/Event.php"><a href="files/rezervacni-system-components-objects-event.html"><abbr title="rezervacni-system/components/objects/Event.php">Event.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">20</span>
+    <span class="phpdocumentor-element-found-in__line">52</span>
 
     </aside>
 
@@ -556,7 +588,9 @@ Reprezentuje jednu událost v systému.</p>
      = <span class="phpdocumentor-signature__default-value">null</span></code>
 
     
-    
+        <section class="phpdocumentor-description"><p>The deadline for user registration (format: Y-m-d H:i:s).</p>
+</section>
+
     
 
 </article>
@@ -577,7 +611,7 @@ Reprezentuje jednu událost v systému.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="rezervacni-system/components/objects/Event.php"><a href="files/rezervacni-system-components-objects-event.html"><abbr title="rezervacni-system/components/objects/Event.php">Event.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">19</span>
+    <span class="phpdocumentor-element-found-in__line">47</span>
 
     </aside>
 
@@ -589,7 +623,9 @@ Reprezentuje jednu událost v systému.</p>
      = <span class="phpdocumentor-signature__default-value">null</span></code>
 
     
-    
+        <section class="phpdocumentor-description"><p>The start date and time of the event (format: Y-m-d H:i:s).</p>
+</section>
+
     
 
 </article>
@@ -615,11 +651,12 @@ Reprezentuje jednu událost v systému.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="rezervacni-system/components/objects/Event.php"><a href="files/rezervacni-system-components-objects-event.html"><abbr title="rezervacni-system/components/objects/Event.php">Event.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">203</span>
+    <span class="phpdocumentor-element-found-in__line">264</span>
 
     </aside>
 
-    
+        <p class="phpdocumentor-summary">Counts the total number of events in the database.</p>
+
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility">public</span>
             <span class="phpdocumentor-signature__static">static</span>        <span class="phpdocumentor-signature__name">countEvents</span><span>(</span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">int</span></code>
@@ -629,10 +666,31 @@ Reprezentuje jednu událost v systému.</p>
     
     
     
+    <h5 class="phpdocumentor-tag-list__heading" id="tags">
+        Tags
+        <a href="classes/components-objects-Event.html#method_countEvents#tags" class="headerlink"><i class="fas fa-link"></i></a>
+
+    </h5>
+    <dl class="phpdocumentor-tag-list">
+                                    <dt class="phpdocumentor-tag-list__entry">
+                    <span class="phpdocumentor-tag__name">throws</span>
+                </dt>
+                <dd class="phpdocumentor-tag-list__definition">
+                                                                <span class="phpdocumentor-tag-link"><abbr title="\Exception">Exception</abbr></span>
+                                                            
+                                                 <section class="phpdocumentor-description"><p>If there is a database error.</p>
+</section>
+
+                                    </dd>
+                                            </dl>
 
             <section>
         <h5 class="phpdocumentor-return-value__heading">Return values</h5>
         <span class="phpdocumentor-signature__response_type">int</span>
+                    &mdash;
+                <section class="phpdocumentor-description"><p>The total count of events.</p>
+</section>
+
             </section>
 
 </article>
@@ -650,11 +708,11 @@ Reprezentuje jednu událost v systému.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="rezervacni-system/components/objects/Event.php"><a href="files/rezervacni-system-components-objects-event.html"><abbr title="rezervacni-system/components/objects/Event.php">Event.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">332</span>
+    <span class="phpdocumentor-element-found-in__line">390</span>
 
     </aside>
 
-        <p class="phpdocumentor-summary">Smaže událost z databáze podle zadaného ID.</p>
+        <p class="phpdocumentor-summary">Deletes an event from the database by its ID.</p>
 
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility">public</span>
@@ -670,19 +728,36 @@ Reprezentuje jednu událost v systému.</p>
                 : <span class="phpdocumentor-signature__argument__return-type">int</span>
                             </dt>
             <dd class="phpdocumentor-argument-list__definition">
-                    <section class="phpdocumentor-description"><p>ID události ke smazání.</p>
+                    <section class="phpdocumentor-description"><p>The ID of the event to delete.</p>
 </section>
 
             </dd>
             </dl>
 
     
+    <h5 class="phpdocumentor-tag-list__heading" id="tags">
+        Tags
+        <a href="classes/components-objects-Event.html#method_deleteById#tags" class="headerlink"><i class="fas fa-link"></i></a>
+
+    </h5>
+    <dl class="phpdocumentor-tag-list">
+                                    <dt class="phpdocumentor-tag-list__entry">
+                    <span class="phpdocumentor-tag__name">throws</span>
+                </dt>
+                <dd class="phpdocumentor-tag-list__definition">
+                                                                <span class="phpdocumentor-tag-link"><abbr title="\Exception">Exception</abbr></span>
+                                                            
+                                                 <section class="phpdocumentor-description"><p>If there is a database error.</p>
+</section>
+
+                                    </dd>
+                                            </dl>
 
             <section>
         <h5 class="phpdocumentor-return-value__heading">Return values</h5>
         <span class="phpdocumentor-signature__response_type">bool</span>
                     &mdash;
-                <section class="phpdocumentor-description"><p>Vrací true při úspěchu, false při selhání.</p>
+                <section class="phpdocumentor-description"><p>True on success, false on failure.</p>
 </section>
 
             </section>
@@ -702,18 +777,21 @@ Reprezentuje jednu událost v systému.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="rezervacni-system/components/objects/Event.php"><a href="files/rezervacni-system-components-objects-event.html"><abbr title="rezervacni-system/components/objects/Event.php">Event.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">26</span>
+    <span class="phpdocumentor-element-found-in__line">78</span>
 
     </aside>
 
-    
+        <p class="phpdocumentor-summary">Populates the object properties using an associative array (usually from $_POST).</p>
+
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility">public</span>
-                    <span class="phpdocumentor-signature__name">fill</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__return-type">array&lt;string|int, mixed&gt;&nbsp;</span><span class="phpdocumentor-signature__argument__name">$formData</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">array&lt;string|int, mixed&gt;</span></code>
+                    <span class="phpdocumentor-signature__name">fill</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__return-type">array&lt;string|int, mixed&gt;&nbsp;</span><span class="phpdocumentor-signature__argument__name">$formData</span></span><span class="phpdocumentor-signature__argument"><span>[</span><span>, </span><span class="phpdocumentor-signature__argument__return-type">bool&nbsp;</span><span class="phpdocumentor-signature__argument__name">$update</span><span> = </span><span class="phpdocumentor-signature__argument__default-value">false</span><span> ]</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">array&lt;string|int, mixed&gt;</span></code>
 
     <div class="phpdocumentor-label-line">
         </div>
-    
+        <section class="phpdocumentor-description"><p>performs initial type checking and existence validation.</p>
+</section>
+
         <h5 class="phpdocumentor-argument-list__heading">Parameters</h5>
     <dl class="phpdocumentor-argument-list">
                     <dt class="phpdocumentor-argument-list__entry">
@@ -721,7 +799,18 @@ Reprezentuje jednu událost v systému.</p>
                 : <span class="phpdocumentor-signature__argument__return-type">array&lt;string|int, mixed&gt;</span>
                             </dt>
             <dd class="phpdocumentor-argument-list__definition">
-                
+                    <section class="phpdocumentor-description"><p>The raw data from the form.</p>
+</section>
+
+            </dd>
+                    <dt class="phpdocumentor-argument-list__entry">
+                <span class="phpdocumentor-signature__argument__name">$update</span>
+                : <span class="phpdocumentor-signature__argument__return-type">bool</span>
+                 = <span class="phpdocumentor-signature__argument__default-value">false</span>            </dt>
+            <dd class="phpdocumentor-argument-list__definition">
+                    <section class="phpdocumentor-description"><p>Indicates if this is an update operation (defaults to false).</p>
+</section>
+
             </dd>
             </dl>
 
@@ -730,6 +819,10 @@ Reprezentuje jednu událost v systému.</p>
             <section>
         <h5 class="phpdocumentor-return-value__heading">Return values</h5>
         <span class="phpdocumentor-signature__response_type">array&lt;string|int, mixed&gt;</span>
+                    &mdash;
+                <section class="phpdocumentor-description"><p>An associative array of error messages. If empty, population was successful.</p>
+</section>
+
             </section>
 
 </article>
@@ -747,24 +840,46 @@ Reprezentuje jednu událost v systému.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="rezervacni-system/components/objects/Event.php"><a href="files/rezervacni-system-components-objects-event.html"><abbr title="rezervacni-system/components/objects/Event.php">Event.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">185</span>
+    <span class="phpdocumentor-element-found-in__line">241</span>
 
     </aside>
 
-    
+        <p class="phpdocumentor-summary">Retrieves all events from the database, ordered by start datetime descending.</p>
+
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility">public</span>
-            <span class="phpdocumentor-signature__static">static</span>        <span class="phpdocumentor-signature__name">getAllOrdered</span><span>(</span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">array&lt;string|int, mixed&gt;</span></code>
+            <span class="phpdocumentor-signature__static">static</span>        <span class="phpdocumentor-signature__name">getAllOrdered</span><span>(</span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">array&lt;string|int, <a href="classes/components-objects-Event.html"><abbr title="\components\objects\Event">Event</abbr></a>&gt;</span></code>
 
     <div class="phpdocumentor-label-line">
         </div>
     
     
     
+    <h5 class="phpdocumentor-tag-list__heading" id="tags">
+        Tags
+        <a href="classes/components-objects-Event.html#method_getAllOrdered#tags" class="headerlink"><i class="fas fa-link"></i></a>
+
+    </h5>
+    <dl class="phpdocumentor-tag-list">
+                                    <dt class="phpdocumentor-tag-list__entry">
+                    <span class="phpdocumentor-tag__name">throws</span>
+                </dt>
+                <dd class="phpdocumentor-tag-list__definition">
+                                                                <span class="phpdocumentor-tag-link"><abbr title="\Exception">Exception</abbr></span>
+                                                            
+                                                 <section class="phpdocumentor-description"><p>If there is a database error.</p>
+</section>
+
+                                    </dd>
+                                            </dl>
 
             <section>
         <h5 class="phpdocumentor-return-value__heading">Return values</h5>
-        <span class="phpdocumentor-signature__response_type">array&lt;string|int, mixed&gt;</span>
+        <span class="phpdocumentor-signature__response_type">array&lt;string|int, <a href="classes/components-objects-Event.html"><abbr title="\components\objects\Event">Event</abbr></a>&gt;</span>
+                    &mdash;
+                <section class="phpdocumentor-description"><p>An array of Event objects.</p>
+</section>
+
             </section>
 
 </article>
@@ -782,11 +897,11 @@ Reprezentuje jednu událost v systému.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="rezervacni-system/components/objects/Event.php"><a href="files/rezervacni-system-components-objects-event.html"><abbr title="rezervacni-system/components/objects/Event.php">Event.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">150</span>
+    <span class="phpdocumentor-element-found-in__line">216</span>
 
     </aside>
 
-        <p class="phpdocumentor-summary">Načte jednu událost z databáze podle jejího ID.</p>
+        <p class="phpdocumentor-summary">Retrieves a single event from the database by its ID.</p>
 
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility">public</span>
@@ -802,19 +917,36 @@ Reprezentuje jednu událost v systému.</p>
                 : <span class="phpdocumentor-signature__argument__return-type">int</span>
                             </dt>
             <dd class="phpdocumentor-argument-list__definition">
-                    <section class="phpdocumentor-description"><p>ID události.</p>
+                    <section class="phpdocumentor-description"><p>The unique identifier of the event.</p>
 </section>
 
             </dd>
             </dl>
 
     
+    <h5 class="phpdocumentor-tag-list__heading" id="tags">
+        Tags
+        <a href="classes/components-objects-Event.html#method_getById#tags" class="headerlink"><i class="fas fa-link"></i></a>
+
+    </h5>
+    <dl class="phpdocumentor-tag-list">
+                                    <dt class="phpdocumentor-tag-list__entry">
+                    <span class="phpdocumentor-tag__name">throws</span>
+                </dt>
+                <dd class="phpdocumentor-tag-list__definition">
+                                                                <span class="phpdocumentor-tag-link"><abbr title="\Exception">Exception</abbr></span>
+                                                            
+                                                 <section class="phpdocumentor-description"><p>If there is a database error.</p>
+</section>
+
+                                    </dd>
+                                            </dl>
 
             <section>
         <h5 class="phpdocumentor-return-value__heading">Return values</h5>
         <span class="phpdocumentor-signature__response_type"><a href="classes/components-objects-Event.html"><abbr title="\components\objects\Event">Event</abbr></a>|null</span>
                     &mdash;
-                <section class="phpdocumentor-description"><p>Vrací objekt Event, nebo null, pokud událost nebyla nalezena.</p>
+                <section class="phpdocumentor-description"><p>Returns the Event object if found, or null if not.</p>
 </section>
 
             </section>
@@ -834,14 +966,15 @@ Reprezentuje jednu událost v systému.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="rezervacni-system/components/objects/Event.php"><a href="files/rezervacni-system-components-objects-event.html"><abbr title="rezervacni-system/components/objects/Event.php">Event.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">215</span>
+    <span class="phpdocumentor-element-found-in__line">283</span>
 
     </aside>
 
-    
+        <p class="phpdocumentor-summary">Retrieves a specific page of events for pagination.</p>
+
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility">public</span>
-            <span class="phpdocumentor-signature__static">static</span>        <span class="phpdocumentor-signature__name">getPage</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__return-type">int&nbsp;</span><span class="phpdocumentor-signature__argument__name">$pageSize</span></span><span class="phpdocumentor-signature__argument"><span>, </span><span class="phpdocumentor-signature__argument__return-type">int&nbsp;</span><span class="phpdocumentor-signature__argument__name">$page</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">array&lt;string|int, mixed&gt;</span></code>
+            <span class="phpdocumentor-signature__static">static</span>        <span class="phpdocumentor-signature__name">getPage</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__return-type">int&nbsp;</span><span class="phpdocumentor-signature__argument__name">$pageSize</span></span><span class="phpdocumentor-signature__argument"><span>, </span><span class="phpdocumentor-signature__argument__return-type">int&nbsp;</span><span class="phpdocumentor-signature__argument__name">$page</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">array&lt;string|int, <a href="classes/components-objects-Event.html"><abbr title="\components\objects\Event">Event</abbr></a>&gt;</span></code>
 
     <div class="phpdocumentor-label-line">
         </div>
@@ -853,22 +986,47 @@ Reprezentuje jednu událost v systému.</p>
                 : <span class="phpdocumentor-signature__argument__return-type">int</span>
                             </dt>
             <dd class="phpdocumentor-argument-list__definition">
-                
+                    <section class="phpdocumentor-description"><p>The number of events per page.</p>
+</section>
+
             </dd>
                     <dt class="phpdocumentor-argument-list__entry">
                 <span class="phpdocumentor-signature__argument__name">$page</span>
                 : <span class="phpdocumentor-signature__argument__return-type">int</span>
                             </dt>
             <dd class="phpdocumentor-argument-list__definition">
-                
+                    <section class="phpdocumentor-description"><p>The current page number (1-based index).</p>
+</section>
+
             </dd>
             </dl>
 
     
+    <h5 class="phpdocumentor-tag-list__heading" id="tags">
+        Tags
+        <a href="classes/components-objects-Event.html#method_getPage#tags" class="headerlink"><i class="fas fa-link"></i></a>
+
+    </h5>
+    <dl class="phpdocumentor-tag-list">
+                                    <dt class="phpdocumentor-tag-list__entry">
+                    <span class="phpdocumentor-tag__name">throws</span>
+                </dt>
+                <dd class="phpdocumentor-tag-list__definition">
+                                                                <span class="phpdocumentor-tag-link"><abbr title="\Exception">Exception</abbr></span>
+                                                            
+                                                 <section class="phpdocumentor-description"><p>If there is a database error.</p>
+</section>
+
+                                    </dd>
+                                            </dl>
 
             <section>
         <h5 class="phpdocumentor-return-value__heading">Return values</h5>
-        <span class="phpdocumentor-signature__response_type">array&lt;string|int, mixed&gt;</span>
+        <span class="phpdocumentor-signature__response_type">array&lt;string|int, <a href="classes/components-objects-Event.html"><abbr title="\components\objects\Event">Event</abbr></a>&gt;</span>
+                    &mdash;
+                <section class="phpdocumentor-description"><p>An array of Event objects for the requested page.</p>
+</section>
+
             </section>
 
 </article>
@@ -886,11 +1044,11 @@ Reprezentuje jednu událost v systému.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="rezervacni-system/components/objects/Event.php"><a href="files/rezervacni-system-components-objects-event.html"><abbr title="rezervacni-system/components/objects/Event.php">Event.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">236</span>
+    <span class="phpdocumentor-element-found-in__line">318</span>
 
     </aside>
 
-        <p class="phpdocumentor-summary">Uloží novou událost (nový záznam) do databáze.</p>
+        <p class="phpdocumentor-summary">Inserts the current event object as a new record in the database.</p>
 
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility">public</span>
@@ -898,15 +1056,34 @@ Reprezentuje jednu událost v systému.</p>
 
     <div class="phpdocumentor-label-line">
         </div>
+        <section class="phpdocumentor-description"><p>Upon success, the object's ID property is updated with the new insert ID.</p>
+</section>
+
     
     
-    
+    <h5 class="phpdocumentor-tag-list__heading" id="tags">
+        Tags
+        <a href="classes/components-objects-Event.html#method_insert#tags" class="headerlink"><i class="fas fa-link"></i></a>
+
+    </h5>
+    <dl class="phpdocumentor-tag-list">
+                                    <dt class="phpdocumentor-tag-list__entry">
+                    <span class="phpdocumentor-tag__name">throws</span>
+                </dt>
+                <dd class="phpdocumentor-tag-list__definition">
+                                                                <span class="phpdocumentor-tag-link"><abbr title="\Exception">Exception</abbr></span>
+                                                            
+                                                 <section class="phpdocumentor-description"><p>If there is a database insert error.</p>
+</section>
+
+                                    </dd>
+                                            </dl>
 
             <section>
         <h5 class="phpdocumentor-return-value__heading">Return values</h5>
         <span class="phpdocumentor-signature__response_type">bool</span>
                     &mdash;
-                <section class="phpdocumentor-description"><p>Vrací true při úspěchu, false při selhání.</p>
+                <section class="phpdocumentor-description"><p>True on success, false on failure.</p>
 </section>
 
             </section>
@@ -926,24 +1103,48 @@ Reprezentuje jednu událost v systému.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="rezervacni-system/components/objects/Event.php"><a href="files/rezervacni-system-components-objects-event.html"><abbr title="rezervacni-system/components/objects/Event.php">Event.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">276</span>
+    <span class="phpdocumentor-element-found-in__line">355</span>
 
     </aside>
 
-    
+        <p class="phpdocumentor-summary">Updates an existing event record in the database.</p>
+
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility">public</span>
                     <span class="phpdocumentor-signature__name">update</span><span>(</span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">bool</span></code>
 
     <div class="phpdocumentor-label-line">
         </div>
+        <section class="phpdocumentor-description"><p>The object must have a valid ID set.</p>
+</section>
+
     
     
-    
+    <h5 class="phpdocumentor-tag-list__heading" id="tags">
+        Tags
+        <a href="classes/components-objects-Event.html#method_update#tags" class="headerlink"><i class="fas fa-link"></i></a>
+
+    </h5>
+    <dl class="phpdocumentor-tag-list">
+                                    <dt class="phpdocumentor-tag-list__entry">
+                    <span class="phpdocumentor-tag__name">throws</span>
+                </dt>
+                <dd class="phpdocumentor-tag-list__definition">
+                                                                <span class="phpdocumentor-tag-link"><abbr title="\Exception">Exception</abbr></span>
+                                                            
+                                                 <section class="phpdocumentor-description"><p>If the ID is missing or a database error occurs.</p>
+</section>
+
+                                    </dd>
+                                            </dl>
 
             <section>
         <h5 class="phpdocumentor-return-value__heading">Return values</h5>
         <span class="phpdocumentor-signature__response_type">bool</span>
+                    &mdash;
+                <section class="phpdocumentor-description"><p>True on success, false on failure.</p>
+</section>
+
             </section>
 
 </article>
@@ -961,24 +1162,43 @@ Reprezentuje jednu událost v systému.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="rezervacni-system/components/objects/Event.php"><a href="files/rezervacni-system-components-objects-event.html"><abbr title="rezervacni-system/components/objects/Event.php">Event.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">73</span>
+    <span class="phpdocumentor-element-found-in__line">134</span>
 
     </aside>
 
-    
+        <p class="phpdocumentor-summary">Validates the logical constraints of the object properties.</p>
+
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility">public</span>
-                    <span class="phpdocumentor-signature__name">validate</span><span>(</span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">array&lt;string|int, mixed&gt;</span></code>
+                    <span class="phpdocumentor-signature__name">validate</span><span>(</span><span class="phpdocumentor-signature__argument"><span>[</span><span class="phpdocumentor-signature__argument__return-type">bool&nbsp;</span><span class="phpdocumentor-signature__argument__name">$update</span><span> = </span><span class="phpdocumentor-signature__argument__default-value">false</span><span> ]</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">array&lt;string|int, mixed&gt;</span></code>
 
     <div class="phpdocumentor-label-line">
         </div>
-    
-    
+        <section class="phpdocumentor-description"><p>Checks string lengths, numeric ranges, and date logical order (e.g., start date &gt; deadline).</p>
+</section>
+
+        <h5 class="phpdocumentor-argument-list__heading">Parameters</h5>
+    <dl class="phpdocumentor-argument-list">
+                    <dt class="phpdocumentor-argument-list__entry">
+                <span class="phpdocumentor-signature__argument__name">$update</span>
+                : <span class="phpdocumentor-signature__argument__return-type">bool</span>
+                 = <span class="phpdocumentor-signature__argument__default-value">false</span>            </dt>
+            <dd class="phpdocumentor-argument-list__definition">
+                    <section class="phpdocumentor-description"><p>If set to true, certain date checks might be skipped or handled differently.</p>
+</section>
+
+            </dd>
+            </dl>
+
     
 
             <section>
         <h5 class="phpdocumentor-return-value__heading">Return values</h5>
         <span class="phpdocumentor-signature__response_type">array&lt;string|int, mixed&gt;</span>
+                    &mdash;
+                <section class="phpdocumentor-description"><p>An associative array of validation errors.</p>
+</section>
+
             </section>
 
 </article>
@@ -996,11 +1216,11 @@ Reprezentuje jednu událost v systému.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="rezervacni-system/components/objects/Event.php"><a href="files/rezervacni-system-components-objects-event.html"><abbr title="rezervacni-system/components/objects/Event.php">Event.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">130</span>
+    <span class="phpdocumentor-element-found-in__line">194</span>
 
     </aside>
 
-        <p class="phpdocumentor-summary">Interní pomocná funkce pro &quot;hydrataci&quot; objektu z databázového řádku.</p>
+        <p class="phpdocumentor-summary">Internal helper method to hydrate an object instance from a database row.</p>
 
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility">private</span>
@@ -1016,7 +1236,7 @@ Reprezentuje jednu událost v systému.</p>
                 : <span class="phpdocumentor-signature__argument__return-type">array&lt;string|int, mixed&gt;</span>
                             </dt>
             <dd class="phpdocumentor-argument-list__definition">
-                    <section class="phpdocumentor-description"><p>Asociativní pole dat z databáze.</p>
+                    <section class="phpdocumentor-description"><p>Associative array representing a database row.</p>
 </section>
 
             </dd>
@@ -1028,7 +1248,7 @@ Reprezentuje jednu událost v systému.</p>
         <h5 class="phpdocumentor-return-value__heading">Return values</h5>
         <span class="phpdocumentor-signature__response_type"><a href="classes/components-objects-Event.html"><abbr title="\components\objects\Event">Event</abbr></a></span>
                     &mdash;
-                <section class="phpdocumentor-description"><p>Instance této třídy s naplněnými daty.</p>
+                <section class="phpdocumentor-description"><p>A populated instance of the Event class.</p>
 </section>
 
             </section>

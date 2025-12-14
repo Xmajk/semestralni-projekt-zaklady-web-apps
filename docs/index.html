@@ -77,6 +77,16 @@
     <a href="packages/Application.html" class="">Application</a>
 </h4>
 
+                                    <h4 class="phpdocumentor-sidebar__root-namespace">
+    <a href="packages/components.html" class="">components</a>
+</h4>
+    <ul class="phpdocumentor-list">
+                    <li>
+                <a href="packages/components-objects.html" class="">objects</a>
+                
+            </li>
+            </ul>
+
                         </section>
             
     <section class="phpdocumentor-sidebar__category">
@@ -111,6 +121,7 @@
 </h4>
 <dl class="phpdocumentor-table-of-contents">
             <dt class="phpdocumentor-table-of-contents__entry -package"><a href="packages/Application.html"><abbr title="\Application">Application</abbr></a></dt>
+            <dt class="phpdocumentor-table-of-contents__entry -package"><a href="packages/components.html"><abbr title="\components">components</abbr></a></dt>
     </dl>
 
 <h4 id="namespaces">
@@ -133,6 +144,55 @@
 </h4>
 <dl class="phpdocumentor-table-of-contents">
             <dt class="phpdocumentor-table-of-contents__entry -constant -public">
+    <a href="namespaces/default.html#constant_BREADCRUMB_ALIASES">BREADCRUMB_ALIASES</a>
+    <span>
+        &nbsp;= [&#039;Home&#039; =&gt; &quot;Domů&quot;, &#039;Event&#039; =&gt; &quot;Událost&quot;, &#039;Admin&#039; =&gt; &quot;Admin&quot;, &#039;Admin-users&#039; =&gt; &quot;Uživetelé&quot;, &#039;Admin-events&#039; =&gt; &quot;Události&quot;, &#039;Admin-users-update&#039; =&gt; &quot;Úprava&quot;, &#039;Admin-events-update&#039; =&gt; &quot;Událost&quot;]                            </span>
+</dt>
+<dd>Configuration constant mapping breadcrumb keys to their display labels.</dd>
+
+            <dt class="phpdocumentor-table-of-contents__entry -constant -public">
+    <a href="namespaces/default.html#constant_BREADCRUMB_MAP">BREADCRUMB_MAP</a>
+    <span>
+        &nbsp;= [&#039;Home&#039; =&gt; \createLink(&quot;/index.php&quot;), &#039;Event&#039; =&gt; \createLink(&quot;/event.php&quot;), &#039;Admin&#039; =&gt; \createLink(&quot;/admin/index.php&quot;), &#039;Admin-users&#039; =&gt; \createLink(&quot;/admin/users.php&quot;), &#039;Admin-events&#039; =&gt; \createLink(&quot;/admin/events.php&quot;), &#039;Admin-users-update&#039; =&gt; \createLink(&quot;/admin/user.php&quot;), &#039;Admin-events-update&#039; =&gt; \createLink(&quot;/admin/events/update.php&quot;)]                            </span>
+</dt>
+<dd>Configuration constant mapping breadcrumb keys to their corresponding URLs.</dd>
+
+            <dt class="phpdocumentor-table-of-contents__entry -constant -public">
+    <a href="namespaces/default.html#constant_DB_CHARSET">DB_CHARSET</a>
+    <span>
+        &nbsp;= &#039;utf8mb4&#039;                            </span>
+</dt>
+<dd>The character set used for the database connection (utf8mb4 is recommended).</dd>
+
+            <dt class="phpdocumentor-table-of-contents__entry -constant -public">
+    <a href="namespaces/default.html#constant_DB_HOST">DB_HOST</a>
+    <span>
+        &nbsp;= &#039;localhost&#039;                            </span>
+</dt>
+<dd>The hostname or IP address of the database server.</dd>
+
+            <dt class="phpdocumentor-table-of-contents__entry -constant -public">
+    <a href="namespaces/default.html#constant_DB_NAME">DB_NAME</a>
+    <span>
+        &nbsp;= &#039;hroudmi5&#039;                            </span>
+</dt>
+<dd>The name of the specific database to connect to.</dd>
+
+            <dt class="phpdocumentor-table-of-contents__entry -constant -public">
+    <a href="namespaces/default.html#constant_DB_PASS">DB_PASS</a>
+    <span>
+        &nbsp;= &#039;webove aplikace&#039;                            </span>
+</dt>
+<dd>The password used for database authentication.</dd>
+
+            <dt class="phpdocumentor-table-of-contents__entry -constant -public">
+    <a href="namespaces/default.html#constant_DB_USER">DB_USER</a>
+    <span>
+        &nbsp;= &#039;hroudmi5&#039;                            </span>
+</dt>
+<dd>The username used for database authentication.</dd>
+
+            <dt class="phpdocumentor-table-of-contents__entry -constant -public">
     <a href="namespaces/default.html#constant_DELIMITER">DELIMITER</a>
     <span>
         &nbsp;= &quot;;&quot;                            </span>
@@ -141,8 +201,9 @@
             <dt class="phpdocumentor-table-of-contents__entry -constant -public">
     <a href="namespaces/default.html#constant_EVENTS_PER_PAGE">EVENTS_PER_PAGE</a>
     <span>
-        &nbsp;= 3                            </span>
+        &nbsp;= 6                            </span>
 </dt>
+<dd>Defines the number of event cards displayed per pagination page.</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -constant -public">
     <a href="namespaces/default.html#constant_TIMEZONE">TIMEZONE</a>
@@ -181,34 +242,39 @@
 </dt>
 
             <dt class="phpdocumentor-table-of-contents__entry -function -">
+    <a href="namespaces/default.html#function_generateBreadcrumbs">generateBreadcrumbs()</a>
+    <span>
+                                &nbsp;: string    </span>
+</dt>
+<dd>Generates the HTML for the breadcrumb navigation based on a list of keys.</dd>
+
+            <dt class="phpdocumentor-table-of-contents__entry -function -">
     <a href="namespaces/default.html#function_check_cookies">check_cookies()</a>
     <span>
-                                &nbsp;: mixed    </span>
+                                &nbsp;: bool    </span>
 </dt>
+<dd>Checks for the existence of authentication cookies.</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -function -">
     <a href="namespaces/default.html#function_check_user_cred">check_user_cred()</a>
     <span>
-                                &nbsp;: mixed    </span>
+                                &nbsp;: bool    </span>
 </dt>
+<dd>Validates the user credentials against the database.</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -function -">
     <a href="namespaces/default.html#function_check_auth_user">check_auth_user()</a>
     <span>
-                                &nbsp;: mixed    </span>
+                                &nbsp;: bool|void    </span>
 </dt>
+<dd>Enforces that a user is currently logged in.</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -function -">
     <a href="namespaces/default.html#function_check_auth_admin">check_auth_admin()</a>
     <span>
-                                &nbsp;: mixed    </span>
+                                &nbsp;: bool|void    </span>
 </dt>
-
-            <dt class="phpdocumentor-table-of-contents__entry -function -">
-    <a href="namespaces/default.html#function_connect">connect()</a>
-    <span>
-                                &nbsp;: mixed    </span>
-</dt>
+<dd>Enforces that the current user has administrator privileges.</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -function -">
     <a href="namespaces/default.html#function_hashSHA256">hashSHA256()</a>
@@ -225,78 +291,95 @@
 <dd>Converts a date string into a DateTime object.</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -function -">
+    <a href="namespaces/default.html#function_getDateTimeNow">getDateTimeNow()</a>
+    <span>
+                                &nbsp;: <abbr title="\DateTime">DateTime</abbr>    </span>
+</dt>
+<dd>Retrieves the current date and time.</dd>
+
+            <dt class="phpdocumentor-table-of-contents__entry -function -">
     <a href="namespaces/default.html#function_createLink">createLink()</a>
     <span>
                                 &nbsp;: string    </span>
 </dt>
-<dd>Creates an absolute URL by appending the application prefix.</dd>
+<dd>Generates an absolute URL by appending the global application prefix.</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -function -">
     <a href="namespaces/default.html#function_createPublicLink">createPublicLink()</a>
     <span>
                                 &nbsp;: string    </span>
 </dt>
-<dd>Creates a URL pointing to the public directory.</dd>
+<dd>Generates a URL pointing to the public assets directory.</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -function -">
     <a href="namespaces/default.html#function_createScriptLink">createScriptLink()</a>
     <span>
                                 &nbsp;: string    </span>
 </dt>
-<dd>Creates a URL for a JavaScript file.</dd>
+<dd>Generates a URL for a JavaScript file located in the scripts directory.</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -function -">
     <a href="namespaces/default.html#function_createStylesLink">createStylesLink()</a>
     <span>
                                 &nbsp;: string    </span>
 </dt>
-<dd>Creates a URL for a CSS stylesheet.</dd>
+<dd>Generates a URL for a CSS stylesheet located in the styles directory.</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -function -">
     <a href="namespaces/default.html#function_create_error_link">create_error_link()</a>
     <span>
                                 &nbsp;: string    </span>
 </dt>
-<dd>Generates a URL for the 500 error page with a specific message.</dd>
+<dd>Generates a URL for the 500 internal server error page with a custom message.</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -function -">
     <a href="namespaces/default.html#function_redirect_to">redirect_to()</a>
     <span>
                                 &nbsp;: void    </span>
 </dt>
-<dd>Redirects the user to a new URL and terminates the script.</dd>
+<dd>Performs an HTTP redirect to the specified URL and terminates the script.</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -function -">
     <a href="namespaces/default.html#function_create_large_image_link">create_large_image_link()</a>
     <span>
                                 &nbsp;: string    </span>
 </dt>
-<dd>Creates a URL for a large version of an event image.</dd>
+<dd>Generates a URL for a large version of an event image.</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -function -">
     <a href="namespaces/default.html#function_create_small_image_link">create_small_image_link()</a>
     <span>
                                 &nbsp;: string    </span>
 </dt>
-<dd>Creates a URL for a thumbnail version of an event image.</dd>
+<dd>Generates a URL for a thumbnail version of an event image.</dd>
+
+            <dt class="phpdocumentor-table-of-contents__entry -function -">
+    <a href="namespaces/default.html#function_redirectToDatabaseError">redirectToDatabaseError()</a>
+    <span>
+                                &nbsp;: void    </span>
+</dt>
+<dd>Redirects the user to the standard database error page.</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -function -">
     <a href="namespaces/default.html#function_round_up">round_up()</a>
     <span>
-                                &nbsp;: mixed    </span>
+                                &nbsp;: float|int    </span>
 </dt>
+<dd>Rounds a number up to a specified precision.</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -function -">
     <a href="namespaces/default.html#function_eventIsLocked">eventIsLocked()</a>
     <span>
                                 &nbsp;: bool    </span>
 </dt>
+<dd>Checks if the registration period for an event has closed.</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -function -">
     <a href="namespaces/default.html#function_userIsRegistered">userIsRegistered()</a>
     <span>
                                 &nbsp;: bool    </span>
 </dt>
+<dd>Determines if a specific user is already registered for a specific event.</dd>
 
     </dl>
 
@@ -307,6 +390,217 @@
             <a href="namespaces/default.html#constants" class="headerlink"><i class="fas fa-link"></i></a>
 
         </h3>
+                    <article class="phpdocumentor-element -constant -public ">
+    <h4 class="phpdocumentor-element__name" id="constant_BREADCRUMB_ALIASES">
+        BREADCRUMB_ALIASES
+        <a href="namespaces/default.html#constant_BREADCRUMB_ALIASES" class="headerlink"><i class="fas fa-link"></i></a>
+
+    </h4>
+
+    <aside class="phpdocumentor-element-found-in">
+    <abbr class="phpdocumentor-element-found-in__file" title="rezervacni-system/components/breadcrumb.php"><a href="files/rezervacni-system-components-breadcrumb.html"><abbr title="rezervacni-system/components/breadcrumb.php">breadcrumb.php</abbr></a></abbr>
+    :
+    <span class="phpdocumentor-element-found-in__line">29</span>
+
+    </aside>
+
+        <p class="phpdocumentor-summary">Configuration constant mapping breadcrumb keys to their display labels.</p>
+
+    <code class="phpdocumentor-signature phpdocumentor-code ">
+    <span class="phpdocumentor-signature__visibility">public</span>
+        <span class="phpdocumentor-signature__type">mixed</span>
+    <span class="phpdocumentor-signature__name">BREADCRUMB_ALIASES</span>
+    = <span class="phpdocumentor-signature__default-value">[&#039;Home&#039; =&gt; &quot;Domů&quot;, &#039;Event&#039; =&gt; &quot;Událost&quot;, &#039;Admin&#039; =&gt; &quot;Admin&quot;, &#039;Admin-users&#039; =&gt; &quot;Uživetelé&quot;, &#039;Admin-events&#039; =&gt; &quot;Události&quot;, &#039;Admin-users-update&#039; =&gt; &quot;Úprava&quot;, &#039;Admin-events-update&#039; =&gt; &quot;Událost&quot;]</span>
+</code>
+
+
+        <section class="phpdocumentor-description"><p>This array defines the human-readable text shown in the navigation UI.
+Key: The unique identifier for the page (matching BREADCRUMB_MAP).
+Value: The localized (Czech) label string.</p>
+</section>
+
+    
+    
+
+</article>
+                    <article class="phpdocumentor-element -constant -public ">
+    <h4 class="phpdocumentor-element__name" id="constant_BREADCRUMB_MAP">
+        BREADCRUMB_MAP
+        <a href="namespaces/default.html#constant_BREADCRUMB_MAP" class="headerlink"><i class="fas fa-link"></i></a>
+
+    </h4>
+
+    <aside class="phpdocumentor-element-found-in">
+    <abbr class="phpdocumentor-element-found-in__file" title="rezervacni-system/components/breadcrumb.php"><a href="files/rezervacni-system-components-breadcrumb.html"><abbr title="rezervacni-system/components/breadcrumb.php">breadcrumb.php</abbr></a></abbr>
+    :
+    <span class="phpdocumentor-element-found-in__line">12</span>
+
+    </aside>
+
+        <p class="phpdocumentor-summary">Configuration constant mapping breadcrumb keys to their corresponding URLs.</p>
+
+    <code class="phpdocumentor-signature phpdocumentor-code ">
+    <span class="phpdocumentor-signature__visibility">public</span>
+        <span class="phpdocumentor-signature__type">mixed</span>
+    <span class="phpdocumentor-signature__name">BREADCRUMB_MAP</span>
+    = <span class="phpdocumentor-signature__default-value">[&#039;Home&#039; =&gt; \createLink(&quot;/index.php&quot;), &#039;Event&#039; =&gt; \createLink(&quot;/event.php&quot;), &#039;Admin&#039; =&gt; \createLink(&quot;/admin/index.php&quot;), &#039;Admin-users&#039; =&gt; \createLink(&quot;/admin/users.php&quot;), &#039;Admin-events&#039; =&gt; \createLink(&quot;/admin/events.php&quot;), &#039;Admin-users-update&#039; =&gt; \createLink(&quot;/admin/user.php&quot;), &#039;Admin-events-update&#039; =&gt; \createLink(&quot;/admin/events/update.php&quot;)]</span>
+</code>
+
+
+        <section class="phpdocumentor-description"><p>This array defines the navigation paths for the breadcrumb system.
+Key: The unique identifier for the page.
+Value: The absolute URL path generated by the createLink function.</p>
+</section>
+
+    
+    
+
+</article>
+                    <article class="phpdocumentor-element -constant -public ">
+    <h4 class="phpdocumentor-element__name" id="constant_DB_CHARSET">
+        DB_CHARSET
+        <a href="namespaces/default.html#constant_DB_CHARSET" class="headerlink"><i class="fas fa-link"></i></a>
+
+    </h4>
+
+    <aside class="phpdocumentor-element-found-in">
+    <abbr class="phpdocumentor-element-found-in__file" title="rezervacni-system/components/Database.php"><a href="files/rezervacni-system-components-database.html"><abbr title="rezervacni-system/components/Database.php">Database.php</abbr></a></abbr>
+    :
+    <span class="phpdocumentor-element-found-in__line">27</span>
+
+    </aside>
+
+        <p class="phpdocumentor-summary">The character set used for the database connection (utf8mb4 is recommended).</p>
+
+    <code class="phpdocumentor-signature phpdocumentor-code ">
+    <span class="phpdocumentor-signature__visibility">public</span>
+        <span class="phpdocumentor-signature__type">mixed</span>
+    <span class="phpdocumentor-signature__name">DB_CHARSET</span>
+    = <span class="phpdocumentor-signature__default-value">&#039;utf8mb4&#039;</span>
+</code>
+
+
+    
+    
+    
+
+</article>
+                    <article class="phpdocumentor-element -constant -public ">
+    <h4 class="phpdocumentor-element__name" id="constant_DB_HOST">
+        DB_HOST
+        <a href="namespaces/default.html#constant_DB_HOST" class="headerlink"><i class="fas fa-link"></i></a>
+
+    </h4>
+
+    <aside class="phpdocumentor-element-found-in">
+    <abbr class="phpdocumentor-element-found-in__file" title="rezervacni-system/components/Database.php"><a href="files/rezervacni-system-components-database.html"><abbr title="rezervacni-system/components/Database.php">Database.php</abbr></a></abbr>
+    :
+    <span class="phpdocumentor-element-found-in__line">7</span>
+
+    </aside>
+
+        <p class="phpdocumentor-summary">The hostname or IP address of the database server.</p>
+
+    <code class="phpdocumentor-signature phpdocumentor-code ">
+    <span class="phpdocumentor-signature__visibility">public</span>
+        <span class="phpdocumentor-signature__type">mixed</span>
+    <span class="phpdocumentor-signature__name">DB_HOST</span>
+    = <span class="phpdocumentor-signature__default-value">&#039;localhost&#039;</span>
+</code>
+
+
+    
+    
+    
+
+</article>
+                    <article class="phpdocumentor-element -constant -public ">
+    <h4 class="phpdocumentor-element__name" id="constant_DB_NAME">
+        DB_NAME
+        <a href="namespaces/default.html#constant_DB_NAME" class="headerlink"><i class="fas fa-link"></i></a>
+
+    </h4>
+
+    <aside class="phpdocumentor-element-found-in">
+    <abbr class="phpdocumentor-element-found-in__file" title="rezervacni-system/components/Database.php"><a href="files/rezervacni-system-components-database.html"><abbr title="rezervacni-system/components/Database.php">Database.php</abbr></a></abbr>
+    :
+    <span class="phpdocumentor-element-found-in__line">12</span>
+
+    </aside>
+
+        <p class="phpdocumentor-summary">The name of the specific database to connect to.</p>
+
+    <code class="phpdocumentor-signature phpdocumentor-code ">
+    <span class="phpdocumentor-signature__visibility">public</span>
+        <span class="phpdocumentor-signature__type">mixed</span>
+    <span class="phpdocumentor-signature__name">DB_NAME</span>
+    = <span class="phpdocumentor-signature__default-value">&#039;hroudmi5&#039;</span>
+</code>
+
+
+    
+    
+    
+
+</article>
+                    <article class="phpdocumentor-element -constant -public ">
+    <h4 class="phpdocumentor-element__name" id="constant_DB_PASS">
+        DB_PASS
+        <a href="namespaces/default.html#constant_DB_PASS" class="headerlink"><i class="fas fa-link"></i></a>
+
+    </h4>
+
+    <aside class="phpdocumentor-element-found-in">
+    <abbr class="phpdocumentor-element-found-in__file" title="rezervacni-system/components/Database.php"><a href="files/rezervacni-system-components-database.html"><abbr title="rezervacni-system/components/Database.php">Database.php</abbr></a></abbr>
+    :
+    <span class="phpdocumentor-element-found-in__line">22</span>
+
+    </aside>
+
+        <p class="phpdocumentor-summary">The password used for database authentication.</p>
+
+    <code class="phpdocumentor-signature phpdocumentor-code ">
+    <span class="phpdocumentor-signature__visibility">public</span>
+        <span class="phpdocumentor-signature__type">mixed</span>
+    <span class="phpdocumentor-signature__name">DB_PASS</span>
+    = <span class="phpdocumentor-signature__default-value">&#039;webove aplikace&#039;</span>
+</code>
+
+
+    
+    
+    
+
+</article>
+                    <article class="phpdocumentor-element -constant -public ">
+    <h4 class="phpdocumentor-element__name" id="constant_DB_USER">
+        DB_USER
+        <a href="namespaces/default.html#constant_DB_USER" class="headerlink"><i class="fas fa-link"></i></a>
+
+    </h4>
+
+    <aside class="phpdocumentor-element-found-in">
+    <abbr class="phpdocumentor-element-found-in__file" title="rezervacni-system/components/Database.php"><a href="files/rezervacni-system-components-database.html"><abbr title="rezervacni-system/components/Database.php">Database.php</abbr></a></abbr>
+    :
+    <span class="phpdocumentor-element-found-in__line">17</span>
+
+    </aside>
+
+        <p class="phpdocumentor-summary">The username used for database authentication.</p>
+
+    <code class="phpdocumentor-signature phpdocumentor-code ">
+    <span class="phpdocumentor-signature__visibility">public</span>
+        <span class="phpdocumentor-signature__type">mixed</span>
+    <span class="phpdocumentor-signature__name">DB_USER</span>
+    = <span class="phpdocumentor-signature__default-value">&#039;hroudmi5&#039;</span>
+</code>
+
+
+    
+    
+    
+
+</article>
                     <article class="phpdocumentor-element -constant -public ">
     <h4 class="phpdocumentor-element__name" id="constant_DELIMITER">
         DELIMITER
@@ -345,16 +639,17 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="rezervacni-system/index.php"><a href="files/rezervacni-system-index.html"><abbr title="rezervacni-system/index.php">index.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">5</span>
+    <span class="phpdocumentor-element-found-in__line">18</span>
 
     </aside>
 
-    
+        <p class="phpdocumentor-summary">Defines the number of event cards displayed per pagination page.</p>
+
     <code class="phpdocumentor-signature phpdocumentor-code ">
     <span class="phpdocumentor-signature__visibility">public</span>
         <span class="phpdocumentor-signature__type">mixed</span>
     <span class="phpdocumentor-signature__name">EVENTS_PER_PAGE</span>
-    = <span class="phpdocumentor-signature__default-value">3</span>
+    = <span class="phpdocumentor-signature__default-value">6</span>
 </code>
 
 
@@ -373,7 +668,7 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="rezervacni-system/components/utils/date_time.php"><a href="files/rezervacni-system-components-utils-date-time.html"><abbr title="rezervacni-system/components/utils/date_time.php">date_time.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">7</span>
+    <span class="phpdocumentor-element-found-in__line">8</span>
 
     </aside>
 
@@ -409,7 +704,7 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="rezervacni-system/admin/user.php"><a href="files/rezervacni-system-admin-user.html"><abbr title="rezervacni-system/admin/user.php">user.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">23</span>
+    <span class="phpdocumentor-element-found-in__line">28</span>
 
     </aside>
 
@@ -433,7 +728,7 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="rezervacni-system/admin/user.php"><a href="files/rezervacni-system-admin-user.html"><abbr title="rezervacni-system/admin/user.php">user.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">27</span>
+    <span class="phpdocumentor-element-found-in__line">32</span>
 
     </aside>
 
@@ -457,7 +752,7 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="rezervacni-system/admin/user.php"><a href="files/rezervacni-system-admin-user.html"><abbr title="rezervacni-system/admin/user.php">user.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">32</span>
+    <span class="phpdocumentor-element-found-in__line">37</span>
 
     </aside>
 
@@ -473,6 +768,56 @@
     
 </article>
                     <article class="phpdocumentor-element -function - ">
+    <h4 class="phpdocumentor-element__name" id="function_generateBreadcrumbs">
+        generateBreadcrumbs()
+        <a href="namespaces/default.html#function_generateBreadcrumbs" class="headerlink"><i class="fas fa-link"></i></a>
+
+    </h4>
+    <aside class="phpdocumentor-element-found-in">
+    <abbr class="phpdocumentor-element-found-in__file" title="rezervacni-system/components/breadcrumb.php"><a href="files/rezervacni-system-components-breadcrumb.html"><abbr title="rezervacni-system/components/breadcrumb.php">breadcrumb.php</abbr></a></abbr>
+    :
+    <span class="phpdocumentor-element-found-in__line">50</span>
+
+    </aside>
+
+        <p class="phpdocumentor-summary">Generates the HTML for the breadcrumb navigation based on a list of keys.</p>
+
+    <code class="phpdocumentor-code phpdocumentor-signature ">
+    <span class="phpdocumentor-signature__visibility"></span>
+                    <span class="phpdocumentor-signature__name">generateBreadcrumbs</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__return-type">array&lt;string|int, string&gt;&nbsp;</span><span class="phpdocumentor-signature__argument__name">$items</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">string</span></code>
+
+        <section class="phpdocumentor-description"><p>This function takes an array of location keys, verifies them against the
+global configuration maps, and constructs an HTML unordered list.
+The final item in the list is rendered as plain text (indicating the current page),
+while all preceding items are rendered as clickable links.</p>
+</section>
+
+        <h5 class="phpdocumentor-argument-list__heading">Parameters</h5>
+    <dl class="phpdocumentor-argument-list">
+                    <dt class="phpdocumentor-argument-list__entry">
+                <span class="phpdocumentor-signature__argument__name">$items</span>
+                : <span class="phpdocumentor-signature__argument__return-type">array&lt;string|int, string&gt;</span>
+                            </dt>
+            <dd class="phpdocumentor-argument-list__definition">
+                    <section class="phpdocumentor-description"><p>An ordered array of breadcrumb keys (e.g., ['Home', 'Admin']).</p>
+</section>
+
+            </dd>
+            </dl>
+
+    
+
+            <section>
+        <h5 class="phpdocumentor-return-value__heading">Return values</h5>
+        <span class="phpdocumentor-signature__response_type">string</span>
+                    &mdash;
+                <section class="phpdocumentor-description"><p>The generated HTML markup for the breadcrumb navigation.</p>
+</section>
+
+            </section>
+
+</article>
+                    <article class="phpdocumentor-element -function - ">
     <h4 class="phpdocumentor-element__name" id="function_check_cookies">
         check_cookies()
         <a href="namespaces/default.html#function_check_cookies" class="headerlink"><i class="fas fa-link"></i></a>
@@ -481,20 +826,31 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="rezervacni-system/components/check_auth.php"><a href="files/rezervacni-system-components-check-auth.html"><abbr title="rezervacni-system/components/check_auth.php">check_auth.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">7</span>
+    <span class="phpdocumentor-element-found-in__line">14</span>
 
     </aside>
 
-    
+        <p class="phpdocumentor-summary">Checks for the existence of authentication cookies.</p>
+
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility"></span>
-                    <span class="phpdocumentor-signature__name">check_cookies</span><span>(</span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">mixed</span></code>
+                    <span class="phpdocumentor-signature__name">check_cookies</span><span>(</span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">bool</span></code>
+
+        <section class="phpdocumentor-description"><p>Verifies if the 'username' and 'user_id' cookies are set in the current request.</p>
+</section>
 
     
     
-    
 
-    
+            <section>
+        <h5 class="phpdocumentor-return-value__heading">Return values</h5>
+        <span class="phpdocumentor-signature__response_type">bool</span>
+                    &mdash;
+                <section class="phpdocumentor-description"><p>True if both cookies exist, false otherwise.</p>
+</section>
+
+            </section>
+
 </article>
                     <article class="phpdocumentor-element -function - ">
     <h4 class="phpdocumentor-element__name" id="function_check_user_cred">
@@ -505,37 +861,70 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="rezervacni-system/components/check_auth.php"><a href="files/rezervacni-system-components-check-auth.html"><abbr title="rezervacni-system/components/check_auth.php">check_auth.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">11</span>
+    <span class="phpdocumentor-element-found-in__line">30</span>
 
     </aside>
 
-    
+        <p class="phpdocumentor-summary">Validates the user credentials against the database.</p>
+
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility"></span>
-                    <span class="phpdocumentor-signature__name">check_user_cred</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__return-type">mixed&nbsp;</span><span class="phpdocumentor-signature__argument__name">$username</span></span><span class="phpdocumentor-signature__argument"><span>, </span><span class="phpdocumentor-signature__argument__return-type">mixed&nbsp;</span><span class="phpdocumentor-signature__argument__name">$user_id</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">mixed</span></code>
+                    <span class="phpdocumentor-signature__name">check_user_cred</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__return-type">string&nbsp;</span><span class="phpdocumentor-signature__argument__name">$username</span></span><span class="phpdocumentor-signature__argument"><span>, </span><span class="phpdocumentor-signature__argument__return-type">int|string&nbsp;</span><span class="phpdocumentor-signature__argument__name">$user_id</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">bool</span></code>
 
-    
+        <section class="phpdocumentor-description"><p>This function uses the User class to verify that the provided username
+matches the provided user ID in the system records.</p>
+</section>
+
         <h5 class="phpdocumentor-argument-list__heading">Parameters</h5>
     <dl class="phpdocumentor-argument-list">
                     <dt class="phpdocumentor-argument-list__entry">
                 <span class="phpdocumentor-signature__argument__name">$username</span>
-                : <span class="phpdocumentor-signature__argument__return-type">mixed</span>
+                : <span class="phpdocumentor-signature__argument__return-type">string</span>
                             </dt>
             <dd class="phpdocumentor-argument-list__definition">
-                
+                    <section class="phpdocumentor-description"><p>The username to verify.</p>
+</section>
+
             </dd>
                     <dt class="phpdocumentor-argument-list__entry">
                 <span class="phpdocumentor-signature__argument__name">$user_id</span>
-                : <span class="phpdocumentor-signature__argument__return-type">mixed</span>
+                : <span class="phpdocumentor-signature__argument__return-type">int|string</span>
                             </dt>
             <dd class="phpdocumentor-argument-list__definition">
-                
+                    <section class="phpdocumentor-description"><p>The user ID to verify.</p>
+</section>
+
             </dd>
             </dl>
 
     
+    <h5 class="phpdocumentor-tag-list__heading" id="tags">
+        Tags
+        <a href="namespaces/default.html#function_check_user_cred#tags" class="headerlink"><i class="fas fa-link"></i></a>
 
-    
+    </h5>
+    <dl class="phpdocumentor-tag-list">
+                                    <dt class="phpdocumentor-tag-list__entry">
+                    <span class="phpdocumentor-tag__name">throws</span>
+                </dt>
+                <dd class="phpdocumentor-tag-list__definition">
+                                                                <span class="phpdocumentor-tag-link"><abbr title="\Exception">Exception</abbr></span>
+                                                            
+                                                 <section class="phpdocumentor-description"><p>If the database query fails.</p>
+</section>
+
+                                    </dd>
+                                            </dl>
+
+            <section>
+        <h5 class="phpdocumentor-return-value__heading">Return values</h5>
+        <span class="phpdocumentor-signature__response_type">bool</span>
+                    &mdash;
+                <section class="phpdocumentor-description"><p>True if the combination is valid, false otherwise.</p>
+</section>
+
+            </section>
+
 </article>
                     <article class="phpdocumentor-element -function - ">
     <h4 class="phpdocumentor-element__name" id="function_check_auth_user">
@@ -546,20 +935,33 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="rezervacni-system/components/check_auth.php"><a href="files/rezervacni-system-components-check-auth.html"><abbr title="rezervacni-system/components/check_auth.php">check_auth.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">15</span>
+    <span class="phpdocumentor-element-found-in__line">44</span>
 
     </aside>
 
-    
+        <p class="phpdocumentor-summary">Enforces that a user is currently logged in.</p>
+
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility"></span>
-                    <span class="phpdocumentor-signature__name">check_auth_user</span><span>(</span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">mixed</span></code>
+                    <span class="phpdocumentor-signature__name">check_auth_user</span><span>(</span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">bool|void</span></code>
+
+        <section class="phpdocumentor-description"><p>This function checks for valid cookies and verifies the credentials.
+If authentication fails, the user is immediately redirected to the login page
+and script execution is terminated.</p>
+</section>
 
     
     
-    
 
-    
+            <section>
+        <h5 class="phpdocumentor-return-value__heading">Return values</h5>
+        <span class="phpdocumentor-signature__response_type">bool|void</span>
+                    &mdash;
+                <section class="phpdocumentor-description"><p>Returns true if authenticated; otherwise redirects and exits.</p>
+</section>
+
+            </section>
+
 </article>
                     <article class="phpdocumentor-element -function - ">
     <h4 class="phpdocumentor-element__name" id="function_check_auth_admin">
@@ -570,44 +972,33 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="rezervacni-system/components/check_auth.php"><a href="files/rezervacni-system-components-check-auth.html"><abbr title="rezervacni-system/components/check_auth.php">check_auth.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">24</span>
+    <span class="phpdocumentor-element-found-in__line">66</span>
 
     </aside>
 
-    
+        <p class="phpdocumentor-summary">Enforces that the current user has administrator privileges.</p>
+
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility"></span>
-                    <span class="phpdocumentor-signature__name">check_auth_admin</span><span>(</span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">mixed</span></code>
+                    <span class="phpdocumentor-signature__name">check_auth_admin</span><span>(</span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">bool|void</span></code>
+
+        <section class="phpdocumentor-description"><p>First ensures the user is logged in via <a href="namespaces/default.html#function_check_auth_user"><abbr title="\check_auth_user()">check_auth_user()</abbr></a>.
+Then retrieves the user profile to check the admin status.
+If the user is not an admin, they are redirected to the home page.</p>
+</section>
 
     
     
-    
 
-    
-</article>
-                    <article class="phpdocumentor-element -function - ">
-    <h4 class="phpdocumentor-element__name" id="function_connect">
-        connect()
-        <a href="namespaces/default.html#function_connect" class="headerlink"><i class="fas fa-link"></i></a>
+            <section>
+        <h5 class="phpdocumentor-return-value__heading">Return values</h5>
+        <span class="phpdocumentor-signature__response_type">bool|void</span>
+                    &mdash;
+                <section class="phpdocumentor-description"><p>Returns true if the user is an admin; otherwise redirects and exits.</p>
+</section>
 
-    </h4>
-    <aside class="phpdocumentor-element-found-in">
-    <abbr class="phpdocumentor-element-found-in__file" title="rezervacni-system/components/dbconnector.php"><a href="files/rezervacni-system-components-dbconnector.html"><abbr title="rezervacni-system/components/dbconnector.php">dbconnector.php</abbr></a></abbr>
-    :
-    <span class="phpdocumentor-element-found-in__line">4</span>
+            </section>
 
-    </aside>
-
-    
-    <code class="phpdocumentor-code phpdocumentor-signature ">
-    <span class="phpdocumentor-signature__visibility"></span>
-                    <span class="phpdocumentor-signature__name">connect</span><span>(</span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">mixed</span></code>
-
-    
-    
-    
-
-    
 </article>
                     <article class="phpdocumentor-element -function - ">
     <h4 class="phpdocumentor-element__name" id="function_hashSHA256">
@@ -618,7 +1009,7 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="rezervacni-system/components/utils/crypto.php"><a href="files/rezervacni-system-components-utils-crypto.html"><abbr title="rezervacni-system/components/utils/crypto.php">crypto.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">12</span>
+    <span class="phpdocumentor-element-found-in__line">13</span>
 
     </aside>
 
@@ -667,7 +1058,7 @@ representation of the data.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="rezervacni-system/components/utils/date_time.php"><a href="files/rezervacni-system-components-utils-date-time.html"><abbr title="rezervacni-system/components/utils/date_time.php">date_time.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">19</span>
+    <span class="phpdocumentor-element-found-in__line">20</span>
 
     </aside>
 
@@ -724,6 +1115,59 @@ explicitly setting the timezone to the global constant <a href="namespaces/defau
 
 </article>
                     <article class="phpdocumentor-element -function - ">
+    <h4 class="phpdocumentor-element__name" id="function_getDateTimeNow">
+        getDateTimeNow()
+        <a href="namespaces/default.html#function_getDateTimeNow" class="headerlink"><i class="fas fa-link"></i></a>
+
+    </h4>
+    <aside class="phpdocumentor-element-found-in">
+    <abbr class="phpdocumentor-element-found-in__file" title="rezervacni-system/components/utils/date_time.php"><a href="files/rezervacni-system-components-utils-date-time.html"><abbr title="rezervacni-system/components/utils/date_time.php">date_time.php</abbr></a></abbr>
+    :
+    <span class="phpdocumentor-element-found-in__line">33</span>
+
+    </aside>
+
+        <p class="phpdocumentor-summary">Retrieves the current date and time.</p>
+
+    <code class="phpdocumentor-code phpdocumentor-signature ">
+    <span class="phpdocumentor-signature__visibility"></span>
+                    <span class="phpdocumentor-signature__name">getDateTimeNow</span><span>(</span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type"><abbr title="\DateTime">DateTime</abbr></span></code>
+
+        <section class="phpdocumentor-description"><p>Creates a DateTime object representing the current moment,
+configured with the application's default timezone.</p>
+</section>
+
+    
+    
+    <h5 class="phpdocumentor-tag-list__heading" id="tags">
+        Tags
+        <a href="namespaces/default.html#function_getDateTimeNow#tags" class="headerlink"><i class="fas fa-link"></i></a>
+
+    </h5>
+    <dl class="phpdocumentor-tag-list">
+                                    <dt class="phpdocumentor-tag-list__entry">
+                    <span class="phpdocumentor-tag__name">throws</span>
+                </dt>
+                <dd class="phpdocumentor-tag-list__definition">
+                                                                <span class="phpdocumentor-tag-link"><abbr title="\Exception">Exception</abbr></span>
+                                                            
+                                                 <section class="phpdocumentor-description"><p>If the timezone identifier is invalid.</p>
+</section>
+
+                                    </dd>
+                                            </dl>
+
+            <section>
+        <h5 class="phpdocumentor-return-value__heading">Return values</h5>
+        <span class="phpdocumentor-signature__response_type"><abbr title="\DateTime">DateTime</abbr></span>
+                    &mdash;
+                <section class="phpdocumentor-description"><p>The current date and time.</p>
+</section>
+
+            </section>
+
+</article>
+                    <article class="phpdocumentor-element -function - ">
     <h4 class="phpdocumentor-element__name" id="function_createLink">
         createLink()
         <a href="namespaces/default.html#function_createLink" class="headerlink"><i class="fas fa-link"></i></a>
@@ -732,20 +1176,17 @@ explicitly setting the timezone to the global constant <a href="namespaces/defau
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="rezervacni-system/components/utils/links.php"><a href="files/rezervacni-system-components-utils-links.html"><abbr title="rezervacni-system/components/utils/links.php">links.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">23</span>
+    <span class="phpdocumentor-element-found-in__line">20</span>
 
     </aside>
 
-        <p class="phpdocumentor-summary">Creates an absolute URL by appending the application prefix.</p>
+        <p class="phpdocumentor-summary">Generates an absolute URL by appending the global application prefix.</p>
 
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility"></span>
                     <span class="phpdocumentor-signature__name">createLink</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__return-type">string&nbsp;</span><span class="phpdocumentor-signature__argument__name">$link</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">string</span></code>
 
-        <section class="phpdocumentor-description"><p>This function uses the global $PREFIX variable to construct
-the full path to a resource within the application.</p>
-</section>
-
+    
         <h5 class="phpdocumentor-argument-list__heading">Parameters</h5>
     <dl class="phpdocumentor-argument-list">
                     <dt class="phpdocumentor-argument-list__entry">
@@ -781,7 +1222,7 @@ the full path to a resource within the application.</p>
         <h5 class="phpdocumentor-return-value__heading">Return values</h5>
         <span class="phpdocumentor-signature__response_type">string</span>
                     &mdash;
-                <section class="phpdocumentor-description"><p>The fully qualified URL path.</p>
+                <section class="phpdocumentor-description"><p>The fully qualified URL.</p>
 </section>
 
             </section>
@@ -796,20 +1237,17 @@ the full path to a resource within the application.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="rezervacni-system/components/utils/links.php"><a href="files/rezervacni-system-components-utils-links.html"><abbr title="rezervacni-system/components/utils/links.php">links.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">38</span>
+    <span class="phpdocumentor-element-found-in__line">32</span>
 
     </aside>
 
-        <p class="phpdocumentor-summary">Creates a URL pointing to the public directory.</p>
+        <p class="phpdocumentor-summary">Generates a URL pointing to the public assets directory.</p>
 
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility"></span>
                     <span class="phpdocumentor-signature__name">createPublicLink</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__return-type">string&nbsp;</span><span class="phpdocumentor-signature__argument__name">$link</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">string</span></code>
 
-        <section class="phpdocumentor-description"><p>This is a wrapper for <a href="namespaces/default.html#function_createLink"><abbr title="\createLink()">createLink()</abbr></a> specifically for publicly
-accessible resources.</p>
-</section>
-
+    
         <h5 class="phpdocumentor-argument-list__heading">Parameters</h5>
     <dl class="phpdocumentor-argument-list">
                     <dt class="phpdocumentor-argument-list__entry">
@@ -844,19 +1282,17 @@ accessible resources.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="rezervacni-system/components/utils/links.php"><a href="files/rezervacni-system-components-utils-links.html"><abbr title="rezervacni-system/components/utils/links.php">links.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">51</span>
+    <span class="phpdocumentor-element-found-in__line">43</span>
 
     </aside>
 
-        <p class="phpdocumentor-summary">Creates a URL for a JavaScript file.</p>
+        <p class="phpdocumentor-summary">Generates a URL for a JavaScript file located in the scripts directory.</p>
 
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility"></span>
                     <span class="phpdocumentor-signature__name">createScriptLink</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__return-type">string&nbsp;</span><span class="phpdocumentor-signature__argument__name">$script</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">string</span></code>
 
-        <section class="phpdocumentor-description"><p>Helper function that points specifically to the '/public/scripts' directory.</p>
-</section>
-
+    
         <h5 class="phpdocumentor-argument-list__heading">Parameters</h5>
     <dl class="phpdocumentor-argument-list">
                     <dt class="phpdocumentor-argument-list__entry">
@@ -864,7 +1300,7 @@ accessible resources.</p>
                 : <span class="phpdocumentor-signature__argument__return-type">string</span>
                             </dt>
             <dd class="phpdocumentor-argument-list__definition">
-                    <section class="phpdocumentor-description"><p>The filename of the script (including extension, e.g., &quot;/app.js&quot;).</p>
+                    <section class="phpdocumentor-description"><p>The filename of the script (e.g., &quot;/app.js&quot;).</p>
 </section>
 
             </dd>
@@ -891,19 +1327,17 @@ accessible resources.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="rezervacni-system/components/utils/links.php"><a href="files/rezervacni-system-components-utils-links.html"><abbr title="rezervacni-system/components/utils/links.php">links.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">64</span>
+    <span class="phpdocumentor-element-found-in__line">54</span>
 
     </aside>
 
-        <p class="phpdocumentor-summary">Creates a URL for a CSS stylesheet.</p>
+        <p class="phpdocumentor-summary">Generates a URL for a CSS stylesheet located in the styles directory.</p>
 
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility"></span>
                     <span class="phpdocumentor-signature__name">createStylesLink</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__return-type">string&nbsp;</span><span class="phpdocumentor-signature__argument__name">$script</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">string</span></code>
 
-        <section class="phpdocumentor-description"><p>Helper function that points specifically to the '/public/styles' directory.</p>
-</section>
-
+    
         <h5 class="phpdocumentor-argument-list__heading">Parameters</h5>
     <dl class="phpdocumentor-argument-list">
                     <dt class="phpdocumentor-argument-list__entry">
@@ -911,7 +1345,7 @@ accessible resources.</p>
                 : <span class="phpdocumentor-signature__argument__return-type">string</span>
                             </dt>
             <dd class="phpdocumentor-argument-list__definition">
-                    <section class="phpdocumentor-description"><p>The filename of the stylesheet (including extension, e.g., &quot;/main.css&quot;).</p>
+                    <section class="phpdocumentor-description"><p>The filename of the stylesheet (e.g., &quot;/main.css&quot;).</p>
 </section>
 
             </dd>
@@ -923,7 +1357,7 @@ accessible resources.</p>
         <h5 class="phpdocumentor-return-value__heading">Return values</h5>
         <span class="phpdocumentor-signature__response_type">string</span>
                     &mdash;
-                <section class="phpdocumentor-description"><p>The full URL to the style file.</p>
+                <section class="phpdocumentor-description"><p>The full URL to the CSS file.</p>
 </section>
 
             </section>
@@ -938,20 +1372,17 @@ accessible resources.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="rezervacni-system/components/utils/links.php"><a href="files/rezervacni-system-components-utils-links.html"><abbr title="rezervacni-system/components/utils/links.php">links.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">78</span>
+    <span class="phpdocumentor-element-found-in__line">65</span>
 
     </aside>
 
-        <p class="phpdocumentor-summary">Generates a URL for the 500 error page with a specific message.</p>
+        <p class="phpdocumentor-summary">Generates a URL for the 500 internal server error page with a custom message.</p>
 
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility"></span>
                     <span class="phpdocumentor-signature__name">create_error_link</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__return-type">string&nbsp;</span><span class="phpdocumentor-signature__argument__name">$message</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">string</span></code>
 
-        <section class="phpdocumentor-description"><p>This function builds a query string containing the error message,
-safely encoded for use in a URL.</p>
-</section>
-
+    
         <h5 class="phpdocumentor-argument-list__heading">Parameters</h5>
     <dl class="phpdocumentor-argument-list">
                     <dt class="phpdocumentor-argument-list__entry">
@@ -959,7 +1390,7 @@ safely encoded for use in a URL.</p>
                 : <span class="phpdocumentor-signature__argument__return-type">string</span>
                             </dt>
             <dd class="phpdocumentor-argument-list__definition">
-                    <section class="phpdocumentor-description"><p>The error message to display on the 500 page.</p>
+                    <section class="phpdocumentor-description"><p>The error message to be passed in the query string.</p>
 </section>
 
             </dd>
@@ -971,7 +1402,7 @@ safely encoded for use in a URL.</p>
         <h5 class="phpdocumentor-return-value__heading">Return values</h5>
         <span class="phpdocumentor-signature__response_type">string</span>
                     &mdash;
-                <section class="phpdocumentor-description"><p>The full URL to the 500 error page.</p>
+                <section class="phpdocumentor-description"><p>The full URL to the error page.</p>
 </section>
 
             </section>
@@ -986,21 +1417,17 @@ safely encoded for use in a URL.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="rezervacni-system/components/utils/links.php"><a href="files/rezervacni-system-components-utils-links.html"><abbr title="rezervacni-system/components/utils/links.php">links.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">92</span>
+    <span class="phpdocumentor-element-found-in__line">75</span>
 
     </aside>
 
-        <p class="phpdocumentor-summary">Redirects the user to a new URL and terminates the script.</p>
+        <p class="phpdocumentor-summary">Performs an HTTP redirect to the specified URL and terminates the script.</p>
 
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility"></span>
                     <span class="phpdocumentor-signature__name">redirect_to</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__return-type">string&nbsp;</span><span class="phpdocumentor-signature__argument__name">$link</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">void</span></code>
 
-        <section class="phpdocumentor-description"><p>This function sends a raw HTTP Location header. It is crucial that
-no output is sent to the browser before calling this function.
-Execution stops immediately after the header is sent.</p>
-</section>
-
+    
         <h5 class="phpdocumentor-argument-list__heading">Parameters</h5>
     <dl class="phpdocumentor-argument-list">
                     <dt class="phpdocumentor-argument-list__entry">
@@ -1008,7 +1435,7 @@ Execution stops immediately after the header is sent.</p>
                 : <span class="phpdocumentor-signature__argument__return-type">string</span>
                             </dt>
             <dd class="phpdocumentor-argument-list__definition">
-                    <section class="phpdocumentor-description"><p>The URL to redirect to.</p>
+                    <section class="phpdocumentor-description"><p>The target URL for the redirection.</p>
 </section>
 
             </dd>
@@ -1027,19 +1454,17 @@ Execution stops immediately after the header is sent.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="rezervacni-system/components/utils/links.php"><a href="files/rezervacni-system-components-utils-links.html"><abbr title="rezervacni-system/components/utils/links.php">links.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">105</span>
+    <span class="phpdocumentor-element-found-in__line">86</span>
 
     </aside>
 
-        <p class="phpdocumentor-summary">Creates a URL for a large version of an event image.</p>
+        <p class="phpdocumentor-summary">Generates a URL for a large version of an event image.</p>
 
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility"></span>
                     <span class="phpdocumentor-signature__name">create_large_image_link</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__return-type">string&nbsp;</span><span class="phpdocumentor-signature__argument__name">$imagname</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">string</span></code>
 
-        <section class="phpdocumentor-description"><p>Points to the '/public/imgs/events/large/' directory.</p>
-</section>
-
+    
         <h5 class="phpdocumentor-argument-list__heading">Parameters</h5>
     <dl class="phpdocumentor-argument-list">
                     <dt class="phpdocumentor-argument-list__entry">
@@ -1074,19 +1499,17 @@ Execution stops immediately after the header is sent.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="rezervacni-system/components/utils/links.php"><a href="files/rezervacni-system-components-utils-links.html"><abbr title="rezervacni-system/components/utils/links.php">links.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">117</span>
+    <span class="phpdocumentor-element-found-in__line">96</span>
 
     </aside>
 
-        <p class="phpdocumentor-summary">Creates a URL for a thumbnail version of an event image.</p>
+        <p class="phpdocumentor-summary">Generates a URL for a thumbnail version of an event image.</p>
 
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility"></span>
                     <span class="phpdocumentor-signature__name">create_small_image_link</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__return-type">string&nbsp;</span><span class="phpdocumentor-signature__argument__name">$imagname</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">string</span></code>
 
-        <section class="phpdocumentor-description"><p>Points to the '/public/imgs/events/thumb/' directory.</p>
-</section>
-
+    
         <h5 class="phpdocumentor-argument-list__heading">Parameters</h5>
     <dl class="phpdocumentor-argument-list">
                     <dt class="phpdocumentor-argument-list__entry">
@@ -1113,6 +1536,34 @@ Execution stops immediately after the header is sent.</p>
 
 </article>
                     <article class="phpdocumentor-element -function - ">
+    <h4 class="phpdocumentor-element__name" id="function_redirectToDatabaseError">
+        redirectToDatabaseError()
+        <a href="namespaces/default.html#function_redirectToDatabaseError" class="headerlink"><i class="fas fa-link"></i></a>
+
+    </h4>
+    <aside class="phpdocumentor-element-found-in">
+    <abbr class="phpdocumentor-element-found-in__file" title="rezervacni-system/components/utils/links.php"><a href="files/rezervacni-system-components-utils-links.html"><abbr title="rezervacni-system/components/utils/links.php">links.php</abbr></a></abbr>
+    :
+    <span class="phpdocumentor-element-found-in__line">108</span>
+
+    </aside>
+
+        <p class="phpdocumentor-summary">Redirects the user to the standard database error page.</p>
+
+    <code class="phpdocumentor-code phpdocumentor-signature ">
+    <span class="phpdocumentor-signature__visibility"></span>
+                    <span class="phpdocumentor-signature__name">redirectToDatabaseError</span><span>(</span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">void</span></code>
+
+        <section class="phpdocumentor-description"><p>This is a convenience wrapper around <a href="namespaces/default.html#function_redirect_to"><abbr title="\redirect_to()">redirect_to()</abbr></a> and <a href="namespaces/default.html#function_create_error_link"><abbr title="\create_error_link()">create_error_link()</abbr></a>
+specifically for handling database connection or query failures.</p>
+</section>
+
+    
+    
+
+    
+</article>
+                    <article class="phpdocumentor-element -function - ">
     <h4 class="phpdocumentor-element__name" id="function_round_up">
         round_up()
         <a href="namespaces/default.html#function_round_up" class="headerlink"><i class="fas fa-link"></i></a>
@@ -1121,37 +1572,55 @@ Execution stops immediately after the header is sent.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="rezervacni-system/components/utils/numbers.php"><a href="files/rezervacni-system-components-utils-numbers.html"><abbr title="rezervacni-system/components/utils/numbers.php">numbers.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">3</span>
+    <span class="phpdocumentor-element-found-in__line">15</span>
 
     </aside>
 
-    
+        <p class="phpdocumentor-summary">Rounds a number up to a specified precision.</p>
+
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility"></span>
-                    <span class="phpdocumentor-signature__name">round_up</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__return-type">mixed&nbsp;</span><span class="phpdocumentor-signature__argument__name">$number</span></span><span class="phpdocumentor-signature__argument"><span>[</span><span>, </span><span class="phpdocumentor-signature__argument__return-type">mixed&nbsp;</span><span class="phpdocumentor-signature__argument__name">$precision</span><span> = </span><span class="phpdocumentor-signature__argument__default-value">2</span><span> ]</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">mixed</span></code>
+                    <span class="phpdocumentor-signature__name">round_up</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__return-type">float|int&nbsp;</span><span class="phpdocumentor-signature__argument__name">$number</span></span><span class="phpdocumentor-signature__argument"><span>[</span><span>, </span><span class="phpdocumentor-signature__argument__return-type">int&nbsp;</span><span class="phpdocumentor-signature__argument__name">$precision</span><span> = </span><span class="phpdocumentor-signature__argument__default-value">2</span><span> ]</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">float|int</span></code>
 
-    
+        <section class="phpdocumentor-description"><p>This function calculates the ceiling of a number at a specific decimal place.
+Note: The precision parameter determines the length of the multiplier string.
+For example, a precision of 3 generates a multiplier of 100 (10^2), resulting in 2 decimal places.</p>
+</section>
+
         <h5 class="phpdocumentor-argument-list__heading">Parameters</h5>
     <dl class="phpdocumentor-argument-list">
                     <dt class="phpdocumentor-argument-list__entry">
                 <span class="phpdocumentor-signature__argument__name">$number</span>
-                : <span class="phpdocumentor-signature__argument__return-type">mixed</span>
+                : <span class="phpdocumentor-signature__argument__return-type">float|int</span>
                             </dt>
             <dd class="phpdocumentor-argument-list__definition">
-                
+                    <section class="phpdocumentor-description"><p>The numeric value to be rounded.</p>
+</section>
+
             </dd>
                     <dt class="phpdocumentor-argument-list__entry">
                 <span class="phpdocumentor-signature__argument__name">$precision</span>
-                : <span class="phpdocumentor-signature__argument__return-type">mixed</span>
+                : <span class="phpdocumentor-signature__argument__return-type">int</span>
                  = <span class="phpdocumentor-signature__argument__default-value">2</span>            </dt>
             <dd class="phpdocumentor-argument-list__definition">
-                
+                    <section class="phpdocumentor-description"><p>The length of the padding for the multiplier (determines decimal places).
+Default is 2 (which rounds to 1 decimal place: 10^1).</p>
+</section>
+
             </dd>
             </dl>
 
     
 
-    
+            <section>
+        <h5 class="phpdocumentor-return-value__heading">Return values</h5>
+        <span class="phpdocumentor-signature__response_type">float|int</span>
+                    &mdash;
+                <section class="phpdocumentor-description"><p>The rounded number.</p>
+</section>
+
+            </section>
+
 </article>
                     <article class="phpdocumentor-element -function - ">
     <h4 class="phpdocumentor-element__name" id="function_eventIsLocked">
@@ -1162,24 +1631,29 @@ Execution stops immediately after the header is sent.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="rezervacni-system/index.php"><a href="files/rezervacni-system-index.html"><abbr title="rezervacni-system/index.php">index.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">15</span>
+    <span class="phpdocumentor-element-found-in__line">35</span>
 
     </aside>
 
-    
+        <p class="phpdocumentor-summary">Checks if the registration period for an event has closed.</p>
+
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility"></span>
-                    <span class="phpdocumentor-signature__name">eventIsLocked</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__return-type"><a href="classes/components-objects-Event.html"><abbr title="\components\objects\Event">Event</abbr></a>&nbsp;</span><span class="phpdocumentor-signature__argument__name">$event</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">bool</span></code>
+                    <span class="phpdocumentor-signature__name">eventIsLocked</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__return-type"><abbr title="\Event">Event</abbr>&nbsp;</span><span class="phpdocumentor-signature__argument__name">$event</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">bool</span></code>
 
-    
+        <section class="phpdocumentor-description"><p>Compares the current server time against the event's registration deadline.</p>
+</section>
+
         <h5 class="phpdocumentor-argument-list__heading">Parameters</h5>
     <dl class="phpdocumentor-argument-list">
                     <dt class="phpdocumentor-argument-list__entry">
                 <span class="phpdocumentor-signature__argument__name">$event</span>
-                : <span class="phpdocumentor-signature__argument__return-type"><a href="classes/components-objects-Event.html"><abbr title="\components\objects\Event">Event</abbr></a></span>
+                : <span class="phpdocumentor-signature__argument__return-type"><abbr title="\Event">Event</abbr></span>
                             </dt>
             <dd class="phpdocumentor-argument-list__definition">
-                
+                    <section class="phpdocumentor-description"><p>The event object containing the deadline.</p>
+</section>
+
             </dd>
             </dl>
 
@@ -1188,6 +1662,10 @@ Execution stops immediately after the header is sent.</p>
             <section>
         <h5 class="phpdocumentor-return-value__heading">Return values</h5>
         <span class="phpdocumentor-signature__response_type">bool</span>
+                    &mdash;
+                <section class="phpdocumentor-description"><p>True if the deadline has passed (locked), false otherwise.</p>
+</section>
+
             </section>
 
 </article>
@@ -1200,16 +1678,20 @@ Execution stops immediately after the header is sent.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="rezervacni-system/index.php"><a href="files/rezervacni-system-index.html"><abbr title="rezervacni-system/index.php">index.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">21</span>
+    <span class="phpdocumentor-element-found-in__line">51</span>
 
     </aside>
 
-    
+        <p class="phpdocumentor-summary">Determines if a specific user is already registered for a specific event.</p>
+
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility"></span>
                     <span class="phpdocumentor-signature__name">userIsRegistered</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__return-type">int&nbsp;</span><span class="phpdocumentor-signature__argument__name">$user_id</span></span><span class="phpdocumentor-signature__argument"><span>, </span><span class="phpdocumentor-signature__argument__return-type">int&nbsp;</span><span class="phpdocumentor-signature__argument__name">$event_id</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">bool</span></code>
 
-    
+        <section class="phpdocumentor-description"><p>Acts as a safe wrapper around the Registration::existsByUserIdAndEventId method,
+handling potential database exceptions by redirecting to an error page.</p>
+</section>
+
         <h5 class="phpdocumentor-argument-list__heading">Parameters</h5>
     <dl class="phpdocumentor-argument-list">
                     <dt class="phpdocumentor-argument-list__entry">
@@ -1217,14 +1699,18 @@ Execution stops immediately after the header is sent.</p>
                 : <span class="phpdocumentor-signature__argument__return-type">int</span>
                             </dt>
             <dd class="phpdocumentor-argument-list__definition">
-                
+                    <section class="phpdocumentor-description"><p>The unique ID of the user.</p>
+</section>
+
             </dd>
                     <dt class="phpdocumentor-argument-list__entry">
                 <span class="phpdocumentor-signature__argument__name">$event_id</span>
                 : <span class="phpdocumentor-signature__argument__return-type">int</span>
                             </dt>
             <dd class="phpdocumentor-argument-list__definition">
-                
+                    <section class="phpdocumentor-description"><p>The unique ID of the event.</p>
+</section>
+
             </dd>
             </dl>
 
@@ -1233,6 +1719,10 @@ Execution stops immediately after the header is sent.</p>
             <section>
         <h5 class="phpdocumentor-return-value__heading">Return values</h5>
         <span class="phpdocumentor-signature__response_type">bool</span>
+                    &mdash;
+                <section class="phpdocumentor-description"><p>True if a registration record exists, false otherwise.</p>
+</section>
+
             </section>
 
 </article>

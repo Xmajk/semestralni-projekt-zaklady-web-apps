@@ -108,7 +108,7 @@ else if($_SERVER["REQUEST_METHOD"] == "POST"){
 
         <div id="username-wrapper" class="form-wrapper">
             <label for="form-username">Uživatelské jméno<span class="required"></span></label>
-            <input id="form-username" type="text" name="username" placeholder="Uživatelské jméno" required autocomplete="off" aria-describedby="error-username"
+            <input id="form-username" type="text" name="username" placeholder="Uživatelské jméno" required autocomplete="off"
                    value="<?= htmlspecialchars($user->username) ?>" disabled>
         </div>
 
@@ -150,7 +150,7 @@ else if($_SERVER["REQUEST_METHOD"] == "POST"){
         </div>
 
         <div id="password-wrapper" class="form-wrapper">
-            <label for="form-password">Heslo</label>
+            <label for="form-change-password">Heslo</label>
             <input id="form-change-password" type="password" name="password" placeholder="Heslo" aria-describedby="error-password">
             <span id="error-password" class="validation-error <?= isset($errors['password']) ? 'active' : '' ?>">
                 <?= htmlspecialchars($errors['password'] ?? '') ?>

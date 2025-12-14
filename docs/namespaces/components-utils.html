@@ -77,6 +77,16 @@
     <a href="packages/Application.html" class="">Application</a>
 </h4>
 
+                                    <h4 class="phpdocumentor-sidebar__root-namespace">
+    <a href="packages/components.html" class="">components</a>
+</h4>
+    <ul class="phpdocumentor-list">
+                    <li>
+                <a href="packages/components-objects.html" class="">objects</a>
+                
+            </li>
+            </ul>
+
                         </section>
             
     <section class="phpdocumentor-sidebar__category">
@@ -154,7 +164,7 @@
     <span>
                                 &nbsp;: bool    </span>
 </dt>
-<dd>Processes, resizes, and saves an uploaded image.</dd>
+<dd>Processes, resizes, and saves an uploaded image file.</dd>
 
     </dl>
 
@@ -175,7 +185,7 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="rezervacni-system/admin/events.php"><a href="files/rezervacni-system-admin-events.html"><abbr title="rezervacni-system/admin/events.php">events.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">18</span>
+    <span class="phpdocumentor-element-found-in__line">19</span>
 
     </aside>
 
@@ -210,7 +220,7 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="rezervacni-system/admin/events.php"><a href="files/rezervacni-system-admin-events.html"><abbr title="rezervacni-system/admin/events.php">events.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">20</span>
+    <span class="phpdocumentor-element-found-in__line">21</span>
 
     </aside>
 
@@ -248,7 +258,7 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="rezervacni-system/admin/events.php"><a href="files/rezervacni-system-admin-events.html"><abbr title="rezervacni-system/admin/events.php">events.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">23</span>
+    <span class="phpdocumentor-element-found-in__line">24</span>
 
     </aside>
 
@@ -290,15 +300,15 @@
 
     </aside>
 
-        <p class="phpdocumentor-summary">Processes, resizes, and saves an uploaded image.</p>
+        <p class="phpdocumentor-summary">Processes, resizes, and saves an uploaded image file.</p>
 
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility"></span>
                     <span class="phpdocumentor-signature__name">processUploadedImage</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__return-type">string&nbsp;</span><span class="phpdocumentor-signature__argument__name">$source_path</span></span><span class="phpdocumentor-signature__argument"><span>, </span><span class="phpdocumentor-signature__argument__return-type">int&nbsp;</span><span class="phpdocumentor-signature__argument__name">$image_type</span></span><span class="phpdocumentor-signature__argument"><span>, </span><span class="phpdocumentor-signature__argument__return-type">string&nbsp;</span><span class="phpdocumentor-signature__argument__name">$target_dir</span></span><span class="phpdocumentor-signature__argument"><span>, </span><span class="phpdocumentor-signature__argument__return-type">string&nbsp;</span><span class="phpdocumentor-signature__argument__name">$target_filename</span></span><span class="phpdocumentor-signature__argument"><span>, </span><span class="phpdocumentor-signature__argument__return-type">int&nbsp;</span><span class="phpdocumentor-signature__argument__name">$target_width</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">bool</span></code>
 
-        <section class="phpdocumentor-description"><p>This function takes a temporary source file, resizes it to a specific width
-while maintaining the original aspect ratio, and saves it to a target directory.
-It includes specific handling for PNG transparency.</p>
+        <section class="phpdocumentor-description"><p>This function handles the resizing of an image to a specified width while
+automatically calculating the height to maintain the original aspect ratio.
+It supports JPEG and PNG formats and preserves transparency for PNG images.</p>
 </section>
 
         <h5 class="phpdocumentor-argument-list__heading">Parameters</h5>
@@ -308,7 +318,7 @@ It includes specific handling for PNG transparency.</p>
                 : <span class="phpdocumentor-signature__argument__return-type">string</span>
                             </dt>
             <dd class="phpdocumentor-argument-list__definition">
-                    <section class="phpdocumentor-description"><p>The temporary path to the uploaded file (typically $_FILES['x']['tmp_name']).</p>
+                    <section class="phpdocumentor-description"><p>The absolute path to the temporary source file (e.g., from $_FILES).</p>
 </section>
 
             </dd>
@@ -317,7 +327,7 @@ It includes specific handling for PNG transparency.</p>
                 : <span class="phpdocumentor-signature__argument__return-type">int</span>
                             </dt>
             <dd class="phpdocumentor-argument-list__definition">
-                    <section class="phpdocumentor-description"><p>The image type constant (e.g., IMAGETYPE_JPEG or IMAGETYPE_PNG).</p>
+                    <section class="phpdocumentor-description"><p>The GD image type constant (IMAGETYPE_JPEG or IMAGETYPE_PNG).</p>
 </section>
 
             </dd>
@@ -326,7 +336,7 @@ It includes specific handling for PNG transparency.</p>
                 : <span class="phpdocumentor-signature__argument__return-type">string</span>
                             </dt>
             <dd class="phpdocumentor-argument-list__definition">
-                    <section class="phpdocumentor-description"><p>The destination directory (must end with a trailing slash '/').</p>
+                    <section class="phpdocumentor-description"><p>The destination directory path (must include trailing slash).</p>
 </section>
 
             </dd>
@@ -335,7 +345,7 @@ It includes specific handling for PNG transparency.</p>
                 : <span class="phpdocumentor-signature__argument__return-type">string</span>
                             </dt>
             <dd class="phpdocumentor-argument-list__definition">
-                    <section class="phpdocumentor-description"><p>The full destination filename (including the file extension).</p>
+                    <section class="phpdocumentor-description"><p>The name of the file to save (including extension).</p>
 </section>
 
             </dd>
@@ -344,7 +354,7 @@ It includes specific handling for PNG transparency.</p>
                 : <span class="phpdocumentor-signature__argument__return-type">int</span>
                             </dt>
             <dd class="phpdocumentor-argument-list__definition">
-                    <section class="phpdocumentor-description"><p>The desired width of the output image in pixels.</p>
+                    <section class="phpdocumentor-description"><p>The desired width of the resized image in pixels.</p>
 </section>
 
             </dd>
@@ -356,7 +366,7 @@ It includes specific handling for PNG transparency.</p>
         <h5 class="phpdocumentor-return-value__heading">Return values</h5>
         <span class="phpdocumentor-signature__response_type">bool</span>
                     &mdash;
-                <section class="phpdocumentor-description"><p>Returns true on success, false on failure.</p>
+                <section class="phpdocumentor-description"><p>True if the image was successfully processed and saved, false otherwise.</p>
 </section>
 
             </section>

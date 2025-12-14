@@ -77,6 +77,16 @@
     <a href="packages/Application.html" class="">Application</a>
 </h4>
 
+                                    <h4 class="phpdocumentor-sidebar__root-namespace">
+    <a href="packages/components.html" class="">components</a>
+</h4>
+    <ul class="phpdocumentor-list">
+                    <li>
+                <a href="packages/components-objects.html" class="">objects</a>
+                
+            </li>
+            </ul>
+
                         </section>
             
     <section class="phpdocumentor-sidebar__category">
@@ -107,7 +117,8 @@
             <div class="phpdocumentor-element__package">
             in package
             <ul class="phpdocumentor-breadcrumbs">
-                                    <li class="phpdocumentor-breadcrumb"><a href="packages/Application.html">Application</a></li>
+                                    <li class="phpdocumentor-breadcrumb"><a href="packages/components.html">components</a></li>
+                                    <li class="phpdocumentor-breadcrumb"><a href="packages/components-objects.html">objects</a></li>
                             </ul>
         </div>
     
@@ -122,11 +133,16 @@
         <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="rezervacni-system/components/objects/Registration.php"><a href="files/rezervacni-system-components-objects-registration.html"><abbr title="rezervacni-system/components/objects/Registration.php">Registration.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">11</span>
+    <span class="phpdocumentor-element-found-in__line">23</span>
 
     </aside>
 
-        
+            <p class="phpdocumentor-summary">Class Registration</p>
+
+    <section class="phpdocumentor-description"><p>Manages the many-to-many relationship between Users and Events.
+This class handles the creation, deletion, and retrieval of registration records,
+including logic for enforcing event capacities and preventing duplicate sign-ups.</p>
+</section>
 
 
 
@@ -199,56 +215,72 @@
             <dt class="phpdocumentor-table-of-contents__entry -method -public">
     <a href="classes/components-objects-Registration.html#method_createRegistration">createRegistration()</a>
     <span>
-                                &nbsp;: bool|null    </span>
+                                &nbsp;: bool    </span>
 </dt>
+<dd>Creates a new registration record transactionally.</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -method -public">
     <a href="classes/components-objects-Registration.html#method_deleteRegistration">deleteRegistration()</a>
     <span>
-                                &nbsp;: bool|null    </span>
+                                &nbsp;: bool    </span>
 </dt>
+<dd>Removes a registration record from the database.</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -method -public">
     <a href="classes/components-objects-Registration.html#method_existsByUserIdAndEventId">existsByUserIdAndEventId()</a>
     <span>
                                 &nbsp;: bool|null    </span>
 </dt>
+<dd>Checks if a specific user is already registered for a specific event.</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -method -public">
     <a href="classes/components-objects-Registration.html#method_findEventRegistrationsByEventId">findEventRegistrationsByEventId()</a>
     <span>
-                                &nbsp;: array&lt;string|int, mixed&gt;    </span>
+                                &nbsp;: array&lt;string|int, <a href="classes/components-objects-User.html"><abbr title="\components\objects\User">User</abbr></a>&gt;    </span>
 </dt>
+<dd>Retrieves all users registered for a specific event.</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -method -public">
     <a href="classes/components-objects-Registration.html#method_getAllOrdered">getAllOrdered()</a>
     <span>
-                                &nbsp;: array&lt;string|int, mixed&gt;    </span>
+                                &nbsp;: array&lt;string|int, <a href="classes/components-objects-Registration.html"><abbr title="\components\objects\Registration">Registration</abbr></a>&gt;    </span>
 </dt>
+<dd>Retrieves all registrations existing in the system, ordered by ID descending.</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -method -public">
     <a href="classes/components-objects-Registration.html#method_getEventsByUser">getEventsByUser()</a>
     <span>
-                                &nbsp;: array&lt;string|int, mixed&gt;    </span>
+                                &nbsp;: array&lt;string|int, <a href="classes/components-objects-Event.html"><abbr title="\components\objects\Event">Event</abbr></a>&gt;    </span>
 </dt>
+<dd>Retrieves a list of events that a specific user has registered for.</dd>
+
+            <dt class="phpdocumentor-table-of-contents__entry -method -public">
+    <a href="classes/components-objects-Registration.html#method_getRegistrationById">getRegistrationById()</a>
+    <span>
+                                &nbsp;: <a href="classes/components-objects-Registration.html"><abbr title="\components\objects\Registration">Registration</abbr></a>|null    </span>
+</dt>
+<dd>Retrieves a single registration record by its ID.</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -method -public">
     <a href="classes/components-objects-Registration.html#method_hydrate">hydrate()</a>
     <span>
                                 &nbsp;: <a href="classes/components-objects-Registration.html"><abbr title="\components\objects\Registration">Registration</abbr></a>    </span>
 </dt>
+<dd>Creates a Registration object instance from a database row.</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -method -public">
     <a href="classes/components-objects-Registration.html#method_isUserRegistered">isUserRegistered()</a>
     <span>
                                 &nbsp;: bool    </span>
 </dt>
+<dd>Determines if a user is currently registered for an event.</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -method -public">
     <a href="classes/components-objects-Registration.html#method_numberOfRegistrationsByEventId">numberOfRegistrationsByEventId()</a>
     <span>
                                 &nbsp;: int|null    </span>
 </dt>
+<dd>Counts the total number of registrations for a specific event.</dd>
 
     </dl>
 
@@ -281,7 +313,7 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="rezervacni-system/components/objects/Registration.php"><a href="files/rezervacni-system-components-objects-registration.html"><abbr title="rezervacni-system/components/objects/Registration.php">Registration.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">17</span>
+    <span class="phpdocumentor-element-found-in__line">48</span>
 
     </aside>
 
@@ -293,7 +325,9 @@
     </code>
 
     
-    
+        <section class="phpdocumentor-description"><p>The full Event object associated with this registration.</p>
+</section>
+
     
 
 </article>
@@ -314,7 +348,7 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="rezervacni-system/components/objects/Registration.php"><a href="files/rezervacni-system-components-objects-registration.html"><abbr title="rezervacni-system/components/objects/Registration.php">Registration.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">13</span>
+    <span class="phpdocumentor-element-found-in__line">28</span>
 
     </aside>
 
@@ -326,7 +360,9 @@
     </code>
 
     
-    
+        <section class="phpdocumentor-description"><p>The unique identifier for the registration record.</p>
+</section>
+
     
 
 </article>
@@ -347,7 +383,7 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="rezervacni-system/components/objects/Registration.php"><a href="files/rezervacni-system-components-objects-registration.html"><abbr title="rezervacni-system/components/objects/Registration.php">Registration.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">16</span>
+    <span class="phpdocumentor-element-found-in__line">43</span>
 
     </aside>
 
@@ -359,7 +395,9 @@
     </code>
 
     
-    
+        <section class="phpdocumentor-description"><p>The ID of the event associated with this registration.</p>
+</section>
+
     
 
 </article>
@@ -380,7 +418,7 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="rezervacni-system/components/objects/Registration.php"><a href="files/rezervacni-system-components-objects-registration.html"><abbr title="rezervacni-system/components/objects/Registration.php">Registration.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">14</span>
+    <span class="phpdocumentor-element-found-in__line">33</span>
 
     </aside>
 
@@ -392,7 +430,9 @@
     </code>
 
     
-    
+        <section class="phpdocumentor-description"><p>The ID of the user associated with this registration.</p>
+</section>
+
     
 
 </article>
@@ -413,7 +453,7 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="rezervacni-system/components/objects/Registration.php"><a href="files/rezervacni-system-components-objects-registration.html"><abbr title="rezervacni-system/components/objects/Registration.php">Registration.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">19</span>
+    <span class="phpdocumentor-element-found-in__line">53</span>
 
     </aside>
 
@@ -425,7 +465,9 @@
     </code>
 
     
-    
+        <section class="phpdocumentor-description"><p>The timestamp of when the registration was created.</p>
+</section>
+
     
 
 </article>
@@ -446,7 +488,7 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="rezervacni-system/components/objects/Registration.php"><a href="files/rezervacni-system-components-objects-registration.html"><abbr title="rezervacni-system/components/objects/Registration.php">Registration.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">15</span>
+    <span class="phpdocumentor-element-found-in__line">38</span>
 
     </aside>
 
@@ -458,7 +500,9 @@
     </code>
 
     
-    
+        <section class="phpdocumentor-description"><p>The full User object associated with this registration.</p>
+</section>
+
     
 
 </article>
@@ -484,18 +528,22 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="rezervacni-system/components/objects/Registration.php"><a href="files/rezervacni-system-components-objects-registration.html"><abbr title="rezervacni-system/components/objects/Registration.php">Registration.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">108</span>
+    <span class="phpdocumentor-element-found-in__line">146</span>
 
     </aside>
 
-    
+        <p class="phpdocumentor-summary">Creates a new registration record transactionally.</p>
+
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility">public</span>
-            <span class="phpdocumentor-signature__static">static</span>        <span class="phpdocumentor-signature__name">createRegistration</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__return-type"><a href="classes/components-objects-Registration.html"><abbr title="\components\objects\Registration">Registration</abbr></a>&nbsp;</span><span class="phpdocumentor-signature__argument__name">$registration</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">bool|null</span></code>
+            <span class="phpdocumentor-signature__static">static</span>        <span class="phpdocumentor-signature__name">createRegistration</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__return-type"><a href="classes/components-objects-Registration.html"><abbr title="\components\objects\Registration">Registration</abbr></a>&nbsp;</span><span class="phpdocumentor-signature__argument__name">$registration</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">bool</span></code>
 
     <div class="phpdocumentor-label-line">
         </div>
-    
+        <section class="phpdocumentor-description"><p>This method utilizes database row locking (FOR UPDATE) to prevent race conditions
+where multiple users might try to register for the last available slot simultaneously.</p>
+</section>
+
         <h5 class="phpdocumentor-argument-list__heading">Parameters</h5>
     <dl class="phpdocumentor-argument-list">
                     <dt class="phpdocumentor-argument-list__entry">
@@ -503,15 +551,38 @@
                 : <span class="phpdocumentor-signature__argument__return-type"><a href="classes/components-objects-Registration.html"><abbr title="\components\objects\Registration">Registration</abbr></a></span>
                             </dt>
             <dd class="phpdocumentor-argument-list__definition">
-                
+                    <section class="phpdocumentor-description"><p>The registration object containing the user and event IDs.</p>
+</section>
+
             </dd>
             </dl>
 
     
+    <h5 class="phpdocumentor-tag-list__heading" id="tags">
+        Tags
+        <a href="classes/components-objects-Registration.html#method_createRegistration#tags" class="headerlink"><i class="fas fa-link"></i></a>
+
+    </h5>
+    <dl class="phpdocumentor-tag-list">
+                                    <dt class="phpdocumentor-tag-list__entry">
+                    <span class="phpdocumentor-tag__name">throws</span>
+                </dt>
+                <dd class="phpdocumentor-tag-list__definition">
+                                                                <span class="phpdocumentor-tag-link"><abbr title="\Exception">Exception</abbr></span>
+                                                            
+                                                 <section class="phpdocumentor-description"><p>If the event is not found, the user is already registered, or capacity is full.</p>
+</section>
+
+                                    </dd>
+                                            </dl>
 
             <section>
         <h5 class="phpdocumentor-return-value__heading">Return values</h5>
-        <span class="phpdocumentor-signature__response_type">bool|null</span>
+        <span class="phpdocumentor-signature__response_type">bool</span>
+                    &mdash;
+                <section class="phpdocumentor-description"><p>True if the registration was successful.</p>
+</section>
+
             </section>
 
 </article>
@@ -529,14 +600,15 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="rezervacni-system/components/objects/Registration.php"><a href="files/rezervacni-system-components-objects-registration.html"><abbr title="rezervacni-system/components/objects/Registration.php">Registration.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">181</span>
+    <span class="phpdocumentor-element-found-in__line">201</span>
 
     </aside>
 
-    
+        <p class="phpdocumentor-summary">Removes a registration record from the database.</p>
+
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility">public</span>
-            <span class="phpdocumentor-signature__static">static</span>        <span class="phpdocumentor-signature__name">deleteRegistration</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__return-type"><a href="classes/components-objects-Registration.html"><abbr title="\components\objects\Registration">Registration</abbr></a>&nbsp;</span><span class="phpdocumentor-signature__argument__name">$registration</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">bool|null</span></code>
+            <span class="phpdocumentor-signature__static">static</span>        <span class="phpdocumentor-signature__name">deleteRegistration</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__return-type"><a href="classes/components-objects-Registration.html"><abbr title="\components\objects\Registration">Registration</abbr></a>&nbsp;</span><span class="phpdocumentor-signature__argument__name">$registration</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">bool</span></code>
 
     <div class="phpdocumentor-label-line">
         </div>
@@ -548,15 +620,38 @@
                 : <span class="phpdocumentor-signature__argument__return-type"><a href="classes/components-objects-Registration.html"><abbr title="\components\objects\Registration">Registration</abbr></a></span>
                             </dt>
             <dd class="phpdocumentor-argument-list__definition">
-                
+                    <section class="phpdocumentor-description"><p>The registration object to delete.</p>
+</section>
+
             </dd>
             </dl>
 
     
+    <h5 class="phpdocumentor-tag-list__heading" id="tags">
+        Tags
+        <a href="classes/components-objects-Registration.html#method_deleteRegistration#tags" class="headerlink"><i class="fas fa-link"></i></a>
+
+    </h5>
+    <dl class="phpdocumentor-tag-list">
+                                    <dt class="phpdocumentor-tag-list__entry">
+                    <span class="phpdocumentor-tag__name">throws</span>
+                </dt>
+                <dd class="phpdocumentor-tag-list__definition">
+                                                                <span class="phpdocumentor-tag-link"><abbr title="\Exception">Exception</abbr></span>
+                                                            
+                                                 <section class="phpdocumentor-description"><p>If the database operation fails.</p>
+</section>
+
+                                    </dd>
+                                            </dl>
 
             <section>
         <h5 class="phpdocumentor-return-value__heading">Return values</h5>
-        <span class="phpdocumentor-signature__response_type">bool|null</span>
+        <span class="phpdocumentor-signature__response_type">bool</span>
+                    &mdash;
+                <section class="phpdocumentor-description"><p>True if the deletion was successful.</p>
+</section>
+
             </section>
 
 </article>
@@ -574,11 +669,12 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="rezervacni-system/components/objects/Registration.php"><a href="files/rezervacni-system-components-objects-registration.html"><abbr title="rezervacni-system/components/objects/Registration.php">Registration.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">85</span>
+    <span class="phpdocumentor-element-found-in__line">123</span>
 
     </aside>
 
-    
+        <p class="phpdocumentor-summary">Checks if a specific user is already registered for a specific event.</p>
+
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility">public</span>
             <span class="phpdocumentor-signature__static">static</span>        <span class="phpdocumentor-signature__name">existsByUserIdAndEventId</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__return-type">int&nbsp;</span><span class="phpdocumentor-signature__argument__name">$userId</span></span><span class="phpdocumentor-signature__argument"><span>, </span><span class="phpdocumentor-signature__argument__return-type">int&nbsp;</span><span class="phpdocumentor-signature__argument__name">$eventId</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">bool|null</span></code>
@@ -593,22 +689,47 @@
                 : <span class="phpdocumentor-signature__argument__return-type">int</span>
                             </dt>
             <dd class="phpdocumentor-argument-list__definition">
-                
+                    <section class="phpdocumentor-description"><p>The ID of the user.</p>
+</section>
+
             </dd>
                     <dt class="phpdocumentor-argument-list__entry">
                 <span class="phpdocumentor-signature__argument__name">$eventId</span>
                 : <span class="phpdocumentor-signature__argument__return-type">int</span>
                             </dt>
             <dd class="phpdocumentor-argument-list__definition">
-                
+                    <section class="phpdocumentor-description"><p>The ID of the event.</p>
+</section>
+
             </dd>
             </dl>
 
     
+    <h5 class="phpdocumentor-tag-list__heading" id="tags">
+        Tags
+        <a href="classes/components-objects-Registration.html#method_existsByUserIdAndEventId#tags" class="headerlink"><i class="fas fa-link"></i></a>
+
+    </h5>
+    <dl class="phpdocumentor-tag-list">
+                                    <dt class="phpdocumentor-tag-list__entry">
+                    <span class="phpdocumentor-tag__name">throws</span>
+                </dt>
+                <dd class="phpdocumentor-tag-list__definition">
+                                                                <span class="phpdocumentor-tag-link"><abbr title="\Exception">Exception</abbr></span>
+                                                            
+                                                 <section class="phpdocumentor-description"><p>If the database query fails.</p>
+</section>
+
+                                    </dd>
+                                            </dl>
 
             <section>
         <h5 class="phpdocumentor-return-value__heading">Return values</h5>
         <span class="phpdocumentor-signature__response_type">bool|null</span>
+                    &mdash;
+                <section class="phpdocumentor-description"><p>True if a registration exists, false otherwise.</p>
+</section>
+
             </section>
 
 </article>
@@ -626,14 +747,15 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="rezervacni-system/components/objects/Registration.php"><a href="files/rezervacni-system-components-objects-registration.html"><abbr title="rezervacni-system/components/objects/Registration.php">Registration.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">81</span>
+    <span class="phpdocumentor-element-found-in__line">297</span>
 
     </aside>
 
-    
+        <p class="phpdocumentor-summary">Retrieves all users registered for a specific event.</p>
+
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility">public</span>
-            <span class="phpdocumentor-signature__static">static</span>        <span class="phpdocumentor-signature__name">findEventRegistrationsByEventId</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__return-type">int&nbsp;</span><span class="phpdocumentor-signature__argument__name">$eventId</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">array&lt;string|int, mixed&gt;</span></code>
+            <span class="phpdocumentor-signature__static">static</span>        <span class="phpdocumentor-signature__name">findEventRegistrationsByEventId</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__return-type">int&nbsp;</span><span class="phpdocumentor-signature__argument__name">$eventId</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">array&lt;string|int, <a href="classes/components-objects-User.html"><abbr title="\components\objects\User">User</abbr></a>&gt;</span></code>
 
     <div class="phpdocumentor-label-line">
         </div>
@@ -645,15 +767,38 @@
                 : <span class="phpdocumentor-signature__argument__return-type">int</span>
                             </dt>
             <dd class="phpdocumentor-argument-list__definition">
-                
+                    <section class="phpdocumentor-description"><p>The ID of the event.</p>
+</section>
+
             </dd>
             </dl>
 
     
+    <h5 class="phpdocumentor-tag-list__heading" id="tags">
+        Tags
+        <a href="classes/components-objects-Registration.html#method_findEventRegistrationsByEventId#tags" class="headerlink"><i class="fas fa-link"></i></a>
+
+    </h5>
+    <dl class="phpdocumentor-tag-list">
+                                    <dt class="phpdocumentor-tag-list__entry">
+                    <span class="phpdocumentor-tag__name">throws</span>
+                </dt>
+                <dd class="phpdocumentor-tag-list__definition">
+                                                                <span class="phpdocumentor-tag-link"><abbr title="\Exception">Exception</abbr></span>
+                                                            
+                                                 <section class="phpdocumentor-description"><p>If the database query fails.</p>
+</section>
+
+                                    </dd>
+                                            </dl>
 
             <section>
         <h5 class="phpdocumentor-return-value__heading">Return values</h5>
-        <span class="phpdocumentor-signature__response_type">array&lt;string|int, mixed&gt;</span>
+        <span class="phpdocumentor-signature__response_type">array&lt;string|int, <a href="classes/components-objects-User.html"><abbr title="\components\objects\User">User</abbr></a>&gt;</span>
+                    &mdash;
+                <section class="phpdocumentor-description"><p>An array of User objects, keyed by the registration ID.</p>
+</section>
+
             </section>
 
 </article>
@@ -671,24 +816,46 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="rezervacni-system/components/objects/Registration.php"><a href="files/rezervacni-system-components-objects-registration.html"><abbr title="rezervacni-system/components/objects/Registration.php">Registration.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">32</span>
+    <span class="phpdocumentor-element-found-in__line">80</span>
 
     </aside>
 
-    
+        <p class="phpdocumentor-summary">Retrieves all registrations existing in the system, ordered by ID descending.</p>
+
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility">public</span>
-            <span class="phpdocumentor-signature__static">static</span>        <span class="phpdocumentor-signature__name">getAllOrdered</span><span>(</span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">array&lt;string|int, mixed&gt;</span></code>
+            <span class="phpdocumentor-signature__static">static</span>        <span class="phpdocumentor-signature__name">getAllOrdered</span><span>(</span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">array&lt;string|int, <a href="classes/components-objects-Registration.html"><abbr title="\components\objects\Registration">Registration</abbr></a>&gt;</span></code>
 
     <div class="phpdocumentor-label-line">
         </div>
     
     
     
+    <h5 class="phpdocumentor-tag-list__heading" id="tags">
+        Tags
+        <a href="classes/components-objects-Registration.html#method_getAllOrdered#tags" class="headerlink"><i class="fas fa-link"></i></a>
+
+    </h5>
+    <dl class="phpdocumentor-tag-list">
+                                    <dt class="phpdocumentor-tag-list__entry">
+                    <span class="phpdocumentor-tag__name">throws</span>
+                </dt>
+                <dd class="phpdocumentor-tag-list__definition">
+                                                                <span class="phpdocumentor-tag-link"><abbr title="\Exception">Exception</abbr></span>
+                                                            
+                                                 <section class="phpdocumentor-description"><p>If the database query fails.</p>
+</section>
+
+                                    </dd>
+                                            </dl>
 
             <section>
         <h5 class="phpdocumentor-return-value__heading">Return values</h5>
-        <span class="phpdocumentor-signature__response_type">array&lt;string|int, mixed&gt;</span>
+        <span class="phpdocumentor-signature__response_type">array&lt;string|int, <a href="classes/components-objects-Registration.html"><abbr title="\components\objects\Registration">Registration</abbr></a>&gt;</span>
+                    &mdash;
+                <section class="phpdocumentor-description"><p>An array of Registration objects.</p>
+</section>
+
             </section>
 
 </article>
@@ -706,14 +873,15 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="rezervacni-system/components/objects/Registration.php"><a href="files/rezervacni-system-components-objects-registration.html"><abbr title="rezervacni-system/components/objects/Registration.php">Registration.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">213</span>
+    <span class="phpdocumentor-element-found-in__line">232</span>
 
     </aside>
 
-    
+        <p class="phpdocumentor-summary">Retrieves a list of events that a specific user has registered for.</p>
+
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility">public</span>
-            <span class="phpdocumentor-signature__static">static</span>        <span class="phpdocumentor-signature__name">getEventsByUser</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__return-type">int&nbsp;</span><span class="phpdocumentor-signature__argument__name">$userId</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">array&lt;string|int, mixed&gt;</span></code>
+            <span class="phpdocumentor-signature__static">static</span>        <span class="phpdocumentor-signature__name">getEventsByUser</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__return-type">int&nbsp;</span><span class="phpdocumentor-signature__argument__name">$userId</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">array&lt;string|int, <a href="classes/components-objects-Event.html"><abbr title="\components\objects\Event">Event</abbr></a>&gt;</span></code>
 
     <div class="phpdocumentor-label-line">
         </div>
@@ -725,15 +893,107 @@
                 : <span class="phpdocumentor-signature__argument__return-type">int</span>
                             </dt>
             <dd class="phpdocumentor-argument-list__definition">
-                
+                    <section class="phpdocumentor-description"><p>The ID of the user.</p>
+</section>
+
             </dd>
             </dl>
 
     
+    <h5 class="phpdocumentor-tag-list__heading" id="tags">
+        Tags
+        <a href="classes/components-objects-Registration.html#method_getEventsByUser#tags" class="headerlink"><i class="fas fa-link"></i></a>
+
+    </h5>
+    <dl class="phpdocumentor-tag-list">
+                                    <dt class="phpdocumentor-tag-list__entry">
+                    <span class="phpdocumentor-tag__name">throws</span>
+                </dt>
+                <dd class="phpdocumentor-tag-list__definition">
+                                                                <span class="phpdocumentor-tag-link"><abbr title="\Exception">Exception</abbr></span>
+                                                            
+                                                 <section class="phpdocumentor-description"><p>If the database query fails.</p>
+</section>
+
+                                    </dd>
+                                            </dl>
 
             <section>
         <h5 class="phpdocumentor-return-value__heading">Return values</h5>
-        <span class="phpdocumentor-signature__response_type">array&lt;string|int, mixed&gt;</span>
+        <span class="phpdocumentor-signature__response_type">array&lt;string|int, <a href="classes/components-objects-Event.html"><abbr title="\components\objects\Event">Event</abbr></a>&gt;</span>
+                    &mdash;
+                <section class="phpdocumentor-description"><p>An array of Event objects.</p>
+</section>
+
+            </section>
+
+</article>
+                    <article
+        class="phpdocumentor-element
+            -method
+            -public
+                                    -static                    "
+>
+    <h4 class="phpdocumentor-element__name" id="method_getRegistrationById">
+        getRegistrationById()
+        <a href="classes/components-objects-Registration.html#method_getRegistrationById" class="headerlink"><i class="fas fa-link"></i></a>
+
+    </h4>
+    <aside class="phpdocumentor-element-found-in">
+    <abbr class="phpdocumentor-element-found-in__file" title="rezervacni-system/components/objects/Registration.php"><a href="files/rezervacni-system-components-objects-registration.html"><abbr title="rezervacni-system/components/objects/Registration.php">Registration.php</abbr></a></abbr>
+    :
+    <span class="phpdocumentor-element-found-in__line">332</span>
+
+    </aside>
+
+        <p class="phpdocumentor-summary">Retrieves a single registration record by its ID.</p>
+
+    <code class="phpdocumentor-code phpdocumentor-signature ">
+    <span class="phpdocumentor-signature__visibility">public</span>
+            <span class="phpdocumentor-signature__static">static</span>        <span class="phpdocumentor-signature__name">getRegistrationById</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__return-type">int&nbsp;</span><span class="phpdocumentor-signature__argument__name">$id</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type"><a href="classes/components-objects-Registration.html"><abbr title="\components\objects\Registration">Registration</abbr></a>|null</span></code>
+
+    <div class="phpdocumentor-label-line">
+        </div>
+    
+        <h5 class="phpdocumentor-argument-list__heading">Parameters</h5>
+    <dl class="phpdocumentor-argument-list">
+                    <dt class="phpdocumentor-argument-list__entry">
+                <span class="phpdocumentor-signature__argument__name">$id</span>
+                : <span class="phpdocumentor-signature__argument__return-type">int</span>
+                            </dt>
+            <dd class="phpdocumentor-argument-list__definition">
+                    <section class="phpdocumentor-description"><p>The ID of the registration.</p>
+</section>
+
+            </dd>
+            </dl>
+
+    
+    <h5 class="phpdocumentor-tag-list__heading" id="tags">
+        Tags
+        <a href="classes/components-objects-Registration.html#method_getRegistrationById#tags" class="headerlink"><i class="fas fa-link"></i></a>
+
+    </h5>
+    <dl class="phpdocumentor-tag-list">
+                                    <dt class="phpdocumentor-tag-list__entry">
+                    <span class="phpdocumentor-tag__name">throws</span>
+                </dt>
+                <dd class="phpdocumentor-tag-list__definition">
+                                                                <span class="phpdocumentor-tag-link"><abbr title="\Exception">Exception</abbr></span>
+                                                            
+                                                 <section class="phpdocumentor-description"><p>If the database query fails.</p>
+</section>
+
+                                    </dd>
+                                            </dl>
+
+            <section>
+        <h5 class="phpdocumentor-return-value__heading">Return values</h5>
+        <span class="phpdocumentor-signature__response_type"><a href="classes/components-objects-Registration.html"><abbr title="\components\objects\Registration">Registration</abbr></a>|null</span>
+                    &mdash;
+                <section class="phpdocumentor-description"><p>The Registration object, or null if not found.</p>
+</section>
+
             </section>
 
 </article>
@@ -751,18 +1011,21 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="rezervacni-system/components/objects/Registration.php"><a href="files/rezervacni-system-components-objects-registration.html"><abbr title="rezervacni-system/components/objects/Registration.php">Registration.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">21</span>
+    <span class="phpdocumentor-element-found-in__line">62</span>
 
     </aside>
 
-    
+        <p class="phpdocumentor-summary">Creates a Registration object instance from a database row.</p>
+
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility">public</span>
             <span class="phpdocumentor-signature__static">static</span>        <span class="phpdocumentor-signature__name">hydrate</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__return-type">array&lt;string|int, mixed&gt;&nbsp;</span><span class="phpdocumentor-signature__argument__name">$data</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type"><a href="classes/components-objects-Registration.html"><abbr title="\components\objects\Registration">Registration</abbr></a></span></code>
 
     <div class="phpdocumentor-label-line">
         </div>
-    
+        <section class="phpdocumentor-description"><p>Note: This method automatically fetches the associated User and Event objects.</p>
+</section>
+
         <h5 class="phpdocumentor-argument-list__heading">Parameters</h5>
     <dl class="phpdocumentor-argument-list">
                     <dt class="phpdocumentor-argument-list__entry">
@@ -770,7 +1033,9 @@
                 : <span class="phpdocumentor-signature__argument__return-type">array&lt;string|int, mixed&gt;</span>
                             </dt>
             <dd class="phpdocumentor-argument-list__definition">
-                
+                    <section class="phpdocumentor-description"><p>Associative array containing database column data.</p>
+</section>
+
             </dd>
             </dl>
 
@@ -779,6 +1044,10 @@
             <section>
         <h5 class="phpdocumentor-return-value__heading">Return values</h5>
         <span class="phpdocumentor-signature__response_type"><a href="classes/components-objects-Registration.html"><abbr title="\components\objects\Registration">Registration</abbr></a></span>
+                    &mdash;
+                <section class="phpdocumentor-description"><p>The hydrated Registration object.</p>
+</section>
+
             </section>
 
 </article>
@@ -796,11 +1065,12 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="rezervacni-system/components/objects/Registration.php"><a href="files/rezervacni-system-components-objects-registration.html"><abbr title="rezervacni-system/components/objects/Registration.php">Registration.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">262</span>
+    <span class="phpdocumentor-element-found-in__line">277</span>
 
     </aside>
 
-    
+        <p class="phpdocumentor-summary">Determines if a user is currently registered for an event.</p>
+
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility">public</span>
             <span class="phpdocumentor-signature__static">static</span>        <span class="phpdocumentor-signature__name">isUserRegistered</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__return-type">int&nbsp;</span><span class="phpdocumentor-signature__argument__name">$userId</span></span><span class="phpdocumentor-signature__argument"><span>, </span><span class="phpdocumentor-signature__argument__return-type">int&nbsp;</span><span class="phpdocumentor-signature__argument__name">$eventId</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">bool</span></code>
@@ -815,22 +1085,47 @@
                 : <span class="phpdocumentor-signature__argument__return-type">int</span>
                             </dt>
             <dd class="phpdocumentor-argument-list__definition">
-                
+                    <section class="phpdocumentor-description"><p>The ID of the user.</p>
+</section>
+
             </dd>
                     <dt class="phpdocumentor-argument-list__entry">
                 <span class="phpdocumentor-signature__argument__name">$eventId</span>
                 : <span class="phpdocumentor-signature__argument__return-type">int</span>
                             </dt>
             <dd class="phpdocumentor-argument-list__definition">
-                
+                    <section class="phpdocumentor-description"><p>The ID of the event.</p>
+</section>
+
             </dd>
             </dl>
 
     
+    <h5 class="phpdocumentor-tag-list__heading" id="tags">
+        Tags
+        <a href="classes/components-objects-Registration.html#method_isUserRegistered#tags" class="headerlink"><i class="fas fa-link"></i></a>
+
+    </h5>
+    <dl class="phpdocumentor-tag-list">
+                                    <dt class="phpdocumentor-tag-list__entry">
+                    <span class="phpdocumentor-tag__name">throws</span>
+                </dt>
+                <dd class="phpdocumentor-tag-list__definition">
+                                                                <span class="phpdocumentor-tag-link"><abbr title="\Exception">Exception</abbr></span>
+                                                            
+                                                 <section class="phpdocumentor-description"><p>If the database query fails.</p>
+</section>
+
+                                    </dd>
+                                            </dl>
 
             <section>
         <h5 class="phpdocumentor-return-value__heading">Return values</h5>
         <span class="phpdocumentor-signature__response_type">bool</span>
+                    &mdash;
+                <section class="phpdocumentor-description"><p>True if the user is registered, false otherwise.</p>
+</section>
+
             </section>
 
 </article>
@@ -848,11 +1143,12 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="rezervacni-system/components/objects/Registration.php"><a href="files/rezervacni-system-components-objects-registration.html"><abbr title="rezervacni-system/components/objects/Registration.php">Registration.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">50</span>
+    <span class="phpdocumentor-element-found-in__line">103</span>
 
     </aside>
 
-    
+        <p class="phpdocumentor-summary">Counts the total number of registrations for a specific event.</p>
+
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility">public</span>
             <span class="phpdocumentor-signature__static">static</span>        <span class="phpdocumentor-signature__name">numberOfRegistrationsByEventId</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__return-type">int&nbsp;</span><span class="phpdocumentor-signature__argument__name">$eventId</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">int|null</span></code>
@@ -867,15 +1163,38 @@
                 : <span class="phpdocumentor-signature__argument__return-type">int</span>
                             </dt>
             <dd class="phpdocumentor-argument-list__definition">
-                
+                    <section class="phpdocumentor-description"><p>The ID of the event to count.</p>
+</section>
+
             </dd>
             </dl>
 
     
+    <h5 class="phpdocumentor-tag-list__heading" id="tags">
+        Tags
+        <a href="classes/components-objects-Registration.html#method_numberOfRegistrationsByEventId#tags" class="headerlink"><i class="fas fa-link"></i></a>
+
+    </h5>
+    <dl class="phpdocumentor-tag-list">
+                                    <dt class="phpdocumentor-tag-list__entry">
+                    <span class="phpdocumentor-tag__name">throws</span>
+                </dt>
+                <dd class="phpdocumentor-tag-list__definition">
+                                                                <span class="phpdocumentor-tag-link"><abbr title="\Exception">Exception</abbr></span>
+                                                            
+                                                 <section class="phpdocumentor-description"><p>If the database query fails.</p>
+</section>
+
+                                    </dd>
+                                            </dl>
 
             <section>
         <h5 class="phpdocumentor-return-value__heading">Return values</h5>
         <span class="phpdocumentor-signature__response_type">int|null</span>
+                    &mdash;
+                <section class="phpdocumentor-description"><p>The count of registrations, or null on error context.</p>
+</section>
+
             </section>
 
 </article>
@@ -1010,6 +1329,7 @@
                                             <li><a href="classes/components-objects-Registration.html#method_findEventRegistrationsByEventId">findEventRegistrationsByEventId()</a></li>
                                             <li><a href="classes/components-objects-Registration.html#method_getAllOrdered">getAllOrdered()</a></li>
                                             <li><a href="classes/components-objects-Registration.html#method_getEventsByUser">getEventsByUser()</a></li>
+                                            <li><a href="classes/components-objects-Registration.html#method_getRegistrationById">getRegistrationById()</a></li>
                                             <li><a href="classes/components-objects-Registration.html#method_hydrate">hydrate()</a></li>
                                             <li><a href="classes/components-objects-Registration.html#method_isUserRegistered">isUserRegistered()</a></li>
                                             <li><a href="classes/components-objects-Registration.html#method_numberOfRegistrationsByEventId">numberOfRegistrationsByEventId()</a></li>

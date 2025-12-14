@@ -3,7 +3,6 @@
 use components\objects\User;
 
 require_once __DIR__ . "/components/objects/User.php";
-require_once __DIR__ . "/components/dbconnector.php";
 require_once __DIR__ . "/components/utils/crypto.php";
 require_once __DIR__ . "/components/utils/links.php";
 
@@ -46,13 +45,11 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 <!DOCTYPE html>
 <html lang="cs">
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="public/styles/style.css" rel="stylesheet" type="text/css">
     <link rel="icon" type="image/x-icon" href="https://www.kacubo.cz/favicon.ico">
-<title>Rezervace</title>
-<link rel="stylesheet" href="/rezervacni-system/public/styles/forms.css">
-<link rel="stylesheet" href="/rezervacni-system/public/styles/toogleswitch.css">
+    <title>Rezervace</title>
+    <link rel="stylesheet" href="/rezervacni-system/public/styles/forms.css">
+    <link rel="stylesheet" href="/rezervacni-system/public/styles/toogleswitch.css">
 </head>
 <body id="login-body">
 <header>
@@ -61,7 +58,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
 <main class="login-page">
   <div class="login-container">
-    <form id="login-form" method="post" action="">
+    <form id="login-form" method="post">
         <h2>Přihlášení</h2>
         <?php if ($error): ?>
             <p class="error"><?=htmlspecialchars($error)?></p>

@@ -77,6 +77,16 @@
     <a href="packages/Application.html" class="">Application</a>
 </h4>
 
+                                    <h4 class="phpdocumentor-sidebar__root-namespace">
+    <a href="packages/components.html" class="">components</a>
+</h4>
+    <ul class="phpdocumentor-list">
+                    <li>
+                <a href="packages/components-objects.html" class="">objects</a>
+                
+            </li>
+            </ul>
+
                         </section>
             
     <section class="phpdocumentor-sidebar__category">
@@ -100,7 +110,12 @@
     <article class="phpdocumentor-element -file">
         <h2 class="phpdocumentor-content__title">index.php</h2>
 
-        
+            <p class="phpdocumentor-summary">Main Event Listing Page</p>
+
+    <section class="phpdocumentor-description"><p>This script serves as the homepage for the application. It displays a paginated
+list of events, visualizes the user's registration status (joined/available/locked),
+and handles navigation.</p>
+</section>
 
 
 
@@ -127,8 +142,9 @@
             <dt class="phpdocumentor-table-of-contents__entry -constant -public">
     <a href="namespaces/default.html#constant_EVENTS_PER_PAGE">EVENTS_PER_PAGE</a>
     <span>
-        &nbsp;= 3                            </span>
+        &nbsp;= 6                            </span>
 </dt>
+<dd>Defines the number of event cards displayed per pagination page.</dd>
 
     </dl>
 
@@ -146,12 +162,14 @@
     <span>
                                 &nbsp;: bool    </span>
 </dt>
+<dd>Checks if the registration period for an event has closed.</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -function -">
     <a href="namespaces/default.html#function_userIsRegistered">userIsRegistered()</a>
     <span>
                                 &nbsp;: bool    </span>
 </dt>
+<dd>Determines if a specific user is already registered for a specific event.</dd>
 
     </dl>
 
@@ -174,16 +192,17 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="rezervacni-system/index.php"><a href="files/rezervacni-system-index.html"><abbr title="rezervacni-system/index.php">index.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">5</span>
+    <span class="phpdocumentor-element-found-in__line">18</span>
 
     </aside>
 
-    
+        <p class="phpdocumentor-summary">Defines the number of event cards displayed per pagination page.</p>
+
     <code class="phpdocumentor-signature phpdocumentor-code ">
     <span class="phpdocumentor-signature__visibility">public</span>
         <span class="phpdocumentor-signature__type">mixed</span>
     <span class="phpdocumentor-signature__name">EVENTS_PER_PAGE</span>
-    = <span class="phpdocumentor-signature__default-value">3</span>
+    = <span class="phpdocumentor-signature__default-value">6</span>
 </code>
 
 
@@ -209,24 +228,29 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="rezervacni-system/index.php"><a href="files/rezervacni-system-index.html"><abbr title="rezervacni-system/index.php">index.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">15</span>
+    <span class="phpdocumentor-element-found-in__line">35</span>
 
     </aside>
 
-    
+        <p class="phpdocumentor-summary">Checks if the registration period for an event has closed.</p>
+
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility"></span>
-                    <span class="phpdocumentor-signature__name">eventIsLocked</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__return-type"><a href="classes/components-objects-Event.html"><abbr title="\components\objects\Event">Event</abbr></a>&nbsp;</span><span class="phpdocumentor-signature__argument__name">$event</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">bool</span></code>
+                    <span class="phpdocumentor-signature__name">eventIsLocked</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__return-type"><abbr title="\Event">Event</abbr>&nbsp;</span><span class="phpdocumentor-signature__argument__name">$event</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">bool</span></code>
 
-    
+        <section class="phpdocumentor-description"><p>Compares the current server time against the event's registration deadline.</p>
+</section>
+
         <h5 class="phpdocumentor-argument-list__heading">Parameters</h5>
     <dl class="phpdocumentor-argument-list">
                     <dt class="phpdocumentor-argument-list__entry">
                 <span class="phpdocumentor-signature__argument__name">$event</span>
-                : <span class="phpdocumentor-signature__argument__return-type"><a href="classes/components-objects-Event.html"><abbr title="\components\objects\Event">Event</abbr></a></span>
+                : <span class="phpdocumentor-signature__argument__return-type"><abbr title="\Event">Event</abbr></span>
                             </dt>
             <dd class="phpdocumentor-argument-list__definition">
-                
+                    <section class="phpdocumentor-description"><p>The event object containing the deadline.</p>
+</section>
+
             </dd>
             </dl>
 
@@ -235,6 +259,10 @@
             <section>
         <h5 class="phpdocumentor-return-value__heading">Return values</h5>
         <span class="phpdocumentor-signature__response_type">bool</span>
+                    &mdash;
+                <section class="phpdocumentor-description"><p>True if the deadline has passed (locked), false otherwise.</p>
+</section>
+
             </section>
 
 </article>
@@ -247,16 +275,20 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="rezervacni-system/index.php"><a href="files/rezervacni-system-index.html"><abbr title="rezervacni-system/index.php">index.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">21</span>
+    <span class="phpdocumentor-element-found-in__line">51</span>
 
     </aside>
 
-    
+        <p class="phpdocumentor-summary">Determines if a specific user is already registered for a specific event.</p>
+
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility"></span>
                     <span class="phpdocumentor-signature__name">userIsRegistered</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__return-type">int&nbsp;</span><span class="phpdocumentor-signature__argument__name">$user_id</span></span><span class="phpdocumentor-signature__argument"><span>, </span><span class="phpdocumentor-signature__argument__return-type">int&nbsp;</span><span class="phpdocumentor-signature__argument__name">$event_id</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">bool</span></code>
 
-    
+        <section class="phpdocumentor-description"><p>Acts as a safe wrapper around the Registration::existsByUserIdAndEventId method,
+handling potential database exceptions by redirecting to an error page.</p>
+</section>
+
         <h5 class="phpdocumentor-argument-list__heading">Parameters</h5>
     <dl class="phpdocumentor-argument-list">
                     <dt class="phpdocumentor-argument-list__entry">
@@ -264,14 +296,18 @@
                 : <span class="phpdocumentor-signature__argument__return-type">int</span>
                             </dt>
             <dd class="phpdocumentor-argument-list__definition">
-                
+                    <section class="phpdocumentor-description"><p>The unique ID of the user.</p>
+</section>
+
             </dd>
                     <dt class="phpdocumentor-argument-list__entry">
                 <span class="phpdocumentor-signature__argument__name">$event_id</span>
                 : <span class="phpdocumentor-signature__argument__return-type">int</span>
                             </dt>
             <dd class="phpdocumentor-argument-list__definition">
-                
+                    <section class="phpdocumentor-description"><p>The unique ID of the event.</p>
+</section>
+
             </dd>
             </dl>
 
@@ -280,6 +316,10 @@
             <section>
         <h5 class="phpdocumentor-return-value__heading">Return values</h5>
         <span class="phpdocumentor-signature__response_type">bool</span>
+                    &mdash;
+                <section class="phpdocumentor-description"><p>True if a registration record exists, false otherwise.</p>
+</section>
+
             </section>
 
 </article>

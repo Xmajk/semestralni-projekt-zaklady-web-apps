@@ -207,7 +207,7 @@ if(!isset($event)) {
                 <form class="delete-form" action="<?= createLink("/admin/registrations/delete_r.php") ?>" method="POST">
                     <input type="hidden" hidden="hidden" name="registration_id" value="<?= $rId ?>">
                     <button class="btn-trash" type="submit" title="Smazat">
-                        <img src="https://www.reshot.com/preview-assets/icons/2Z6MPSCH3V/trash-bin-2Z6MPSCH3V.svg" width="20">
+                        <img alt="trash-icon" src="https://www.reshot.com/preview-assets/icons/2Z6MPSCH3V/trash-bin-2Z6MPSCH3V.svg" width="20">
                     </button>
                 </form>
             </div>

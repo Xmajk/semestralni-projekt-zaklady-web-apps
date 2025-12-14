@@ -77,6 +77,16 @@
     <a href="packages/Application.html" class="">Application</a>
 </h4>
 
+                                    <h4 class="phpdocumentor-sidebar__root-namespace">
+    <a href="packages/components.html" class="">components</a>
+</h4>
+    <ul class="phpdocumentor-list">
+                    <li>
+                <a href="packages/components-objects.html" class="">objects</a>
+                
+            </li>
+            </ul>
+
                         </section>
             
     <section class="phpdocumentor-sidebar__category">
@@ -102,8 +112,8 @@
 
             <p class="phpdocumentor-summary">The global base URI prefix for the application.</p>
 
-    <section class="phpdocumentor-description"><p>This path is prepended to all generated links to ensure they work correctly
-regardless of where the application is hosted (e.g., in a subdirectory).</p>
+    <section class="phpdocumentor-description"><p>This variable is used to construct absolute URLs, ensuring the application
+functions correctly regardless of the subdirectory it is hosted in.</p>
 </section>
 
 
@@ -137,56 +147,63 @@ regardless of where the application is hosted (e.g., in a subdirectory).</p>
     <span>
                                 &nbsp;: string    </span>
 </dt>
-<dd>Creates an absolute URL by appending the application prefix.</dd>
+<dd>Generates an absolute URL by appending the global application prefix.</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -function -">
     <a href="namespaces/default.html#function_createPublicLink">createPublicLink()</a>
     <span>
                                 &nbsp;: string    </span>
 </dt>
-<dd>Creates a URL pointing to the public directory.</dd>
+<dd>Generates a URL pointing to the public assets directory.</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -function -">
     <a href="namespaces/default.html#function_createScriptLink">createScriptLink()</a>
     <span>
                                 &nbsp;: string    </span>
 </dt>
-<dd>Creates a URL for a JavaScript file.</dd>
+<dd>Generates a URL for a JavaScript file located in the scripts directory.</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -function -">
     <a href="namespaces/default.html#function_createStylesLink">createStylesLink()</a>
     <span>
                                 &nbsp;: string    </span>
 </dt>
-<dd>Creates a URL for a CSS stylesheet.</dd>
+<dd>Generates a URL for a CSS stylesheet located in the styles directory.</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -function -">
     <a href="namespaces/default.html#function_create_error_link">create_error_link()</a>
     <span>
                                 &nbsp;: string    </span>
 </dt>
-<dd>Generates a URL for the 500 error page with a specific message.</dd>
+<dd>Generates a URL for the 500 internal server error page with a custom message.</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -function -">
     <a href="namespaces/default.html#function_redirect_to">redirect_to()</a>
     <span>
                                 &nbsp;: void    </span>
 </dt>
-<dd>Redirects the user to a new URL and terminates the script.</dd>
+<dd>Performs an HTTP redirect to the specified URL and terminates the script.</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -function -">
     <a href="namespaces/default.html#function_create_large_image_link">create_large_image_link()</a>
     <span>
                                 &nbsp;: string    </span>
 </dt>
-<dd>Creates a URL for a large version of an event image.</dd>
+<dd>Generates a URL for a large version of an event image.</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -function -">
     <a href="namespaces/default.html#function_create_small_image_link">create_small_image_link()</a>
     <span>
                                 &nbsp;: string    </span>
 </dt>
-<dd>Creates a URL for a thumbnail version of an event image.</dd>
+<dd>Generates a URL for a thumbnail version of an event image.</dd>
+
+            <dt class="phpdocumentor-table-of-contents__entry -function -">
+    <a href="namespaces/default.html#function_redirectToDatabaseError">redirectToDatabaseError()</a>
+    <span>
+                                &nbsp;: void    </span>
+</dt>
+<dd>Redirects the user to the standard database error page.</dd>
 
     </dl>
 
@@ -209,20 +226,17 @@ regardless of where the application is hosted (e.g., in a subdirectory).</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="rezervacni-system/components/utils/links.php"><a href="files/rezervacni-system-components-utils-links.html"><abbr title="rezervacni-system/components/utils/links.php">links.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">23</span>
+    <span class="phpdocumentor-element-found-in__line">20</span>
 
     </aside>
 
-        <p class="phpdocumentor-summary">Creates an absolute URL by appending the application prefix.</p>
+        <p class="phpdocumentor-summary">Generates an absolute URL by appending the global application prefix.</p>
 
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility"></span>
                     <span class="phpdocumentor-signature__name">createLink</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__return-type">string&nbsp;</span><span class="phpdocumentor-signature__argument__name">$link</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">string</span></code>
 
-        <section class="phpdocumentor-description"><p>This function uses the global $PREFIX variable to construct
-the full path to a resource within the application.</p>
-</section>
-
+    
         <h5 class="phpdocumentor-argument-list__heading">Parameters</h5>
     <dl class="phpdocumentor-argument-list">
                     <dt class="phpdocumentor-argument-list__entry">
@@ -258,7 +272,7 @@ the full path to a resource within the application.</p>
         <h5 class="phpdocumentor-return-value__heading">Return values</h5>
         <span class="phpdocumentor-signature__response_type">string</span>
                     &mdash;
-                <section class="phpdocumentor-description"><p>The fully qualified URL path.</p>
+                <section class="phpdocumentor-description"><p>The fully qualified URL.</p>
 </section>
 
             </section>
@@ -273,20 +287,17 @@ the full path to a resource within the application.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="rezervacni-system/components/utils/links.php"><a href="files/rezervacni-system-components-utils-links.html"><abbr title="rezervacni-system/components/utils/links.php">links.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">38</span>
+    <span class="phpdocumentor-element-found-in__line">32</span>
 
     </aside>
 
-        <p class="phpdocumentor-summary">Creates a URL pointing to the public directory.</p>
+        <p class="phpdocumentor-summary">Generates a URL pointing to the public assets directory.</p>
 
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility"></span>
                     <span class="phpdocumentor-signature__name">createPublicLink</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__return-type">string&nbsp;</span><span class="phpdocumentor-signature__argument__name">$link</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">string</span></code>
 
-        <section class="phpdocumentor-description"><p>This is a wrapper for <a href="namespaces/default.html#function_createLink"><abbr title="\createLink()">createLink()</abbr></a> specifically for publicly
-accessible resources.</p>
-</section>
-
+    
         <h5 class="phpdocumentor-argument-list__heading">Parameters</h5>
     <dl class="phpdocumentor-argument-list">
                     <dt class="phpdocumentor-argument-list__entry">
@@ -321,19 +332,17 @@ accessible resources.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="rezervacni-system/components/utils/links.php"><a href="files/rezervacni-system-components-utils-links.html"><abbr title="rezervacni-system/components/utils/links.php">links.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">51</span>
+    <span class="phpdocumentor-element-found-in__line">43</span>
 
     </aside>
 
-        <p class="phpdocumentor-summary">Creates a URL for a JavaScript file.</p>
+        <p class="phpdocumentor-summary">Generates a URL for a JavaScript file located in the scripts directory.</p>
 
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility"></span>
                     <span class="phpdocumentor-signature__name">createScriptLink</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__return-type">string&nbsp;</span><span class="phpdocumentor-signature__argument__name">$script</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">string</span></code>
 
-        <section class="phpdocumentor-description"><p>Helper function that points specifically to the '/public/scripts' directory.</p>
-</section>
-
+    
         <h5 class="phpdocumentor-argument-list__heading">Parameters</h5>
     <dl class="phpdocumentor-argument-list">
                     <dt class="phpdocumentor-argument-list__entry">
@@ -341,7 +350,7 @@ accessible resources.</p>
                 : <span class="phpdocumentor-signature__argument__return-type">string</span>
                             </dt>
             <dd class="phpdocumentor-argument-list__definition">
-                    <section class="phpdocumentor-description"><p>The filename of the script (including extension, e.g., &quot;/app.js&quot;).</p>
+                    <section class="phpdocumentor-description"><p>The filename of the script (e.g., &quot;/app.js&quot;).</p>
 </section>
 
             </dd>
@@ -368,19 +377,17 @@ accessible resources.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="rezervacni-system/components/utils/links.php"><a href="files/rezervacni-system-components-utils-links.html"><abbr title="rezervacni-system/components/utils/links.php">links.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">64</span>
+    <span class="phpdocumentor-element-found-in__line">54</span>
 
     </aside>
 
-        <p class="phpdocumentor-summary">Creates a URL for a CSS stylesheet.</p>
+        <p class="phpdocumentor-summary">Generates a URL for a CSS stylesheet located in the styles directory.</p>
 
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility"></span>
                     <span class="phpdocumentor-signature__name">createStylesLink</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__return-type">string&nbsp;</span><span class="phpdocumentor-signature__argument__name">$script</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">string</span></code>
 
-        <section class="phpdocumentor-description"><p>Helper function that points specifically to the '/public/styles' directory.</p>
-</section>
-
+    
         <h5 class="phpdocumentor-argument-list__heading">Parameters</h5>
     <dl class="phpdocumentor-argument-list">
                     <dt class="phpdocumentor-argument-list__entry">
@@ -388,7 +395,7 @@ accessible resources.</p>
                 : <span class="phpdocumentor-signature__argument__return-type">string</span>
                             </dt>
             <dd class="phpdocumentor-argument-list__definition">
-                    <section class="phpdocumentor-description"><p>The filename of the stylesheet (including extension, e.g., &quot;/main.css&quot;).</p>
+                    <section class="phpdocumentor-description"><p>The filename of the stylesheet (e.g., &quot;/main.css&quot;).</p>
 </section>
 
             </dd>
@@ -400,7 +407,7 @@ accessible resources.</p>
         <h5 class="phpdocumentor-return-value__heading">Return values</h5>
         <span class="phpdocumentor-signature__response_type">string</span>
                     &mdash;
-                <section class="phpdocumentor-description"><p>The full URL to the style file.</p>
+                <section class="phpdocumentor-description"><p>The full URL to the CSS file.</p>
 </section>
 
             </section>
@@ -415,20 +422,17 @@ accessible resources.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="rezervacni-system/components/utils/links.php"><a href="files/rezervacni-system-components-utils-links.html"><abbr title="rezervacni-system/components/utils/links.php">links.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">78</span>
+    <span class="phpdocumentor-element-found-in__line">65</span>
 
     </aside>
 
-        <p class="phpdocumentor-summary">Generates a URL for the 500 error page with a specific message.</p>
+        <p class="phpdocumentor-summary">Generates a URL for the 500 internal server error page with a custom message.</p>
 
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility"></span>
                     <span class="phpdocumentor-signature__name">create_error_link</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__return-type">string&nbsp;</span><span class="phpdocumentor-signature__argument__name">$message</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">string</span></code>
 
-        <section class="phpdocumentor-description"><p>This function builds a query string containing the error message,
-safely encoded for use in a URL.</p>
-</section>
-
+    
         <h5 class="phpdocumentor-argument-list__heading">Parameters</h5>
     <dl class="phpdocumentor-argument-list">
                     <dt class="phpdocumentor-argument-list__entry">
@@ -436,7 +440,7 @@ safely encoded for use in a URL.</p>
                 : <span class="phpdocumentor-signature__argument__return-type">string</span>
                             </dt>
             <dd class="phpdocumentor-argument-list__definition">
-                    <section class="phpdocumentor-description"><p>The error message to display on the 500 page.</p>
+                    <section class="phpdocumentor-description"><p>The error message to be passed in the query string.</p>
 </section>
 
             </dd>
@@ -448,7 +452,7 @@ safely encoded for use in a URL.</p>
         <h5 class="phpdocumentor-return-value__heading">Return values</h5>
         <span class="phpdocumentor-signature__response_type">string</span>
                     &mdash;
-                <section class="phpdocumentor-description"><p>The full URL to the 500 error page.</p>
+                <section class="phpdocumentor-description"><p>The full URL to the error page.</p>
 </section>
 
             </section>
@@ -463,21 +467,17 @@ safely encoded for use in a URL.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="rezervacni-system/components/utils/links.php"><a href="files/rezervacni-system-components-utils-links.html"><abbr title="rezervacni-system/components/utils/links.php">links.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">92</span>
+    <span class="phpdocumentor-element-found-in__line">75</span>
 
     </aside>
 
-        <p class="phpdocumentor-summary">Redirects the user to a new URL and terminates the script.</p>
+        <p class="phpdocumentor-summary">Performs an HTTP redirect to the specified URL and terminates the script.</p>
 
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility"></span>
                     <span class="phpdocumentor-signature__name">redirect_to</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__return-type">string&nbsp;</span><span class="phpdocumentor-signature__argument__name">$link</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">void</span></code>
 
-        <section class="phpdocumentor-description"><p>This function sends a raw HTTP Location header. It is crucial that
-no output is sent to the browser before calling this function.
-Execution stops immediately after the header is sent.</p>
-</section>
-
+    
         <h5 class="phpdocumentor-argument-list__heading">Parameters</h5>
     <dl class="phpdocumentor-argument-list">
                     <dt class="phpdocumentor-argument-list__entry">
@@ -485,7 +485,7 @@ Execution stops immediately after the header is sent.</p>
                 : <span class="phpdocumentor-signature__argument__return-type">string</span>
                             </dt>
             <dd class="phpdocumentor-argument-list__definition">
-                    <section class="phpdocumentor-description"><p>The URL to redirect to.</p>
+                    <section class="phpdocumentor-description"><p>The target URL for the redirection.</p>
 </section>
 
             </dd>
@@ -504,19 +504,17 @@ Execution stops immediately after the header is sent.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="rezervacni-system/components/utils/links.php"><a href="files/rezervacni-system-components-utils-links.html"><abbr title="rezervacni-system/components/utils/links.php">links.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">105</span>
+    <span class="phpdocumentor-element-found-in__line">86</span>
 
     </aside>
 
-        <p class="phpdocumentor-summary">Creates a URL for a large version of an event image.</p>
+        <p class="phpdocumentor-summary">Generates a URL for a large version of an event image.</p>
 
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility"></span>
                     <span class="phpdocumentor-signature__name">create_large_image_link</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__return-type">string&nbsp;</span><span class="phpdocumentor-signature__argument__name">$imagname</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">string</span></code>
 
-        <section class="phpdocumentor-description"><p>Points to the '/public/imgs/events/large/' directory.</p>
-</section>
-
+    
         <h5 class="phpdocumentor-argument-list__heading">Parameters</h5>
     <dl class="phpdocumentor-argument-list">
                     <dt class="phpdocumentor-argument-list__entry">
@@ -551,19 +549,17 @@ Execution stops immediately after the header is sent.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="rezervacni-system/components/utils/links.php"><a href="files/rezervacni-system-components-utils-links.html"><abbr title="rezervacni-system/components/utils/links.php">links.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">117</span>
+    <span class="phpdocumentor-element-found-in__line">96</span>
 
     </aside>
 
-        <p class="phpdocumentor-summary">Creates a URL for a thumbnail version of an event image.</p>
+        <p class="phpdocumentor-summary">Generates a URL for a thumbnail version of an event image.</p>
 
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility"></span>
                     <span class="phpdocumentor-signature__name">create_small_image_link</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__return-type">string&nbsp;</span><span class="phpdocumentor-signature__argument__name">$imagname</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">string</span></code>
 
-        <section class="phpdocumentor-description"><p>Points to the '/public/imgs/events/thumb/' directory.</p>
-</section>
-
+    
         <h5 class="phpdocumentor-argument-list__heading">Parameters</h5>
     <dl class="phpdocumentor-argument-list">
                     <dt class="phpdocumentor-argument-list__entry">
@@ -588,6 +584,34 @@ Execution stops immediately after the header is sent.</p>
 
             </section>
 
+</article>
+                    <article class="phpdocumentor-element -function - ">
+    <h4 class="phpdocumentor-element__name" id="function_redirectToDatabaseError">
+        redirectToDatabaseError()
+        <a href="namespaces/default.html#function_redirectToDatabaseError" class="headerlink"><i class="fas fa-link"></i></a>
+
+    </h4>
+    <aside class="phpdocumentor-element-found-in">
+    <abbr class="phpdocumentor-element-found-in__file" title="rezervacni-system/components/utils/links.php"><a href="files/rezervacni-system-components-utils-links.html"><abbr title="rezervacni-system/components/utils/links.php">links.php</abbr></a></abbr>
+    :
+    <span class="phpdocumentor-element-found-in__line">108</span>
+
+    </aside>
+
+        <p class="phpdocumentor-summary">Redirects the user to the standard database error page.</p>
+
+    <code class="phpdocumentor-code phpdocumentor-signature ">
+    <span class="phpdocumentor-signature__visibility"></span>
+                    <span class="phpdocumentor-signature__name">redirectToDatabaseError</span><span>(</span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">void</span></code>
+
+        <section class="phpdocumentor-description"><p>This is a convenience wrapper around <a href="namespaces/default.html#function_redirect_to"><abbr title="\redirect_to()">redirect_to()</abbr></a> and <a href="namespaces/default.html#function_create_error_link"><abbr title="\create_error_link()">create_error_link()</abbr></a>
+specifically for handling database connection or query failures.</p>
+</section>
+
+    
+    
+
+    
 </article>
             </section>
 
@@ -710,6 +734,7 @@ Execution stops immediately after the header is sent.</p>
                                                     <li><a href="namespaces/default.html#function_createScriptLink">createScriptLink()</a></li>
                                                     <li><a href="namespaces/default.html#function_createStylesLink">createStylesLink()</a></li>
                                                     <li><a href="namespaces/default.html#function_redirect_to">redirect_to()</a></li>
+                                                    <li><a href="namespaces/default.html#function_redirectToDatabaseError">redirectToDatabaseError()</a></li>
                                             </ul>
                 </li>
                     </ul>

@@ -77,6 +77,16 @@
     <a href="packages/Application.html" class="">Application</a>
 </h4>
 
+                                    <h4 class="phpdocumentor-sidebar__root-namespace">
+    <a href="packages/components.html" class="">components</a>
+</h4>
+    <ul class="phpdocumentor-list">
+                    <li>
+                <a href="packages/components-objects.html" class="">objects</a>
+                
+            </li>
+            </ul>
+
                         </section>
             
     <section class="phpdocumentor-sidebar__category">
@@ -149,6 +159,13 @@
 </dt>
 <dd>Converts a date string into a DateTime object.</dd>
 
+            <dt class="phpdocumentor-table-of-contents__entry -function -">
+    <a href="namespaces/default.html#function_getDateTimeNow">getDateTimeNow()</a>
+    <span>
+                                &nbsp;: <abbr title="\DateTime">DateTime</abbr>    </span>
+</dt>
+<dd>Retrieves the current date and time.</dd>
+
     </dl>
 
 
@@ -170,7 +187,7 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="rezervacni-system/components/utils/date_time.php"><a href="files/rezervacni-system-components-utils-date-time.html"><abbr title="rezervacni-system/components/utils/date_time.php">date_time.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">7</span>
+    <span class="phpdocumentor-element-found-in__line">8</span>
 
     </aside>
 
@@ -206,7 +223,7 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="rezervacni-system/components/utils/date_time.php"><a href="files/rezervacni-system-components-utils-date-time.html"><abbr title="rezervacni-system/components/utils/date_time.php">date_time.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">19</span>
+    <span class="phpdocumentor-element-found-in__line">20</span>
 
     </aside>
 
@@ -257,6 +274,59 @@ explicitly setting the timezone to the global constant <a href="namespaces/defau
         <span class="phpdocumentor-signature__response_type"><abbr title="\DateTime">DateTime</abbr></span>
                     &mdash;
                 <section class="phpdocumentor-description"><p>The resulting DateTime object set to the configured timezone.</p>
+</section>
+
+            </section>
+
+</article>
+                    <article class="phpdocumentor-element -function - ">
+    <h4 class="phpdocumentor-element__name" id="function_getDateTimeNow">
+        getDateTimeNow()
+        <a href="namespaces/default.html#function_getDateTimeNow" class="headerlink"><i class="fas fa-link"></i></a>
+
+    </h4>
+    <aside class="phpdocumentor-element-found-in">
+    <abbr class="phpdocumentor-element-found-in__file" title="rezervacni-system/components/utils/date_time.php"><a href="files/rezervacni-system-components-utils-date-time.html"><abbr title="rezervacni-system/components/utils/date_time.php">date_time.php</abbr></a></abbr>
+    :
+    <span class="phpdocumentor-element-found-in__line">33</span>
+
+    </aside>
+
+        <p class="phpdocumentor-summary">Retrieves the current date and time.</p>
+
+    <code class="phpdocumentor-code phpdocumentor-signature ">
+    <span class="phpdocumentor-signature__visibility"></span>
+                    <span class="phpdocumentor-signature__name">getDateTimeNow</span><span>(</span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type"><abbr title="\DateTime">DateTime</abbr></span></code>
+
+        <section class="phpdocumentor-description"><p>Creates a DateTime object representing the current moment,
+configured with the application's default timezone.</p>
+</section>
+
+    
+    
+    <h5 class="phpdocumentor-tag-list__heading" id="tags">
+        Tags
+        <a href="namespaces/default.html#function_getDateTimeNow#tags" class="headerlink"><i class="fas fa-link"></i></a>
+
+    </h5>
+    <dl class="phpdocumentor-tag-list">
+                                    <dt class="phpdocumentor-tag-list__entry">
+                    <span class="phpdocumentor-tag__name">throws</span>
+                </dt>
+                <dd class="phpdocumentor-tag-list__definition">
+                                                                <span class="phpdocumentor-tag-link"><abbr title="\Exception">Exception</abbr></span>
+                                                            
+                                                 <section class="phpdocumentor-description"><p>If the timezone identifier is invalid.</p>
+</section>
+
+                                    </dd>
+                                            </dl>
+
+            <section>
+        <h5 class="phpdocumentor-return-value__heading">Return values</h5>
+        <span class="phpdocumentor-signature__response_type"><abbr title="\DateTime">DateTime</abbr></span>
+                    &mdash;
+                <section class="phpdocumentor-description"><p>The current date and time.</p>
 </section>
 
             </section>
@@ -383,6 +453,7 @@ explicitly setting the timezone to the global constant <a href="namespaces/defau
                 <li>
                     <ul class="phpdocumentor-list -clean">
                                                     <li><a href="namespaces/default.html#function_convertStringToDateTime">convertStringToDateTime()</a></li>
+                                                    <li><a href="namespaces/default.html#function_getDateTimeNow">getDateTimeNow()</a></li>
                                             </ul>
                 </li>
                     </ul>

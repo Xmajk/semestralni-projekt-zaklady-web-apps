@@ -36,84 +36,149 @@ Search.appendIndex(
             "summary": "",
             "url": "namespaces/default.html#function_reload"
         },                {
+            "fqsen": "\\BREADCRUMB_MAP",
+            "name": "BREADCRUMB_MAP",
+            "summary": "Configuration\u0020constant\u0020mapping\u0020breadcrumb\u0020keys\u0020to\u0020their\u0020corresponding\u0020URLs.",
+            "url": "namespaces/default.html#constant_BREADCRUMB_MAP"
+        },                {
+            "fqsen": "\\BREADCRUMB_ALIASES",
+            "name": "BREADCRUMB_ALIASES",
+            "summary": "Configuration\u0020constant\u0020mapping\u0020breadcrumb\u0020keys\u0020to\u0020their\u0020display\u0020labels.",
+            "url": "namespaces/default.html#constant_BREADCRUMB_ALIASES"
+        },                {
+            "fqsen": "\\generateBreadcrumbs\u0028\u0029",
+            "name": "generateBreadcrumbs",
+            "summary": "Generates\u0020the\u0020HTML\u0020for\u0020the\u0020breadcrumb\u0020navigation\u0020based\u0020on\u0020a\u0020list\u0020of\u0020keys.",
+            "url": "namespaces/default.html#function_generateBreadcrumbs"
+        },                {
             "fqsen": "\\check_cookies\u0028\u0029",
             "name": "check_cookies",
-            "summary": "",
+            "summary": "Checks\u0020for\u0020the\u0020existence\u0020of\u0020authentication\u0020cookies.",
             "url": "namespaces/default.html#function_check_cookies"
         },                {
             "fqsen": "\\check_user_cred\u0028\u0029",
             "name": "check_user_cred",
-            "summary": "",
+            "summary": "Validates\u0020the\u0020user\u0020credentials\u0020against\u0020the\u0020database.",
             "url": "namespaces/default.html#function_check_user_cred"
         },                {
             "fqsen": "\\check_auth_user\u0028\u0029",
             "name": "check_auth_user",
-            "summary": "",
+            "summary": "Enforces\u0020that\u0020a\u0020user\u0020is\u0020currently\u0020logged\u0020in.",
             "url": "namespaces/default.html#function_check_auth_user"
         },                {
             "fqsen": "\\check_auth_admin\u0028\u0029",
             "name": "check_auth_admin",
-            "summary": "",
+            "summary": "Enforces\u0020that\u0020the\u0020current\u0020user\u0020has\u0020administrator\u0020privileges.",
             "url": "namespaces/default.html#function_check_auth_admin"
         },                {
-            "fqsen": "\\connect\u0028\u0029",
-            "name": "connect",
+            "fqsen": "\\DB_HOST",
+            "name": "DB_HOST",
+            "summary": "The\u0020hostname\u0020or\u0020IP\u0020address\u0020of\u0020the\u0020database\u0020server.",
+            "url": "namespaces/default.html#constant_DB_HOST"
+        },                {
+            "fqsen": "\\DB_NAME",
+            "name": "DB_NAME",
+            "summary": "The\u0020name\u0020of\u0020the\u0020specific\u0020database\u0020to\u0020connect\u0020to.",
+            "url": "namespaces/default.html#constant_DB_NAME"
+        },                {
+            "fqsen": "\\DB_USER",
+            "name": "DB_USER",
+            "summary": "The\u0020username\u0020used\u0020for\u0020database\u0020authentication.",
+            "url": "namespaces/default.html#constant_DB_USER"
+        },                {
+            "fqsen": "\\DB_PASS",
+            "name": "DB_PASS",
+            "summary": "The\u0020password\u0020used\u0020for\u0020database\u0020authentication.",
+            "url": "namespaces/default.html#constant_DB_PASS"
+        },                {
+            "fqsen": "\\DB_CHARSET",
+            "name": "DB_CHARSET",
+            "summary": "The\u0020character\u0020set\u0020used\u0020for\u0020the\u0020database\u0020connection\u0020\u0028utf8mb4\u0020is\u0020recommended\u0029.",
+            "url": "namespaces/default.html#constant_DB_CHARSET"
+        },                {
+            "fqsen": "\\components\\Database",
+            "name": "Database",
+            "summary": "Class\u0020Database",
+            "url": "classes/components-Database.html"
+        },                {
+            "fqsen": "\\components\\Database\u003A\u003A__construct\u0028\u0029",
+            "name": "__construct",
+            "summary": "Database\u0020constructor.",
+            "url": "classes/components-Database.html#method___construct"
+        },                {
+            "fqsen": "\\components\\Database\u003A\u003AgetInstance\u0028\u0029",
+            "name": "getInstance",
+            "summary": "Retrieves\u0020the\u0020single\u0020instance\u0020of\u0020the\u0020Database\u0020class.",
+            "url": "classes/components-Database.html#method_getInstance"
+        },                {
+            "fqsen": "\\components\\Database\u003A\u003AgetConnection\u0028\u0029",
+            "name": "getConnection",
+            "summary": "Retrieves\u0020the\u0020active\u0020PDO\u0020connection\u0020object.",
+            "url": "classes/components-Database.html#method_getConnection"
+        },                {
+            "fqsen": "\\components\\Database\u003A\u003A\u0024instance",
+            "name": "instance",
             "summary": "",
-            "url": "namespaces/default.html#function_connect"
+            "url": "classes/components-Database.html#property_instance"
+        },                {
+            "fqsen": "\\components\\Database\u003A\u003A\u0024pdo",
+            "name": "pdo",
+            "summary": "",
+            "url": "classes/components-Database.html#property_pdo"
         },                {
             "fqsen": "\\components\\objects\\Event",
             "name": "Event",
-            "summary": "Class\u0020Event\nReprezentuje\u0020jednu\u0020ud\u00E1lost\u0020v\u0020syst\u00E9mu.",
+            "summary": "Class\u0020Event",
             "url": "classes/components-objects-Event.html"
         },                {
             "fqsen": "\\components\\objects\\Event\u003A\u003Afill\u0028\u0029",
             "name": "fill",
-            "summary": "",
+            "summary": "Populates\u0020the\u0020object\u0020properties\u0020using\u0020an\u0020associative\u0020array\u0020\u0028usually\u0020from\u0020\u0024_POST\u0029.",
             "url": "classes/components-objects-Event.html#method_fill"
         },                {
             "fqsen": "\\components\\objects\\Event\u003A\u003Avalidate\u0028\u0029",
             "name": "validate",
-            "summary": "",
+            "summary": "Validates\u0020the\u0020logical\u0020constraints\u0020of\u0020the\u0020object\u0020properties.",
             "url": "classes/components-objects-Event.html#method_validate"
         },                {
             "fqsen": "\\components\\objects\\Event\u003A\u003Ahydrate\u0028\u0029",
             "name": "hydrate",
-            "summary": "Intern\u00ED\u0020pomocn\u00E1\u0020funkce\u0020pro\u0020\u0022hydrataci\u0022\u0020objektu\u0020z\u0020datab\u00E1zov\u00E9ho\u0020\u0159\u00E1dku.",
+            "summary": "Internal\u0020helper\u0020method\u0020to\u0020hydrate\u0020an\u0020object\u0020instance\u0020from\u0020a\u0020database\u0020row.",
             "url": "classes/components-objects-Event.html#method_hydrate"
         },                {
             "fqsen": "\\components\\objects\\Event\u003A\u003AgetById\u0028\u0029",
             "name": "getById",
-            "summary": "Na\u010Dte\u0020jednu\u0020ud\u00E1lost\u0020z\u0020datab\u00E1ze\u0020podle\u0020jej\u00EDho\u0020ID.",
+            "summary": "Retrieves\u0020a\u0020single\u0020event\u0020from\u0020the\u0020database\u0020by\u0020its\u0020ID.",
             "url": "classes/components-objects-Event.html#method_getById"
         },                {
             "fqsen": "\\components\\objects\\Event\u003A\u003AgetAllOrdered\u0028\u0029",
             "name": "getAllOrdered",
-            "summary": "",
+            "summary": "Retrieves\u0020all\u0020events\u0020from\u0020the\u0020database,\u0020ordered\u0020by\u0020start\u0020datetime\u0020descending.",
             "url": "classes/components-objects-Event.html#method_getAllOrdered"
         },                {
             "fqsen": "\\components\\objects\\Event\u003A\u003AcountEvents\u0028\u0029",
             "name": "countEvents",
-            "summary": "",
+            "summary": "Counts\u0020the\u0020total\u0020number\u0020of\u0020events\u0020in\u0020the\u0020database.",
             "url": "classes/components-objects-Event.html#method_countEvents"
         },                {
             "fqsen": "\\components\\objects\\Event\u003A\u003AgetPage\u0028\u0029",
             "name": "getPage",
-            "summary": "",
+            "summary": "Retrieves\u0020a\u0020specific\u0020page\u0020of\u0020events\u0020for\u0020pagination.",
             "url": "classes/components-objects-Event.html#method_getPage"
         },                {
             "fqsen": "\\components\\objects\\Event\u003A\u003Ainsert\u0028\u0029",
             "name": "insert",
-            "summary": "Ulo\u017E\u00ED\u0020novou\u0020ud\u00E1lost\u0020\u0028nov\u00FD\u0020z\u00E1znam\u0029\u0020do\u0020datab\u00E1ze.",
+            "summary": "Inserts\u0020the\u0020current\u0020event\u0020object\u0020as\u0020a\u0020new\u0020record\u0020in\u0020the\u0020database.",
             "url": "classes/components-objects-Event.html#method_insert"
         },                {
             "fqsen": "\\components\\objects\\Event\u003A\u003Aupdate\u0028\u0029",
             "name": "update",
-            "summary": "",
+            "summary": "Updates\u0020an\u0020existing\u0020event\u0020record\u0020in\u0020the\u0020database.",
             "url": "classes/components-objects-Event.html#method_update"
         },                {
             "fqsen": "\\components\\objects\\Event\u003A\u003AdeleteById\u0028\u0029",
             "name": "deleteById",
-            "summary": "Sma\u017Ee\u0020ud\u00E1lost\u0020z\u0020datab\u00E1ze\u0020podle\u0020zadan\u00E9ho\u0020ID.",
+            "summary": "Deletes\u0020an\u0020event\u0020from\u0020the\u0020database\u0020by\u0020its\u0020ID.",
             "url": "classes/components-objects-Event.html#method_deleteById"
         },                {
             "fqsen": "\\components\\objects\\Event\u003A\u003A\u0024id",
@@ -163,53 +228,58 @@ Search.appendIndex(
         },                {
             "fqsen": "\\components\\objects\\Registration",
             "name": "Registration",
-            "summary": "",
+            "summary": "Class\u0020Registration",
             "url": "classes/components-objects-Registration.html"
         },                {
             "fqsen": "\\components\\objects\\Registration\u003A\u003Ahydrate\u0028\u0029",
             "name": "hydrate",
-            "summary": "",
+            "summary": "Creates\u0020a\u0020Registration\u0020object\u0020instance\u0020from\u0020a\u0020database\u0020row.",
             "url": "classes/components-objects-Registration.html#method_hydrate"
         },                {
             "fqsen": "\\components\\objects\\Registration\u003A\u003AgetAllOrdered\u0028\u0029",
             "name": "getAllOrdered",
-            "summary": "",
+            "summary": "Retrieves\u0020all\u0020registrations\u0020existing\u0020in\u0020the\u0020system,\u0020ordered\u0020by\u0020ID\u0020descending.",
             "url": "classes/components-objects-Registration.html#method_getAllOrdered"
         },                {
             "fqsen": "\\components\\objects\\Registration\u003A\u003AnumberOfRegistrationsByEventId\u0028\u0029",
             "name": "numberOfRegistrationsByEventId",
-            "summary": "",
+            "summary": "Counts\u0020the\u0020total\u0020number\u0020of\u0020registrations\u0020for\u0020a\u0020specific\u0020event.",
             "url": "classes/components-objects-Registration.html#method_numberOfRegistrationsByEventId"
-        },                {
-            "fqsen": "\\components\\objects\\Registration\u003A\u003AfindEventRegistrationsByEventId\u0028\u0029",
-            "name": "findEventRegistrationsByEventId",
-            "summary": "",
-            "url": "classes/components-objects-Registration.html#method_findEventRegistrationsByEventId"
         },                {
             "fqsen": "\\components\\objects\\Registration\u003A\u003AexistsByUserIdAndEventId\u0028\u0029",
             "name": "existsByUserIdAndEventId",
-            "summary": "",
+            "summary": "Checks\u0020if\u0020a\u0020specific\u0020user\u0020is\u0020already\u0020registered\u0020for\u0020a\u0020specific\u0020event.",
             "url": "classes/components-objects-Registration.html#method_existsByUserIdAndEventId"
         },                {
             "fqsen": "\\components\\objects\\Registration\u003A\u003AcreateRegistration\u0028\u0029",
             "name": "createRegistration",
-            "summary": "",
+            "summary": "Creates\u0020a\u0020new\u0020registration\u0020record\u0020transactionally.",
             "url": "classes/components-objects-Registration.html#method_createRegistration"
         },                {
             "fqsen": "\\components\\objects\\Registration\u003A\u003AdeleteRegistration\u0028\u0029",
             "name": "deleteRegistration",
-            "summary": "",
+            "summary": "Removes\u0020a\u0020registration\u0020record\u0020from\u0020the\u0020database.",
             "url": "classes/components-objects-Registration.html#method_deleteRegistration"
         },                {
             "fqsen": "\\components\\objects\\Registration\u003A\u003AgetEventsByUser\u0028\u0029",
             "name": "getEventsByUser",
-            "summary": "",
+            "summary": "Retrieves\u0020a\u0020list\u0020of\u0020events\u0020that\u0020a\u0020specific\u0020user\u0020has\u0020registered\u0020for.",
             "url": "classes/components-objects-Registration.html#method_getEventsByUser"
         },                {
             "fqsen": "\\components\\objects\\Registration\u003A\u003AisUserRegistered\u0028\u0029",
             "name": "isUserRegistered",
-            "summary": "",
+            "summary": "Determines\u0020if\u0020a\u0020user\u0020is\u0020currently\u0020registered\u0020for\u0020an\u0020event.",
             "url": "classes/components-objects-Registration.html#method_isUserRegistered"
+        },                {
+            "fqsen": "\\components\\objects\\Registration\u003A\u003AfindEventRegistrationsByEventId\u0028\u0029",
+            "name": "findEventRegistrationsByEventId",
+            "summary": "Retrieves\u0020all\u0020users\u0020registered\u0020for\u0020a\u0020specific\u0020event.",
+            "url": "classes/components-objects-Registration.html#method_findEventRegistrationsByEventId"
+        },                {
+            "fqsen": "\\components\\objects\\Registration\u003A\u003AgetRegistrationById\u0028\u0029",
+            "name": "getRegistrationById",
+            "summary": "Retrieves\u0020a\u0020single\u0020registration\u0020record\u0020by\u0020its\u0020ID.",
+            "url": "classes/components-objects-Registration.html#method_getRegistrationById"
         },                {
             "fqsen": "\\components\\objects\\Registration\u003A\u003A\u0024id",
             "name": "id",
@@ -243,57 +313,67 @@ Search.appendIndex(
         },                {
             "fqsen": "\\components\\objects\\User",
             "name": "User",
-            "summary": "",
+            "summary": "Class\u0020User",
             "url": "classes/components-objects-User.html"
         },                {
-            "fqsen": "\\components\\objects\\User\u003A\u003Acheck_credentials\u0028\u0029",
-            "name": "check_credentials",
-            "summary": "",
-            "url": "classes/components-objects-User.html#method_check_credentials"
+            "fqsen": "\\components\\objects\\User\u003A\u003Afill\u0028\u0029",
+            "name": "fill",
+            "summary": "Populates\u0020the\u0020object\u0020properties\u0020from\u0020an\u0020associative\u0020array\u0020\u0028e.g.,\u0020\u0024_POST\u0020data\u0029.",
+            "url": "classes/components-objects-User.html#method_fill"
+        },                {
+            "fqsen": "\\components\\objects\\User\u003A\u003Ahydrate\u0028\u0029",
+            "name": "hydrate",
+            "summary": "Internal\u0020factory\u0020method\u0020to\u0020hydrate\u0020a\u0020User\u0020object\u0020from\u0020a\u0020database\u0020row.",
+            "url": "classes/components-objects-User.html#method_hydrate"
         },                {
             "fqsen": "\\components\\objects\\User\u003A\u003Acheck_combination\u0028\u0029",
             "name": "check_combination",
-            "summary": "",
+            "summary": "Verifies\u0020if\u0020a\u0020specific\u0020ID\u0020and\u0020Username\u0020combination\u0020exists\u0020in\u0020the\u0020database.",
             "url": "classes/components-objects-User.html#method_check_combination"
         },                {
             "fqsen": "\\components\\objects\\User\u003A\u003Acheck_username\u0028\u0029",
             "name": "check_username",
-            "summary": "",
+            "summary": "Checks\u0020if\u0020a\u0020username\u0020is\u0020already\u0020taken.",
             "url": "classes/components-objects-User.html#method_check_username"
         },                {
             "fqsen": "\\components\\objects\\User\u003A\u003AgetUserById\u0028\u0029",
             "name": "getUserById",
-            "summary": "",
+            "summary": "Retrieves\u0020a\u0020user\u0020by\u0020their\u0020unique\u0020ID.",
             "url": "classes/components-objects-User.html#method_getUserById"
+        },                {
+            "fqsen": "\\components\\objects\\User\u003A\u003AgetUserByUsername\u0028\u0029",
+            "name": "getUserByUsername",
+            "summary": "Retrieves\u0020a\u0020user\u0020by\u0020their\u0020username.",
+            "url": "classes/components-objects-User.html#method_getUserByUsername"
         },                {
             "fqsen": "\\components\\objects\\User\u003A\u003AgetAllOrdered\u0028\u0029",
             "name": "getAllOrdered",
-            "summary": "",
+            "summary": "Retrieves\u0020all\u0020users\u0020from\u0020the\u0020database.",
             "url": "classes/components-objects-User.html#method_getAllOrdered"
         },                {
             "fqsen": "\\components\\objects\\User\u003A\u003AdeleteById\u0028\u0029",
             "name": "deleteById",
-            "summary": "",
+            "summary": "Deletes\u0020a\u0020user\u0020record\u0020by\u0020ID.",
             "url": "classes/components-objects-User.html#method_deleteById"
         },                {
             "fqsen": "\\components\\objects\\User\u003A\u003Ainsert\u0028\u0029",
             "name": "insert",
-            "summary": "",
+            "summary": "Inserts\u0020the\u0020current\u0020User\u0020object\u0020into\u0020the\u0020database\u0020as\u0020a\u0020new\u0020record.",
             "url": "classes/components-objects-User.html#method_insert"
         },                {
             "fqsen": "\\components\\objects\\User\u003A\u003Aupdate\u0028\u0029",
             "name": "update",
-            "summary": "Aktualizuje\u0020data\u0020u\u017Eivatele\u0020v\u0020datab\u00E1zi\u0020\u0028bez\u0020hesla\u0029.",
+            "summary": "Updates\u0020the\u0020existing\u0020user\u0020record\u0020in\u0020the\u0020database.",
             "url": "classes/components-objects-User.html#method_update"
         },                {
             "fqsen": "\\components\\objects\\User\u003A\u003AupdatePassword\u0028\u0029",
             "name": "updatePassword",
-            "summary": "Aktualizuje\u0020pouze\u0020heslo\u0020u\u017Eivatele.",
+            "summary": "Updates\u0020only\u0020the\u0020user\u0027s\u0020password\u0020in\u0020the\u0020database.",
             "url": "classes/components-objects-User.html#method_updatePassword"
         },                {
             "fqsen": "\\components\\objects\\User\u003A\u003Avalidation\u0028\u0029",
             "name": "validation",
-            "summary": "",
+            "summary": "Validates\u0020user\u0020data.",
             "url": "classes/components-objects-User.html#method_validation"
         },                {
             "fqsen": "\\components\\objects\\User\u003A\u003A\u0024id",
@@ -351,69 +431,79 @@ Search.appendIndex(
             "summary": "Converts\u0020a\u0020date\u0020string\u0020into\u0020a\u0020DateTime\u0020object.",
             "url": "namespaces/default.html#function_convertStringToDateTime"
         },                {
+            "fqsen": "\\getDateTimeNow\u0028\u0029",
+            "name": "getDateTimeNow",
+            "summary": "Retrieves\u0020the\u0020current\u0020date\u0020and\u0020time.",
+            "url": "namespaces/default.html#function_getDateTimeNow"
+        },                {
             "fqsen": "\\components\\utils\\processUploadedImage\u0028\u0029",
             "name": "processUploadedImage",
-            "summary": "Processes,\u0020resizes,\u0020and\u0020saves\u0020an\u0020uploaded\u0020image.",
+            "summary": "Processes,\u0020resizes,\u0020and\u0020saves\u0020an\u0020uploaded\u0020image\u0020file.",
             "url": "namespaces/components-utils.html#function_processUploadedImage"
         },                {
             "fqsen": "\\createLink\u0028\u0029",
             "name": "createLink",
-            "summary": "Creates\u0020an\u0020absolute\u0020URL\u0020by\u0020appending\u0020the\u0020application\u0020prefix.",
+            "summary": "Generates\u0020an\u0020absolute\u0020URL\u0020by\u0020appending\u0020the\u0020global\u0020application\u0020prefix.",
             "url": "namespaces/default.html#function_createLink"
         },                {
             "fqsen": "\\createPublicLink\u0028\u0029",
             "name": "createPublicLink",
-            "summary": "Creates\u0020a\u0020URL\u0020pointing\u0020to\u0020the\u0020public\u0020directory.",
+            "summary": "Generates\u0020a\u0020URL\u0020pointing\u0020to\u0020the\u0020public\u0020assets\u0020directory.",
             "url": "namespaces/default.html#function_createPublicLink"
         },                {
             "fqsen": "\\createScriptLink\u0028\u0029",
             "name": "createScriptLink",
-            "summary": "Creates\u0020a\u0020URL\u0020for\u0020a\u0020JavaScript\u0020file.",
+            "summary": "Generates\u0020a\u0020URL\u0020for\u0020a\u0020JavaScript\u0020file\u0020located\u0020in\u0020the\u0020scripts\u0020directory.",
             "url": "namespaces/default.html#function_createScriptLink"
         },                {
             "fqsen": "\\createStylesLink\u0028\u0029",
             "name": "createStylesLink",
-            "summary": "Creates\u0020a\u0020URL\u0020for\u0020a\u0020CSS\u0020stylesheet.",
+            "summary": "Generates\u0020a\u0020URL\u0020for\u0020a\u0020CSS\u0020stylesheet\u0020located\u0020in\u0020the\u0020styles\u0020directory.",
             "url": "namespaces/default.html#function_createStylesLink"
         },                {
             "fqsen": "\\create_error_link\u0028\u0029",
             "name": "create_error_link",
-            "summary": "Generates\u0020a\u0020URL\u0020for\u0020the\u0020500\u0020error\u0020page\u0020with\u0020a\u0020specific\u0020message.",
+            "summary": "Generates\u0020a\u0020URL\u0020for\u0020the\u0020500\u0020internal\u0020server\u0020error\u0020page\u0020with\u0020a\u0020custom\u0020message.",
             "url": "namespaces/default.html#function_create_error_link"
         },                {
             "fqsen": "\\redirect_to\u0028\u0029",
             "name": "redirect_to",
-            "summary": "Redirects\u0020the\u0020user\u0020to\u0020a\u0020new\u0020URL\u0020and\u0020terminates\u0020the\u0020script.",
+            "summary": "Performs\u0020an\u0020HTTP\u0020redirect\u0020to\u0020the\u0020specified\u0020URL\u0020and\u0020terminates\u0020the\u0020script.",
             "url": "namespaces/default.html#function_redirect_to"
         },                {
             "fqsen": "\\create_large_image_link\u0028\u0029",
             "name": "create_large_image_link",
-            "summary": "Creates\u0020a\u0020URL\u0020for\u0020a\u0020large\u0020version\u0020of\u0020an\u0020event\u0020image.",
+            "summary": "Generates\u0020a\u0020URL\u0020for\u0020a\u0020large\u0020version\u0020of\u0020an\u0020event\u0020image.",
             "url": "namespaces/default.html#function_create_large_image_link"
         },                {
             "fqsen": "\\create_small_image_link\u0028\u0029",
             "name": "create_small_image_link",
-            "summary": "Creates\u0020a\u0020URL\u0020for\u0020a\u0020thumbnail\u0020version\u0020of\u0020an\u0020event\u0020image.",
+            "summary": "Generates\u0020a\u0020URL\u0020for\u0020a\u0020thumbnail\u0020version\u0020of\u0020an\u0020event\u0020image.",
             "url": "namespaces/default.html#function_create_small_image_link"
+        },                {
+            "fqsen": "\\redirectToDatabaseError\u0028\u0029",
+            "name": "redirectToDatabaseError",
+            "summary": "Redirects\u0020the\u0020user\u0020to\u0020the\u0020standard\u0020database\u0020error\u0020page.",
+            "url": "namespaces/default.html#function_redirectToDatabaseError"
         },                {
             "fqsen": "\\round_up\u0028\u0029",
             "name": "round_up",
-            "summary": "",
+            "summary": "Rounds\u0020a\u0020number\u0020up\u0020to\u0020a\u0020specified\u0020precision.",
             "url": "namespaces/default.html#function_round_up"
         },                {
             "fqsen": "\\EVENTS_PER_PAGE",
             "name": "EVENTS_PER_PAGE",
-            "summary": "",
+            "summary": "Defines\u0020the\u0020number\u0020of\u0020event\u0020cards\u0020displayed\u0020per\u0020pagination\u0020page.",
             "url": "namespaces/default.html#constant_EVENTS_PER_PAGE"
         },                {
             "fqsen": "\\eventIsLocked\u0028\u0029",
             "name": "eventIsLocked",
-            "summary": "",
+            "summary": "Checks\u0020if\u0020the\u0020registration\u0020period\u0020for\u0020an\u0020event\u0020has\u0020closed.",
             "url": "namespaces/default.html#function_eventIsLocked"
         },                {
             "fqsen": "\\userIsRegistered\u0028\u0029",
             "name": "userIsRegistered",
-            "summary": "",
+            "summary": "Determines\u0020if\u0020a\u0020specific\u0020user\u0020is\u0020already\u0020registered\u0020for\u0020a\u0020specific\u0020event.",
             "url": "namespaces/default.html#function_userIsRegistered"
         },                {
             "fqsen": "\\",
@@ -426,14 +516,14 @@ Search.appendIndex(
             "summary": "",
             "url": "namespaces/components-utils.html"
         },                {
-            "fqsen": "\\components",
-            "name": "components",
-            "summary": "",
-            "url": "namespaces/components.html"
-        },                {
             "fqsen": "\\components\\objects",
             "name": "objects",
             "summary": "",
             "url": "namespaces/components-objects.html"
+        },                {
+            "fqsen": "\\components",
+            "name": "components",
+            "summary": "",
+            "url": "namespaces/components.html"
         }            ]
 );
