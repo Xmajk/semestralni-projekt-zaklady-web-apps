@@ -1,9 +1,9 @@
 # Registrační systém pro Kacubo kendo klub
-
-> [!CAUTION]
-> Pro testování byl vytvořen admin
-> username: test
-> password: heslo123
+```text
+Pro testování byl vytvořen testovací admin!
+username: test
+password: heslo123
+```
 
 > [!NOTE]
 > navázaná podmínka na inputy, jeden z parametrů je u vytváření nového eventu začátek eventu musí být později než deadline přihlášení, viz HODNOCEN9 SEMESTRÁLKY.ods v repozitáři
@@ -20,11 +20,11 @@
 ### Admin
 ![a](Snímek%20obrazovky%20z%202025-12-14%2020-35-18.png)
 ### Admin - uživatelé
-![a](Snímek%20obrazovky%20z%202025-12-14%2020-35-25.png)
+![b](Snímek%20obrazovky%20z%202025-12-14%2020-35-25.png)
 ### Admin - editace uživatele
-![a](Snímek%20obrazovky%20z%202025-12-14%2020-35-33.png)
+![c](Snímek%20obrazovky%20z%202025-12-14%2020-35-33.png)
 ### Event
-![a](Snímek%20obrazovky%20z%202025-12-14%2022-50-12.png)
+![d](Snímek%20obrazovky%20z%202025-12-14%2022-50-12.png)
 
 Zde je upravená verze dokumentace `README.md` bez emotikonů a s opravenou specifikací ukládání hesel.
 
