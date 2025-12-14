@@ -71,7 +71,9 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
 
         try{
             $newUser->insert();
-        }catch (Exception $e){}
+        }catch (Exception $e){
+            redirectToDatabaseError();
+        }
 
     } else {
         $_SESSION['form_errors'] = $errors;
@@ -80,7 +82,12 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
     header("Location: " . $_SERVER['REQUEST_URI']);
     exit;
 }
-$users = User::getAllOrdered();
+$users = [];
+try{
+    $users = User::getAllOrdered();
+}catch (Exception $e){
+    redirectToDatabaseError();
+}
 
 ?>
 

@@ -14,9 +14,18 @@ if($_SERVER["REQUEST_METHOD"] == "GET") {
     }
 
     $event_id = intval($event_id);
-    $event = Event::GetByID($event_id);
+    $event=null;
+    try {
+        $event = Event::GetByID($event_id);
+    } catch (Exception $e) {
+        redirectToDatabaseError();
+    }
     if($event !== null) {
-        Event::deleteById($event_id);
+        try {
+            Event::deleteById($event_id);
+        } catch (Exception $e) {
+            redirectToDatabaseError();
+        }
     }
     redirect_to(createLink("/admin/events.php"));
 }

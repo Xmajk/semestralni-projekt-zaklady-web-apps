@@ -17,8 +17,13 @@ if($_SERVER["REQUEST_METHOD"] == "POST") {
     if(is_null($registration_id)) {
         redirect_to(create_error_link("Registrace nenalezena"));
     }
-    $registration = Registration::getRegistrationById($registration_id);
-    Registration::deleteRegistration($registration);
+
+    try {
+        $registration = Registration::getRegistrationById($registration_id);
+        Registration::deleteRegistration($registration);
+    } catch (\Exception $e) {
+        redirectToDatabaseError();
+    }
     redirect_to($redirectTo);
 }
 

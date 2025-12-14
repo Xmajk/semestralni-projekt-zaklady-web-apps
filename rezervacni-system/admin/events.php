@@ -79,11 +79,15 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
     }
     $_SESSION['form_errors'] = $errors;
     if (count($errors)==0) {
-        if ($newEvent->insert()) {
-            $_SESSION['form_data'] = [];
-            redirect_to(createLink("/admin/events.php"));
-        } else {
-            $error = "Chyba při ukládání události do databáze.";
+        try {
+            if ($newEvent->insert()) {
+                $_SESSION['form_data'] = [];
+                redirect_to(createLink("/admin/events.php"));
+            } else {
+                $error = "Chyba při ukládání události do databáze.";
+            }
+        } catch (\Exception $e) {
+            redirectToDatabaseError();
         }
     }
 

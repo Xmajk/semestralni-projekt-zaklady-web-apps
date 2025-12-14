@@ -16,7 +16,12 @@ if (!$event_id || !is_numeric($event_id)) {
     redirect_to(create_error_link("Neplatné ID události."));
 }
 
-$event = Event::getById((int)$event_id);
+$event=null;
+try{
+    $event = Event::getById((int)$event_id);
+}catch (Exception $e){
+    redirectToDatabaseError();
+}
 if (!$event) {
     redirect_to(create_error_link("Událost nebyla nalezena."));
 }
@@ -41,14 +46,18 @@ if($_SERVER["REQUEST_METHOD"] === "POST") {
     $registration->id_event = $registerEventID;
     $registration->id_user = $registerUserID;
     $registration->registration_datetime = $registerDatetime->format("Y-m-d H:i:s");
-    if($registrationExists === true) {
-        if(Registration::deleteRegistration($registration)==false){
-            redirect_to(create_error_link("Nastala chyba."));
-        };
-    }else{
-        if(Registration::createRegistration($registration)==false){
-            redirect_to(create_error_link("Nastala chyba."));
-        };
+    try{
+        if($registrationExists === true) {
+            if(!Registration::deleteRegistration($registration)){
+                redirect_to(create_error_link("Nastala chyba."));
+            };
+        }else{
+            if(!Registration::createRegistration($registration)){
+                redirect_to(create_error_link("Nastala chyba."));
+            };
+        }
+    }catch (Exception $e){
+        redirectToDatabaseError();
     }
     redirect_to(createLink("/event.php?".http_build_query(["id" => $event_id])));
 }
@@ -56,8 +65,14 @@ if($_SERVER["REQUEST_METHOD"] === "POST") {
 $location = $event->location;
 $capacity = intval($event->capacity);
 $price = $event->price;
-$occupancy = Registration::numberOfRegistrationsByEventId($event_id);
-$is_registered = Registration::existsByUserIdAndEventId($current_user_id, $event_id);
+$occupancy = 0;
+$is_registered = false;
+try{
+    $occupancy = Registration::numberOfRegistrationsByEventId($event_id);
+    $is_registered = Registration::existsByUserIdAndEventId($current_user_id, $event_id);
+}catch (Exception $e){
+    redirectToDatabaseError();
+}
 if($is_registered === null) {
     redirect_to(create_error_link("Chyba databáze"));
 }
@@ -191,38 +206,6 @@ $image_src = create_large_image_link($event->image_filename ?? "default.jpg");
     </div>
 </div>
 
-<script>
-    document.addEventListener("DOMContentLoaded", function() {
-        // === COUNTDOWN ===
-        const container = document.getElementById("countdown-container");
-        const labelEl = document.getElementById("countdown-label");
-        const timerEl = document.getElementById("countdown-timer");
-        const deadlineTime = new Date(container.dataset.deadline).getTime();
-        const startTime = new Date(container.dataset.start).getTime();
-
-        function updateTimer() {
-            const now = new Date().getTime();
-            let targetTime;
-            if (now < deadlineTime) {
-                targetTime = deadlineTime; labelEl.textContent = "Konec registrace za:";
-                labelEl.style.color = "#666"; timerEl.style.color = "var(--primary-kacubo)";
-            } else if (now < startTime) {
-                targetTime = startTime; labelEl.textContent = "Začátek události za:";
-                labelEl.style.color = "#0f5132"; timerEl.style.color = "#333";
-            } else {
-                labelEl.textContent = "Stav události:"; timerEl.textContent = "Akce proběhla";
-                timerEl.style.fontSize = "1.2rem"; return;
-            }
-            const dist = targetTime - now;
-            const d = Math.floor(dist / (86400000));
-            const h = Math.floor((dist % (86400000)) / (3600000)).toString().padStart(2,'0');
-            const m = Math.floor((dist % (3600000)) / (60000)).toString().padStart(2,'0');
-            const s = Math.floor((dist % (60000)) / 1000).toString().padStart(2,'0');
-            timerEl.textContent = (d > 0) ? `${d}d ${h}:${m}:${s}` : `${h}:${m}:${s}`;
-        }
-        updateTimer(); setInterval(updateTimer, 1000);
-    });
-</script>
-
+<script src="<?= createScriptLink("/event.js") ?>"></script>
 </body>
 </html>

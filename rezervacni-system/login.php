@@ -23,15 +23,21 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         try {
             // Použijeme metodu z User.php, která již využívá bezpečné připojení
             $user = User::getUserByUsername($username);
-
+            var_dump($user);
+            //var_dump(password_hash($password,PASSWORD_DEFAULT));
             // Použití password_verify pro bezpečné ověření hesla (BCRYPT/ARGON2)
             if ($user && password_verify($password, $user->password)) {
+                $isAdminValue = $user->is_admin ? "1" : "0";
+
                 setcookie("is_logged", "true", time() + (86400 * 30), "/");
                 setcookie("username", $user->username, time() + (86400 * 30), "/");
                 setcookie("user_id", (string)$user->id, time() + (86400 * 30), "/");
-                setcookie("is_admin", $user->is_admin ? "1" : "0", time() + (86400 * 30), "/");
+                setcookie("is_admin", $isAdminValue, time() + (86400 * 30), "/");
 
-                redirect_to(createLink("index.php"));
+
+                var_dump($_COOKIE);
+
+                redirect_to(createLink("/index.php"));
             } else {
                 $_SESSION["errors"] = [
                         "login" => "Chybné uživatelské jméno nebo heslo"

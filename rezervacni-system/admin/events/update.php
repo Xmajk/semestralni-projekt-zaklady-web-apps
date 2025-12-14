@@ -19,8 +19,13 @@
         redirect_to(create_error_link("Nevalidní id"));
     }
     $event_id=intval($event_id);
+try {
     $event = Event::getById($event_id);
-    if(!isset($event)) {
+} catch (\Exception $e) {
+    redirectToDatabaseError();
+}
+$users=[];
+if(!isset($event)) {
         redirect_to(create_error_link("Událost nebyla nalezena"));
     }
 
@@ -44,7 +49,12 @@
 
         $_SESSION['form_data'] = $formData;
         $newEvent = new Event();
-        $event = Event::getById($event_id);
+        $event = null;
+        try {
+            $event = Event::getById($event_id);
+        } catch (\Exception $e) {
+            redirectToDatabaseError();
+        }
         $errors = $event->fill($formData,true);
         $_SESSION['form_errors'] = $errors;
 
@@ -81,16 +91,24 @@
         }
 
         if (count($errors)==0) {
-            if ($event->update()) {
-                $_SESSION['form_data'] = [];
-            } else {
-                $errors["db_error"] = "Chyba při ukládání události do databáze.";
+            try {
+                if ($event->update()) {
+                    $_SESSION['form_data'] = [];
+                } else {
+                    $errors["db_error"] = "Chyba při ukládání události do databáze.";
+                }
+            } catch (\Exception $e) {
+                redirectToDatabaseError();
             }
         }
         redirect_to(createLink("/admin/events/update.php?".http_build_query(["id" => $event_id])));
     }elseif ($_SERVER["REQUEST_METHOD"] === "GET"){
         $_SESSION["redirectto"]=createLink("/admin/events/update.php?".http_build_query(["id" => $event_id]));
-        $users = Registration::findEventRegistrationsByEventId($event_id);
+        try {
+            $users = Registration::findEventRegistrationsByEventId($event_id);
+        } catch (\Exception $e) {
+            redirectToDatabaseError();
+        }
     }
 
 ?>

@@ -1,7 +1,6 @@
 <?php
 require_once __DIR__."/utils/links.php";
 
-// KONFIGURACE: Zde změňte doménu, pokud bude potřeba
 $external_url = "https://www.kacubo.cz";
 
 $isLogged = false;
@@ -14,7 +13,7 @@ if (isset($_COOKIE['is_logged'])) {
 
     if ($isLogged) {
         if (isset($_COOKIE['is_admin'])) {
-            $isAdmin = filter_var($_COOKIE['is_admin'], FILTER_VALIDATE_BOOLEAN);
+            $isAdmin = $_COOKIE['is_admin']=="1";
         }
     }
 }
@@ -59,7 +58,6 @@ if (isset($_COOKIE['is_logged'])) {
                 </li>
                 <li><a href="<?= $external_url ?>/foto.htm">Foto</a></li>
                 <li><a href="<?= $external_url ?>/kontakt.htm">Kontakt</a></li>
-
                 <?php if ($isLogged): ?>
 
                     <li class="dropdown"> <a class="dropdown-toggle" data-toggle="dropdown" href="#" aria-expanded="false">Události<span class="caret"></span></a>

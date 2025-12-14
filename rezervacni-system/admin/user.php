@@ -18,7 +18,11 @@ $is_success = (htmlspecialchars($_GET["success"]??'0') ?? '0')=='1';
 
 if (!isset($user_id)) redirect_to(createLink("/admin/users.php"));
 if(!is_numeric($user_id)) redirect_to(create_error_link("uživatel nenalezen"));
-$user = User::getUserById($user_id);
+try {
+    $user = User::getUserById($user_id);
+} catch (Exception $e) {
+    redirectToDatabaseError();
+}
 if (!isset($user)) redirect_to(create_error_link("Uživatel nenalezen"));
 
 function create_user_link(){
@@ -38,7 +42,11 @@ function reload(){
 }
 
 if($_SERVER["REQUEST_METHOD"] == "GET" && (isset($_GET['action']) && $_GET['action'] === 'delete' && isset($_GET['id']))){
-    User::deleteById((int)$user_id);
+    try {
+        User::deleteById((int)$user_id);
+    } catch (Exception $e) {
+        redirectToDatabaseError();
+    }
     redirect_to(createLink("/admin/users.php"));
 }
 else if($_SERVER["REQUEST_METHOD"] == "POST"){
@@ -61,7 +69,7 @@ else if($_SERVER["REQUEST_METHOD"] == "POST"){
             $errors["password"] = "heslo musí být dlouhé minimálně 6 znaků";
             reload();
         }
-        $user->password= password_hash($form_data["password"],PASSWORD_DEFAULT);;
+        $user->password= password_hash($form_data["password"],PASSWORD_DEFAULT);
     }
 
     $errors = array();
