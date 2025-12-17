@@ -8,9 +8,13 @@ require_once __DIR__ . "/components/utils/links.php";
 
 session_start();
 $error = $_SESSION["errors"]["login"]??null;
+$form_data = $_SESSION["form_data"]??[];
 $_SESSION["errors"]=[];
+$username = null;
 if ($_SERVER["REQUEST_METHOD"] === "POST") {
     $username = trim($_POST["username"] ?? "");
+    $form_data["username"] = $username;
+    $_SESSION["form_data"] = $form_data;
     $password = trim($_POST["password"] ?? "");
 
     if (empty($username) || empty($password)) {
@@ -67,7 +71,11 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
       <div>
         <label for="username" class="">Uživatelské jméno</label>
-        <input type="text" id="username" name="username" required>
+        <input type="text" id="username" name="username"
+               <?php if (isset($error)): ?>
+                    value="<?=htmlspecialchars($_SESSION["form_data"]["username"]??"")?>"
+               <?php endif; ?>
+               required>
       </div>
       <div>
         <label for="password" class="">Heslo</label>
