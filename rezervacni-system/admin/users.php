@@ -173,8 +173,8 @@ try{
 
         <div id="isadmin-wrapper" class="form-wrapper">
             <label for="form-isadmin">Admin práva</label>
-            <div id="switch-wrapper" style="height: 34px;">
-                <label class="switch" style="width: 60px;">
+            <div id="switch-wrapper">
+                <label class="switch">
                     <input type="checkbox" id="form-isadmin" name="is_admin" value="1"
                             <?= ($formData['is_admin'] ?? 0) ? 'checked' : '' ?>>
                     <span class="slider round"></span>

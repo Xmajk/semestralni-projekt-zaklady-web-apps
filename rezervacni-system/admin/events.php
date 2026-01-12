@@ -204,7 +204,7 @@ try {
             <tbody>
             <?php if (empty($events)): ?>
                 <tr>
-                    <td colspan="4" style="text-align: center; padding: 20px; color: #777;">
+                    <td colspan="4">
                         Zatím nebyly vytvořeny žádné události.
                     </td>
                 </tr>
